@@ -1,0 +1,5 @@
+﻿  cl : Command line warning D9002 : ignoring unknown option '-bmi2'
+  search.cpp
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(378,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(418,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+  Altar.vcxproj -> C:\Users\kim\source\repos\Altar\x64\Debug\Altar.exe
