@@ -8,6 +8,7 @@
 #include "engine.h"
 #include "bitboard.h"
 #include "gen.h"
+#include "tt.h"
 
 int main()
 {
@@ -15,6 +16,7 @@ int main()
 	initPosition();
 	initSearch();
 	initArrays();
+	fillTables();
 	uci();
 }
 

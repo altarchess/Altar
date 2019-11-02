@@ -105,7 +105,7 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 	calcPos.enPassant = 0;
 
 
-	int fromY = from / 8;
+	unsigned long long fromY = from / 8;
 
 
 	int toY = to / 8;
@@ -193,14 +193,12 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 			}
 			if ((to - from == 9 || to - from == 7 )&&toPiece==0) { // black en passant capture
 				calcPos.bitBoard[8 - 1] &= ~getBit(to-8);
-				calcPos.hash ^= ttrndp[8-1][to-8];
-
-
+				calcPos.hash ^= ttrndp[4][to-8];
 
 			}
 			if ((to - from == -9 || to - from == -7) && toPiece == 0) { // white en passant capture
 				calcPos.bitBoard[5 - 1] &= ~getBit(to + 8);
-				calcPos.hash ^= ttrndp[5 - 1][to + 8];
+				calcPos.hash ^= ttrndp[7][to + 8];
 
 
 

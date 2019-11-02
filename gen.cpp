@@ -409,6 +409,8 @@ void initArrays() {
 			bishopOffset++;
 		}
 	}
+
+
 	//std::cout << "......" << rookOffset << "......";
 	//std::cout << "......" << bishopOffset << "......";
 }

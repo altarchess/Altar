@@ -4,6 +4,7 @@
 #include "eval.h"
 #include "movelist.h"
 #include "move.h"
+#include "tt.h"
 
 #include <immintrin.h>
 #include <intrin.h>
@@ -21,7 +22,9 @@ int mvVal[13] = {
 
 void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int scores[100];
-
+	int hashmove = 0;
+	
+	ttProbe(pos->hash, 0, 0, 0, &hashmove);
 	int ctr = 0;
 	for (int i = 0; i < mvl->mam; i++) {
 		if (ctr == mvl->gcapt) {
@@ -29,25 +32,31 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
+
+
+		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
+			scores[ctr] = 500001;
+		}
+
+		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
+			scores[ctr] = 500002;
+		}
+
 		int tp = getPiece(pos, mvl->MOVE[ctr].t);
 		if (tp != 0) {
 			int ft = getPiece(pos, mvl->MOVE[ctr].f);
 			if (mvVal[ft] <= mvVal[tp]) {
-				scores[ctr] =  500000 + (mvVal[tp] *8- mvVal[ft])*1000;
+				scores[ctr] = 750000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 			}
 		}
 
-		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
-			scores[ctr] = 1000001;
+		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == hashmove) {
+			scores[ctr] = 1000003;
+			//std::cout << "h" << hashmove;
 		}
-
-		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
-			scores[ctr] = 1000002;
-		}
-
 		ctr++;
 	}
-	int maxo = 4;
+	int maxo = 5;
 	if (mvl->mam <= maxo+1) {
 		maxo = mvl->mam - 1;
 	}
@@ -260,10 +269,53 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		return 0;
 	}
 
+	struct ttEntry ttE = tt[pos.hash % ttSize];
+	if (pos.hash == ttE.zHash) {
+		if (ttE.depth >= depth) {
+			if (ttE.type == ttExact) {
+				//return ttE.eval;
+			}
+			/*if (ttE.type == ttLower) {
+				if (beta < ttE.eval) {
+					beta = ttE.eval;
+				}
+				
+				if (alpha >= beta) {
+					return ttE.eval;
+				}
+			}
+			if (ttE.type == ttUpper) {
+				if (alpha > ttE.eval) {
+					alpha = ttE.eval;
+				}
+
+				if (alpha >= beta) {
+					return ttE.eval;
+				}
+			}*/
+		}
+	}
+
 	if (pos.side) {
 
-		int bs = -1999999;
+		/*struct ttEntry ttE = tt[pos.hash % ttSize];
+		if (pos.hash == ttE.zHash) {
+			if (ttE.depth>=depth) {
+				if (ttE.type == ttExact) {
+					return ttE.eval;
+				}
+				if (ttE.type == ttLower && ttE.eval < alpha) {
+					return alpha;
+				}
+				if (ttE.type == ttUpper && ttE.eval > beta) {
+					return beta;
+				}
+			}
+		}*/
 
+		int bs = -1999999;
+		int bm = 0;
+		int type = ttLower;
 		genAllMoves(&mt->mvl[ply], pos.side, &pos);
 		if (depth > 0) {
 			orderMvl(&mt->mvl[ply], ply, &pos);
@@ -272,9 +324,6 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		int ctr = 0;
 		for (int i = 0; i < mt->mvl[ply].mam; i++) {
 
-			if (alpha >= beta) {
-				return alpha;
-			}
 
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
@@ -282,25 +331,33 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 
 			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
 
-			if (score >= bs) {
+			if (score > bs) {
 				bs = score;
+				bm = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 			}
 
-			if (score >= alpha) {
-				alpha = score;
-				ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
-				killers[ply][1] = killers[ply][0];
-				killers[ply][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
+			if (bs > alpha) {
+				alpha = bs;
+				type = ttExact;
+				if (alpha >= beta) {
+					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+					killers[ply][1] = killers[ply][0];
+					killers[ply][0] = bm;
+					ttSave(depth, pos.hash, bs, ttUpper, bm);
+					return alpha;
+				}
 			}
 
 			ctr++;
 		}
+		ttSave(depth, pos.hash, bs, type, bm);
 		return bs;
 	}
 	else {
 
 		int bs = 1999999;
-
+		int bm = 0;
+		int type = ttUpper;
 		genAllMoves(&mt->mvl[ply], pos.side, &pos);
 		if (depth > 0) {
 			orderMvl(&mt->mvl[ply], ply, &pos);
@@ -308,9 +365,6 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		int ctr = 0;
 		for (int i = 0; i < mt->mvl[ply].mam; i++) {
 
-			if (alpha >= beta) {
-				return beta;
-			}
 
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
@@ -318,19 +372,30 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 
 			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
 
-			if (score <= bs) {
-				bs = score;;
+			if (score < bs) {
+				bs = score;
+				bm = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 			}
 
-			if (score <= beta) {
-				ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
-				killers[ply][1] = killers[ply][0];
-				killers[ply][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
-				beta = score;
+			if (bs < beta) {
+				beta = bs;
+				type = ttExact;
+				if (alpha >= beta) {
+					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+					killers[ply][1] = killers[ply][0];
+					killers[ply][0] = bm;
+					ttSave(depth, pos.hash, bs, ttLower, bm);
+
+					return beta;
+				}
 			}
+
 
 			ctr++;
 		}
+
+		ttSave(depth, pos.hash, bs, type, bm);
+
 		return bs;
 	}
 
@@ -343,7 +408,7 @@ void mainSearch(struct search* s, struct position* pos) {
 			ht[i][e] = 0;
 		}
 	}
-	printBoard();
+	//std::cout << pos->hash;
 	struct moveTable tb;
 	struct moveTable* mt = &tb;
 	struct QTable qt;

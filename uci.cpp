@@ -7,6 +7,7 @@
 #include "movelist.h"
 #include "test.h"
 #include "search.h"
+#include "tt.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -316,7 +317,7 @@ void startPos(char* buf) {
 }
 
 void uci() {
-
+	setTTSize(10000000);
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);
 	printf("Altar %s by Kim Kahre\n", Version);	fflush(stdout);

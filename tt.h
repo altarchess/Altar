@@ -3,18 +3,22 @@
 #define ttUpper 1
 #define ttLower 2
 #define invalid 666666;
-extern unsigned long long ttrndp[12][64];
-extern unsigned long long ttrndc[4];
-extern unsigned long long ttrnde[16];
-extern unsigned long long ttside;
 
-struct ttEntry{
+struct ttEntry {
 	unsigned long long zHash;
 	int eval;
 	int type;
 	int depth;
 	int move;
 };
+
+extern unsigned long long ttrndp[12][64];
+extern unsigned long long ttrndc[4];
+extern unsigned long long ttrnde[16];
+extern unsigned long long ttside;
+extern int ttSize;
+extern ttEntry* tt;
+
 
 int ttProbe(unsigned long long, int , int, int , int*);
 void ttSave(int, unsigned long long, int, int, int);
