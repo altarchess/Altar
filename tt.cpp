@@ -1,35 +1,46 @@
 #include "tt.h"
+#include "move.h"
+#include "bitboard.h"
 #include <random>
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <malloc.h>
+#include <immintrin.h>
+#include <intrin.h>
 
 unsigned long long ttrndp[12][64];
 unsigned long long ttrndc[4];
 unsigned long long ttrnde[16];
 unsigned long long ttside;
+unsigned long long ttSize;
 struct ttEntry* tt;
 
-int ttSize = 0;
 
-
-/*unsigned long long getRnd(){
+unsigned long long getRnd(){
 	unsigned long long n1 = std::rand();
 	unsigned long long n2 = std::rand();
-	return n1 + n2 << 32;
-}*/
-unsigned long long getRnd()
+	unsigned long long n3 = std::rand();
+	unsigned long long n4 = std::rand();
+	unsigned long long n5 = std::rand();
+	unsigned long long n6 = std::rand();
+	unsigned long long n7 = std::rand();
+	unsigned long long n8 = std::rand();
+	unsigned long long n9 = std::rand();
+	return n1 + 1000*n2+1000000*n3+n4*1000000000 + n5 * 1000000000000 + n6 * 1000000000000 + n7 * 1000000000000000 + n8 * 1000000000000000000+n9 * 10000000000000000000;
+}
+
+/*unsigned long long getRnd()
 {
 	unsigned long long rand1 = abs(rand());
 	unsigned long long rand2 = abs(rand());
 	rand1 = rand1 << (sizeof(int) * 8);
 	unsigned long long randULL = (rand1 | rand2);
 	return randULL;
-}
+}*/
 
 void fillTables() {
-	std::srand(std::time(nullptr)); // use current time as seed for random generator
+	std::srand(std::time(0)); // use current time as seed for random generator
 
 	for (int i = 0; i < 12; i++) {
 		for (int e = 0; e < 64; e++) {
@@ -51,49 +62,70 @@ void fillTables() {
 	return;
 }
 
+unsigned long long getHash(struct position* pos) {
+	unsigned long long hash = 0;
+	for (int i = 0; i < 64; i++) {
+		if (getPiece(pos, i) > 0) {
+			hash ^= ttrndp[getPiece(pos, i) - 1][i];
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		if (pos->castle[i]) {
+			hash ^= ttrndc[i];
+		}
+	}
+
+	if (pos->enPassant > 0) {
+		hash ^= ttrnde[_tzcnt_u64(pos->enPassant) - 48];
+	}
+	return hash;
+}
+
 void setTTSize(int size) {
-	free(tt);
-	tt = (ttEntry*)malloc((size+1)*sizeof(ttEntry));
-	ttSize = size;
-	/*if (tt==nullptr)
+	//free(tt);
+	
+	if (tt != NULL) {
+		free(tt);
+	}
+	tt = (ttEntry*)malloc((size)*sizeof(ttEntry));
+	ttSize = size-2;
+	if (tt==NULL)
 	{
 		std::cout << "malloc fucked up";
 	}
 	else
 	{
-		std::cout << "malloc succesfull";
-	}*/
+	}
 
 	for (int i = 0; i < ttSize; i++) {
-		tt[i].depth = 0;
-		tt[i].type = 0;
+		tt[i].move = 0;
 		tt[i].zHash = 0;
 		tt[i].eval = 0;
 	}
+
 };
 
 int ttProbe(unsigned long long hash, int depth, int alpha, int beta, int* bm) {
 	if (!ttSize)return invalid;
 
-	struct ttEntry ttTest = tt[hash % ttSize];
 
-	if (ttTest.zHash == hash) {
+	if (tt[hash % ttSize].zHash == hash) {
 
 
 		//std::cout << "gobm";
-		*bm = ttTest.move;
+		*bm = tt[hash % ttSize].move;
 
-		if (ttTest.depth >= depth) {
+		if (tt[hash % ttSize].depth >= depth) {
 
-			if (ttTest.type == ttExact)
-				return ttTest.eval;
+			if (tt[hash % ttSize].type == ttExact)
+				return tt[hash % ttSize].eval;
 
-			if ((ttTest.type == ttLower) && (ttTest.eval <= alpha))
+			/*if ((ttTest.type == ttLower) && (ttTest.eval <= alpha))
 				return alpha;
 
 			if ((ttTest.type == ttUpper) && (ttTest.eval >= beta)){
 				return beta;
-			}
+			}*/
 		}
 
 	}
@@ -106,15 +138,17 @@ void ttSave(int depth, unsigned long long hash, int eval, int type, int best) {
 
 	if (!ttSize)return;
 
-	ttEntry* ttSave2 = &tt[hash % ttSize];
 
-	if ((ttSave2->zHash == hash) && (ttSave2->depth >= depth)) return;
+	if ((tt[hash % ttSize].zHash == hash) && (tt[hash % ttSize].depth >= depth)) { return; };
 
-	ttSave2->zHash = hash;
-	ttSave2->eval = eval;
-	ttSave2->type = type;
-	ttSave2->depth = depth;
-	ttSave2->move = best;
+	//if (type == 0) { std::cout << eval << std::endl; };
+
+	tt[hash% ttSize].zHash = hash;
+	tt[hash% ttSize].eval = eval;
+	tt[hash% ttSize].type = type;
+	tt[hash% ttSize].depth = depth;
+	tt[hash% ttSize].move = best;
+
 
 	return;
 }

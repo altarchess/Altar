@@ -22,9 +22,8 @@ int mvVal[13] = {
 
 void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int scores[100];
-	int hashmove = 0;
-	
-	ttProbe(pos->hash, 0, 0, 0, &hashmove);
+	int hashmove = tt[pos->hash%ttSize].move;
+
 	int ctr = 0;
 	for (int i = 0; i < mvl->mam; i++) {
 		if (ctr == mvl->gcapt) {
@@ -269,53 +268,26 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		return 0;
 	}
 
-	struct ttEntry ttE = tt[pos.hash % ttSize];
-	if (pos.hash == ttE.zHash) {
-		if (ttE.depth >= depth) {
-			if (ttE.type == ttExact) {
-				//return ttE.eval;
-			}
-			/*if (ttE.type == ttLower) {
-				if (beta < ttE.eval) {
-					beta = ttE.eval;
-				}
-				
-				if (alpha >= beta) {
-					return ttE.eval;
-				}
-			}
-			if (ttE.type == ttUpper) {
-				if (alpha > ttE.eval) {
-					alpha = ttE.eval;
-				}
 
-				if (alpha >= beta) {
-					return ttE.eval;
-				}
-			}*/
-		}
-	}
 
 	if (pos.side) {
-
-		/*struct ttEntry ttE = tt[pos.hash % ttSize];
-		if (pos.hash == ttE.zHash) {
-			if (ttE.depth>=depth) {
-				if (ttE.type == ttExact) {
-					return ttE.eval;
+		if (pos.hash == tt[pos.hash % ttSize].zHash) {
+			if (tt[pos.hash % ttSize].depth>=depth) {
+				if (tt[pos.hash % ttSize].type == 0) {
+					return  tt[pos.hash % ttSize].eval;
 				}
-				if (ttE.type == ttLower && ttE.eval < alpha) {
-					return alpha;
+				if (tt[pos.hash % ttSize].type ==2 && tt[pos.hash % ttSize].eval < alpha) {
+					return tt[pos.hash % ttSize].eval;
 				}
-				if (ttE.type == ttUpper && ttE.eval > beta) {
-					return beta;
+				if (tt[pos.hash % ttSize].type == 1 && tt[pos.hash % ttSize].eval > beta) {
+					return tt[pos.hash % ttSize].eval;
 				}
 			}
-		}*/
+		}
 
 		int bs = -1999999;
 		int bm = 0;
-		int type = ttLower;
+		int type = 2;
 		genAllMoves(&mt->mvl[ply], pos.side, &pos);
 		if (depth > 0) {
 			orderMvl(&mt->mvl[ply], ply, &pos);
@@ -338,12 +310,12 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 
 			if (bs > alpha) {
 				alpha = bs;
-				type = ttExact;
+				type = 0;
 				if (alpha >= beta) {
 					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 					killers[ply][1] = killers[ply][0];
 					killers[ply][0] = bm;
-					ttSave(depth, pos.hash, bs, ttUpper, bm);
+					ttSave(depth, pos.hash, bs, 1, bm);
 					return alpha;
 				}
 			}
@@ -355,9 +327,22 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 	}
 	else {
 
+		if (pos.hash == tt[pos.hash % ttSize].zHash) {
+			if (tt[pos.hash % ttSize].depth >= depth) {
+				if (tt[pos.hash % ttSize].type == 0) {
+					return  tt[pos.hash % ttSize].eval;
+				}
+				if (tt[pos.hash % ttSize].type == 2 && tt[pos.hash % ttSize].eval < alpha) {
+					return tt[pos.hash % ttSize].eval;
+				}
+				if (tt[pos.hash % ttSize].type == 1 && tt[pos.hash % ttSize].eval > beta) {
+					return tt[pos.hash % ttSize].eval;
+				}
+			}
+		}
 		int bs = 1999999;
 		int bm = 0;
-		int type = ttUpper;
+		int type = 1;
 		genAllMoves(&mt->mvl[ply], pos.side, &pos);
 		if (depth > 0) {
 			orderMvl(&mt->mvl[ply], ply, &pos);
@@ -379,12 +364,12 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 
 			if (bs < beta) {
 				beta = bs;
-				type = ttExact;
+				type = 0;
 				if (alpha >= beta) {
 					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 					killers[ply][1] = killers[ply][0];
 					killers[ply][0] = bm;
-					ttSave(depth, pos.hash, bs, ttLower, bm);
+					ttSave(depth, pos.hash, bs, 2, bm);
 
 					return beta;
 				}
@@ -408,6 +393,7 @@ void mainSearch(struct search* s, struct position* pos) {
 			ht[i][e] = 0;
 		}
 	}
+	pos->hash = getHash(pos);
 	//std::cout << pos->hash;
 	struct moveTable tb;
 	struct moveTable* mt = &tb;
@@ -453,6 +439,9 @@ void mainSearch(struct search* s, struct position* pos) {
 			s->bft = bm.t;
 			s->reacheddepth = depth;
 			orderMvl(&mt->mvl[0], 0, pos);
+			if (s->depth <= s->reacheddepth) {
+				goto end;
+			};
 		}
 	}
 	else {
@@ -492,9 +481,12 @@ void mainSearch(struct search* s, struct position* pos) {
 			s->bft = bm.t;
 			s->reacheddepth = depth;
 			orderMvl(&mt->mvl[0], 0, pos);
+			if (s->depth <= s->reacheddepth) {
+				goto end;
+			};
 		}
 	}
-	end:
+end:
 	return;
 };
 

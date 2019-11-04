@@ -2,6 +2,7 @@
 #include "movelist.h"
 #include "engine.h"
 #include "move.h"
+#include "tt.h"
 #include "bitboard.h"
 #include <iostream>
 #include <stdio.h>
@@ -12,13 +13,25 @@
 
 unsigned long long perft(struct position pos, struct moveTable* mt, int depth) {
 
+
 	if (depth == 0) {
 		//printBoard();
 		return 1;
 	}
+
+
 	genAllMoves(&mt->mvl[depth], pos.side, &pos);
 	unsigned long long counter = 0;
 	int ctr = 0;
+
+	if (pos.hash == tt[pos.hash % ttSize].zHash) {
+		if (tt[pos.hash % ttSize].depth == depth) {
+			if (tt[pos.hash % ttSize].type == 0) {
+				return tt[pos.hash % ttSize].eval;
+			}
+		}
+	}
+
 	for (int i = 0; i < mt->mvl[depth].mam; i++) {
 
 		if (ctr == mt->mvl[depth].gcapt) {
@@ -39,5 +52,6 @@ unsigned long long perft(struct position pos, struct moveTable* mt, int depth) {
 		ctr++;
 
 	}
+	ttSave(depth, pos.hash, counter, 0, 0);
 	return counter;
 }

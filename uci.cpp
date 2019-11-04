@@ -416,4 +416,5 @@ void uci() {
 
 
 	};
+	free(tt);
 };

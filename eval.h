@@ -1,9 +1,9 @@
 #pragma once
 #define wSpaceMask 4294967295
 #define bSpaceMask 18446744069414584320
-#define mateScore 1000000
-#define wMateScore 1000000
-#define bMateScore -1000000
+#define mateScore 100000
+#define wMateScore 100000
+#define bMateScore -100000
 #define pawnMiddleGame 256
 #define knightMiddleGame 768
 #define bishopMiddleGame 800

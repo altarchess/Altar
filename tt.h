@@ -16,10 +16,10 @@ extern unsigned long long ttrndp[12][64];
 extern unsigned long long ttrndc[4];
 extern unsigned long long ttrnde[16];
 extern unsigned long long ttside;
-extern int ttSize;
-extern ttEntry* tt;
+extern unsigned long long ttSize;
+extern struct ttEntry* tt;
 
-
+unsigned long long getHash(struct position* pos);
 int ttProbe(unsigned long long, int , int, int , int*);
 void ttSave(int, unsigned long long, int, int, int);
 void setTTSize(int);
