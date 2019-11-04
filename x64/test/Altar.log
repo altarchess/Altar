@@ -1,94 +1,99 @@
 ﻿  eval.cpp
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(62,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(63,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(69,56): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(69,17): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(70,58): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(70,17): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(72,55): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(72,93): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(73,55): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(73,94): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(89,12): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(91,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(92,67): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(95,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(96,48): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(96,70): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(97,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(100,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(102,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(103,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(106,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(107,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(107,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(108,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(113,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(115,54): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(116,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(118,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(119,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(119,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(120,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(123,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(125,54): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(126,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(86,1): warning C4305:  'initializing': truncation from 'unsigned __int64' to 'int'
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(78,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(86,1): warning C4305:  'initializing': truncation from '__int64' to 'int'
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(79,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(80,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(81,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(82,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(83,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(84,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(85,2): warning C4309:  'initializing': truncation of constant value
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(95,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(96,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(102,56): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(102,17): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(103,58): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(103,17): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(105,55): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(105,93): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(106,55): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(106,94): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(122,12): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(124,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(125,67): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(128,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(129,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(129,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(129,48): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(129,70): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(130,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(135,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(137,64): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(138,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(133,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(135,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(136,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(139,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(140,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(140,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(140,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(141,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(144,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(146,67): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(147,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(148,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(149,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(149,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(150,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(155,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(157,65): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(158,66): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(159,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(160,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(160,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(161,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(164,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(166,65): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(167,65): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(168,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(169,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(169,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(170,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(175,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(177,67): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(177,107): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(178,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(179,48): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(180,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(180,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(181,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(184,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(186,67): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(186,108): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(187,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(188,48): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(189,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(189,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(190,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(205,59): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(205,108): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(205,175): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(205,224): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\eval.cpp(205,13): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(146,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(148,54): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(149,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(151,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(152,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(152,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(153,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(156,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(158,54): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(159,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(161,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(162,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(162,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(163,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(168,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(170,64): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(171,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(172,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(173,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(173,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(174,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(177,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(179,67): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(180,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(181,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(182,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(182,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(183,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(188,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(190,65): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(191,66): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(192,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(193,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(193,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(194,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(197,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(199,65): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(200,65): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(201,46): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(202,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(202,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(203,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(208,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(210,67): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(210,107): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(211,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(212,48): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(213,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(213,73): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(214,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(217,20): warning C4244:  '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(219,67): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(219,108): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(220,69): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(221,48): warning C4244:  '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(222,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(222,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(223,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
   1 of 179 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
+    11 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Altar.vcxproj -> C:\Users\kim\source\repos\Altar\x64\test\Altar.exe

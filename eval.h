@@ -9,4 +9,7 @@
 #define bishopMiddleGame 800
 #define rookMiddleGame 1280
 #define queenMiddleGame 2304
+
+
+
 int eval(struct position* pos);

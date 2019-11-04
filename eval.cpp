@@ -27,7 +27,29 @@ int kingendgamecenter[64] =
 	-4,-3,-2,-1,-1,-2,-3,-4,
 	-5,-4,-3,-2,-2,-3,-4,-5
 };
+int wKingMiddleGame[64] =
+{
+	-40,-50,-60,-60,-60,-60,-50,-40,
+	-40,-50,-60,-60,-60,-60,-50,-40,
+	-50,-60,-70,-80,-80,-70,-60,-50,
+	-40,-50,-60,-60,-60,-60,-50,-40,
+	-40,-50,-50,-50,-50,-50,-50,-40,
+	-40,-40,-40,-40,-40,-40,-40,-40,
+	0,5,-10,-30,-30,-10,10,0,
+	14,18,10,-20,-10,3,18,14
+};
 
+int bKingMiddleGame[64] =
+{
+	14,18,10,-20,-10,3,18,14,
+	0,5,-10,-30,-30,-10,10,0,
+	-40,-40,-40,-40,-40,-40,-40,-40,
+	-40,-50,-50,-50,-50,-50,-50,-40,
+	-40,-50,-60,-60,-60,-60,-50,-40,
+	-50,-60,-70,-80,-80,-70,-60,-50,
+	-40,-50,-60,-60,-60,-60,-50,-40,
+	-40,-50,-60,-60,-60,-60,-50,-40,
+};
 int wpawnendgame[64] =
 {
 	0,0,0,0,0,0,0,0,
@@ -51,6 +73,17 @@ int bpawnendgame[64] =
 	0,0,0,0,0,0,0,0
 };
 
+
+int rowMask[8] = {
+	9259542123273814144,
+	4629771061636907072,
+	2314885530818453536,
+	1157442765409226768,
+	578721382704613384,
+	289360691352306692,
+	144680345676153346,
+	72340172838076673
+};
 int eval(struct position* pos) {
 	
 	if (!pos->bitBoard[5]) {
@@ -192,7 +225,7 @@ int eval(struct position* pos) {
 
 
 	int endGamePhase =( 2* 100000+20000-wm-bm)/256;
-	int middleGamePhase = (wm + bm -2 * 100000-10240) / 256;
+	int middleGamePhase = (wm + bm -2 * 100000-8240) / 256;
 	if (middleGamePhase < 0) {
 		middleGamePhase = 0;
 	}
@@ -202,6 +235,8 @@ int eval(struct position* pos) {
 		side = 5;
 	}
 
-	int safety = 4 * __popcnt64(bishopAttack(bOcc, _tzcnt_u64(pos->bitBoard[5])) | rookAttack(bOcc, _tzcnt_u64(pos->bitBoard[5]))) - 4 * __popcnt64(bishopAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])) | rookAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])));
-	return wm - bm + wSpace - bSpace + 3 * solid+side+safety*middleGamePhase/60 +endGamePhase * (wEndGameSpace - bEndGameSpace) / 70;
+	//int safety = __popcnt64(bishopAttack(bOcc, _tzcnt_u64(pos->bitBoard[5])) | rookAttack(bOcc, _tzcnt_u64(pos->bitBoard[5]))) - __popcnt64(bishopAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])) | rookAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])));
+	//safety +=2* wKingMiddleGame[_tzcnt_u64(pos->bitBoard[6])];
+	//safety -= 2*bKingMiddleGame[_tzcnt_u64(pos->bitBoard[5])];
+	return wm - bm + wSpace - bSpace + 3 * solid+side/*+safety*middleGamePhase/20*/ +endGamePhase * (wEndGameSpace - bEndGameSpace) / 70;
 }

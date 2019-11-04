@@ -248,7 +248,9 @@ int Qui(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct) {
 	return 1;
 }
+void search(struct search* s, struct position* pos) {
 
+}
 int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct) {
 	
 	if (!__popcnt64(pos.bitBoard[6])) {
@@ -300,7 +302,6 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
 			}
-
 			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
 
 			if (score > bs) {
@@ -435,6 +436,7 @@ void mainSearch(struct search* s, struct position* pos) {
 
 				ctr++;
 			}
+			ttSave(depth, pos->hash, bs, 0, bm.f+bm.t*100);
 			s->bff = bm.f;
 			s->bft = bm.t;
 			s->reacheddepth = depth;
@@ -477,6 +479,7 @@ void mainSearch(struct search* s, struct position* pos) {
 
 				ctr++;
 			}
+			ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
 			s->bff = bm.f;
 			s->bft = bm.t;
 			s->reacheddepth = depth;
