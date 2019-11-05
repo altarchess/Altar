@@ -235,8 +235,8 @@ int eval(struct position* pos) {
 		side = 5;
 	}
 
-	//int safety = __popcnt64(bishopAttack(bOcc, _tzcnt_u64(pos->bitBoard[5])) | rookAttack(bOcc, _tzcnt_u64(pos->bitBoard[5]))) - __popcnt64(bishopAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])) | rookAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])));
-	//safety +=2* wKingMiddleGame[_tzcnt_u64(pos->bitBoard[6])];
-	//safety -= 2*bKingMiddleGame[_tzcnt_u64(pos->bitBoard[5])];
-	return wm - bm + wSpace - bSpace + 3 * solid+side/*+safety*middleGamePhase/20*/ +endGamePhase * (wEndGameSpace - bEndGameSpace) / 70;
+	int safety = __popcnt64(bishopAttack(bOcc, _tzcnt_u64(pos->bitBoard[5])) | rookAttack(bOcc, _tzcnt_u64(pos->bitBoard[5]))) - __popcnt64(bishopAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])) | rookAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])));
+	safety +=2* wKingMiddleGame[_tzcnt_u64(pos->bitBoard[6])];
+	safety -= 2*bKingMiddleGame[_tzcnt_u64(pos->bitBoard[5])];
+	return wm - bm + wSpace - bSpace + 3 * solid+side+safety*middleGamePhase/20 +endGamePhase * (wEndGameSpace - bEndGameSpace) / 70;
 }

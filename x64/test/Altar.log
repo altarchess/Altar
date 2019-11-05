@@ -91,6 +91,11 @@ C:\Users\kim\source\repos\Altar\Altar\eval.cpp(221,48): warning C4244:  '+=': co
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(222,49): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(222,73): warning C4244:  '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\eval.cpp(223,26): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(238,55): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(238,104): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(238,167): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(238,216): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\eval.cpp(238,13): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
   1 of 179 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

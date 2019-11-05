@@ -303,7 +303,9 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 				ctr = 20;
 			}
 			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
-
+			if (!s->searching) {
+				return 0;
+			}
 			if (score > bs) {
 				bs = score;
 				bm = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
@@ -357,7 +359,9 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 			}
 
 			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
-
+			if (!s->searching) {
+				return 0;
+			}
 			if (score < bs) {
 				bs = score;
 				bm = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
