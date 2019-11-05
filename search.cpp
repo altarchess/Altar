@@ -157,7 +157,7 @@ void printCord(int cord) {
 
 void infoString(struct move MOVE, int depth, int score, int nodes) {
 
-	std::cout << "info depth " << depth << " score cp " << score << " nodes " << nodes << " pv ";
+	std::cout << "info depth " << depth << " score cp " << score/3 << " nodes " << nodes << " pv ";
 
 
 	int f = MOVE.f;

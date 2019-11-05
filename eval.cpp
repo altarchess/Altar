@@ -122,7 +122,7 @@ int eval(struct position* pos) {
 	int range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = wPawnAttack(_tzcnt_u64(p));
-		wSpace += 2 * __popcnt64(attack & bSpaceMask)+__popcnt64(attack);
+		wSpace += 3 * __popcnt64(attack & bSpaceMask)+__popcnt64(attack);
 		wSpace += center[_tzcnt_u64(p)];
 		wEndGameSpace += wpawnendgame[_tzcnt_u64(p)];
 		wAttacks += __popcnt64(bKingClose & attack);
@@ -133,7 +133,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = bPawnAttack(_tzcnt_u64(p));
-		bSpace += 2 * __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
+		bSpace += 3 * __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
 		bSpace += center[_tzcnt_u64(p)];
 		bEndGameSpace += bpawnendgame[_tzcnt_u64(p)];
 		bAttacks += __popcnt64(wKingClose & attack);
@@ -146,7 +146,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = knightAttack(_tzcnt_u64(p));
-		wSpace += 2 * __popcnt64(attack & bSpaceMask) + __popcnt64(attack);
+		wSpace += 2 * __popcnt64(attack & bSpaceMask);
 		wSpace += 4*center[_tzcnt_u64(p)];
 		wAttacks += __popcnt64(bKingClose & attack);
 		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
@@ -156,7 +156,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = knightAttack(_tzcnt_u64(p));
-		bSpace += 2 * __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
+		bSpace += 2 * __popcnt64(attack & wSpaceMask);
 		bSpace += 4*center[_tzcnt_u64(p)];
 		bAttacks += __popcnt64(wKingClose & attack);
 		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
@@ -168,7 +168,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = bishopAttack(wOcc|bOcc,_tzcnt_u64(p));
-		wSpace += 2 * __popcnt64(attack & bSpaceMask) + __popcnt64(attack);
+		wSpace += 5 * __popcnt64(attack & bSpaceMask) + __popcnt64(attack);
 		wAttacks += __popcnt64(bKingClose & attack);
 		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -177,7 +177,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p));
-		bSpace += 2 * __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
+		bSpace += 3 * __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
 		bAttacks += __popcnt64(wKingClose & attack);
 		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -188,7 +188,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		wSpace +=  __popcnt64(attack & bSpaceMask) + __popcnt64(attack);
+		wSpace +=5*  __popcnt64(attack & bSpaceMask);
 		wAttacks += __popcnt64(bKingClose & attack);
 		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -197,7 +197,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		bSpace += __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
+		bSpace +=2* __popcnt64(attack & wSpaceMask);
 		bAttacks += __popcnt64(wKingClose & attack);
 		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -208,7 +208,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p))| rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		wSpace += 1 * __popcnt64(attack & bSpaceMask) + __popcnt64(attack);
+		wSpace += 2 * __popcnt64(attack & bSpaceMask);
 		wAttacks += 2*__popcnt64(bKingClose & attack);
 		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -217,7 +217,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p)) | rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		bSpace += 1 * __popcnt64(attack & wSpaceMask) + __popcnt64(attack);
+		bSpace += 2 * __popcnt64(attack & wSpaceMask);
 		bAttacks += 2*__popcnt64(wKingClose & attack);
 		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -238,5 +238,7 @@ int eval(struct position* pos) {
 	int safety = __popcnt64(bishopAttack(bOcc, _tzcnt_u64(pos->bitBoard[5])) | rookAttack(bOcc, _tzcnt_u64(pos->bitBoard[5]))) - __popcnt64(bishopAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])) | rookAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])));
 	safety +=2* wKingMiddleGame[_tzcnt_u64(pos->bitBoard[6])];
 	safety -= 2*bKingMiddleGame[_tzcnt_u64(pos->bitBoard[5])];
+	safety += 4 * wAttacks;
+	safety -= 4 * bAttacks;
 	return wm - bm + wSpace - bSpace + 3 * solid+side+safety*middleGamePhase/20 +endGamePhase * (wEndGameSpace - bEndGameSpace) / 70;
 }
