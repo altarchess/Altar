@@ -33,6 +33,7 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 
 
+
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
 			scores[ctr] = 500001;
 		}
@@ -44,11 +45,41 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		int tp = getPiece(pos, mvl->MOVE[ctr].t);
 		if (tp != 0) {
 			int ft = getPiece(pos, mvl->MOVE[ctr].f);
+
+			//check if defended
+			/*if (pos->side&& mvVal[tp] < mvVal[ft]) {
+				if (mvl->MOVE[ctr].t / 8 > 1) {
+					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 > 1) {
+						if (getBit(mvl->MOVE[ctr].t - 9) && pos->bitBoard[4]) {
+							goto defbypawn;
+						}
+					}
+					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 < 7) {
+						if (getBit(mvl->MOVE[ctr].t - 7) && pos->bitBoard[4]) {
+							goto defbypawn;
+						}
+					}
+				}
+			}
+			else {
+				if (mvl->MOVE[ctr].t / 8 < 7) {
+					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 > 1) {
+						if (getBit(mvl->MOVE[ctr].t + 7) && pos->bitBoard[7]) {
+							goto defbypawn;
+						}
+					}
+					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 < 7) {
+						if (getBit(mvl->MOVE[ctr].t + 9) && pos->bitBoard[7]) {
+							goto defbypawn;
+						}
+					}
+				}
+			}*/
 			if (mvVal[ft] <= mvVal[tp]) {
 				scores[ctr] = 750000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 			}
 		}
-
+		defbypawn:
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == hashmove) {
 			scores[ctr] = 1000003;
 			//std::cout << "h" << hashmove;
@@ -155,7 +186,7 @@ void printCord(int cord) {
 	}
 }
 
-void infoString(struct move MOVE, int depth, int score, int nodes) {
+void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos) {
 
 	std::cout << "info depth " << depth << " score cp " << score/3 << " nodes " << nodes << " pv ";
 
@@ -186,6 +217,12 @@ void infoString(struct move MOVE, int depth, int score, int nodes) {
 	printCord(f);
 	printCord(t);
 
+	if ((getPiece(pos, f) == 4 && t>55)) {
+		std::cout << "q";
+	}
+	if ((getPiece(pos, f) == 7 && t < 8)) {
+		std::cout << "q";
+	}
 	std::cout << std::endl;
 
 	fflush(stdout);
@@ -246,7 +283,82 @@ int Qui(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	}
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct) {
-	return 1;
+	/*if (!__popcnt64(pos.bitBoard[6])) {
+		return bMateScore + ply;
+	}
+	if (!__popcnt64(pos.bitBoard[5])) {
+		return mateScore - ply;
+	}
+
+	if (depth == 0) {
+		s->nodeCount++;
+		return Qui(pos, alpha, beta, 0, ct);
+		//return eval(&pos);
+	}
+
+	if (!s->searching) {
+		return 0;
+	}
+
+
+
+	if (pos.side) {
+		if (pos.hash == tt[pos.hash % ttSize].zHash) {
+			if (tt[pos.hash % ttSize].depth >= depth) {
+				if (tt[pos.hash % ttSize].type == 0) {
+					return  tt[pos.hash % ttSize].eval;
+				}
+				if (tt[pos.hash % ttSize].type == 2 && tt[pos.hash % ttSize].eval < alpha) {
+					return tt[pos.hash % ttSize].eval;
+				}
+				if (tt[pos.hash % ttSize].type == 1 && tt[pos.hash % ttSize].eval > beta) {
+					return tt[pos.hash % ttSize].eval;
+				}
+			}
+		}
+
+		int bs = -1999999;
+		int bm = 0;
+		int type = 2;
+		genAllMoves(&mt->mvl[ply], pos.side, &pos);
+		if (depth > 0) {
+			orderMvl(&mt->mvl[ply], ply, &pos);
+		}
+
+		int ctr = 0;
+		for (int i = 0; i < mt->mvl[ply].mam; i++) {
+
+
+			if (ctr == mt->mvl[ply].gcapt) {
+				ctr = 20;
+			}
+			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
+			if (!s->searching) {
+				return 0;
+			}
+			if (score > bs) {
+				bs = score;
+				bm = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
+			}
+
+			if (bs > alpha) {
+				alpha = bs;
+				type = 0;
+				if (alpha >= beta) {
+					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+					killers[ply][1] = killers[ply][0];
+					killers[ply][0] = bm;
+					ttSave(depth, pos.hash, bs, 1, bm);
+					return alpha;
+				}
+			}
+
+			ctr++;
+		}
+		ttSave(depth, pos.hash, bs, type, bm);
+		return bs;
+	}*/
+	return 0;
 }
 void search(struct search* s, struct position* pos) {
 
@@ -421,6 +533,7 @@ void mainSearch(struct search* s, struct position* pos) {
 					ctr = 20;
 				}
 				int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, bs, beta, depth - 1, ply + 1, mt, ct);
+
 				
 				if (!s->searching) {
 					goto end;
@@ -428,7 +541,7 @@ void mainSearch(struct search* s, struct position* pos) {
 
 				if (score > bs) {
 					bs = score;
-					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount);
+					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos);
 					bm = mt->mvl[ply].MOVE[ctr];
 					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth*depth;
 					killers[0][1] = killers[0][0];
@@ -471,7 +584,7 @@ void mainSearch(struct search* s, struct position* pos) {
 
 				if (score < bs) {
 					bs = score;
-					infoString(mt->mvl[ply].MOVE[ctr], depth, -bs, s->nodeCount);
+					infoString(mt->mvl[ply].MOVE[ctr], depth, -bs, s->nodeCount, pos);
 					bm = mt->mvl[ply].MOVE[ctr];
 					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 					killers[0][1] = killers[0][0];
@@ -510,13 +623,13 @@ void searchManager(struct search* s) {
 			case 0:
 				if (s->depth <= s->reacheddepth) {
 					s->searching = false;
-					printBestMove(s->bff, s->bft);
+					printBestMove(s->bff, s->bft, getPositionPointer());
 				}
 				break;
 			case 1:
-				if (currentTime + 1 >= sTime + (UsableTime + inc * (moves - 1)) / moves) {
+				if (currentTime >= sTime + (UsableTime + inc * (moves - 1)) / moves) {
 					s->searching = false;
-					printBestMove(s->bff, getSearchPointer()->bft);
+					printBestMove(s->bff, getSearchPointer()->bft, getPositionPointer());
 				}
 				break;
 			case 2:

@@ -76,10 +76,16 @@ int getPiece(struct position* pos, int cord) {
 };
 
 
-void printBestMove(int bff, int bft) {
+void printBestMove(int bff, int bft, struct position* pos) {
 	std::cout << "bestmove ";
 	printCords(bff);
 	printCords(bft);
+	if ((getPiece(pos, bff) == 4 && bft > 55)) {
+		std::cout << "q";
+	}
+	if ((getPiece(pos, bff) == 7 && bft < 8)) {
+		std::cout << "q";
+	}
 	std::cout << std::endl;
 	fflush(stdout);
 }

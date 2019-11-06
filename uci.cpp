@@ -374,10 +374,10 @@ void uci() {
 			if (getSearchPointer()->searching) {
 				getSearchPointer()->searching = false;
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
-			}
+			}			
+			getSearchPointer()->sTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 			getSearchPointer()->searching = true;
-			getSearchPointer()->sTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 			parseGO(buf);
 
@@ -388,7 +388,7 @@ void uci() {
 		if (compareCommand(&buf, stop_Command))
 		{
 			if (getSearchPointer()->searching) {
-				printBestMove(getSearchPointer()->bff, getSearchPointer()->bft);
+				printBestMove(getSearchPointer()->bff, getSearchPointer()->bft, getPositionPointer());
 			}
 			getSearchPointer()->searching = false;
 			//na

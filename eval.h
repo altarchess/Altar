@@ -1,6 +1,4 @@
 #pragma once
-#define wSpaceMask 4294967295
-#define bSpaceMask 18446744069414584320
 #define mateScore 100000
 #define wMateScore 100000
 #define bMateScore -100000
@@ -10,6 +8,6 @@
 #define rookMiddleGame 1280
 #define queenMiddleGame 2304
 
-
-
+#define centerMask 66229406269440
+void fillEvalTables();
 int eval(struct position* pos);

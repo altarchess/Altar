@@ -21,7 +21,7 @@ struct mres {
 	int otherp;
 	int othercord;
 };
-void printBestMove(int, int);
+void printBestMove(int, int, struct position*);
 int getPiece(struct position*, int);
 struct position makeMove(struct move, struct position);
 char* moveToChar(int mov);
