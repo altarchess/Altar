@@ -61,6 +61,9 @@ bool isLegal(bool side, struct position* pos) {
 		if (bPawnAttack(cord)&pos->bitBoard[4]) {
 			return false;
 		}
+		if (kingAttack(cord) & pos->bitBoard[5]) {
+			return false;
+		}
 		return true;
 	}
 	else {
@@ -77,6 +80,9 @@ bool isLegal(bool side, struct position* pos) {
 			return false;
 		}
 		if (wPawnAttack(cord) & pos->bitBoard[7]) {
+			return false;
+		}
+		if (kingAttack(cord) & pos->bitBoard[6]) {
 			return false;
 		}
 		return true;

@@ -5,6 +5,7 @@
 #include "movelist.h"
 #include "move.h"
 #include "tt.h"
+#include "gen.h"
 
 #include <immintrin.h>
 #include <intrin.h>
@@ -20,6 +21,8 @@ int mvVal[13] = {
 	0,12,6,4,3,1,1000,1000,1,3,4,6,12
 };
 
+unsigned long long rkey[100];
+
 void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int scores[100];
 	int hashmove = tt[pos->hash%ttSize].move;
@@ -32,56 +35,41 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
 
-
-
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
-			scores[ctr] = 500001;
+			scores[ctr] = 5000001;
 		}
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
-			scores[ctr] = 500002;
+			scores[ctr] = 5000002;
 		}
 
 		int tp = getPiece(pos, mvl->MOVE[ctr].t);
 		if (tp != 0) {
 			int ft = getPiece(pos, mvl->MOVE[ctr].f);
-
-			//check if defended
-			/*if (pos->side&& mvVal[tp] < mvVal[ft]) {
-				if (mvl->MOVE[ctr].t / 8 > 1) {
-					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 > 1) {
-						if (getBit(mvl->MOVE[ctr].t - 9) && pos->bitBoard[4]) {
-							goto defbypawn;
+			/*
+						//check if defended
+						if (pos->side) {
+							if (wPawnAttack(mvl->MOVE[ctr].t) && pos->bitBoard[4]) {
+								if (mvVal[ft] >= mvVal[tp]) {
+									goto defbypawn;
+								}
+							}
 						}
-					}
-					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 < 7) {
-						if (getBit(mvl->MOVE[ctr].t - 7) && pos->bitBoard[4]) {
-							goto defbypawn;
-						}
-					}
-				}
-			}
-			else {
-				if (mvl->MOVE[ctr].t / 8 < 7) {
-					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 > 1) {
-						if (getBit(mvl->MOVE[ctr].t + 7) && pos->bitBoard[7]) {
-							goto defbypawn;
-						}
-					}
-					if (mvl->MOVE[ctr].t - mvl->MOVE[ctr].t / 8 < 7) {
-						if (getBit(mvl->MOVE[ctr].t + 9) && pos->bitBoard[7]) {
-							goto defbypawn;
-						}
-					}
-				}
-			}*/
+						else {
+							if (bPawnAttack(mvl->MOVE[ctr].t) && pos->bitBoard[7]) {
+								if (mvVal[ft] >= mvVal[tp]) {
+									goto defbypawn;
+								}
+							}
+						}*/
 			if (mvVal[ft] <= mvVal[tp]) {
-				scores[ctr] = 750000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
+				scores[ctr] = 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 			}
 		}
+
 		defbypawn:
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == hashmove) {
-			scores[ctr] = 1000003;
+			scores[ctr] = 10000003;
 			//std::cout << "h" << hashmove;
 		}
 		ctr++;
@@ -283,7 +271,7 @@ int Qui(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	}
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct) {
-	/*if (!__popcnt64(pos.bitBoard[6])) {
+/*	if (!__popcnt64(pos.bitBoard[6])) {
 		return bMateScore + ply;
 	}
 	if (!__popcnt64(pos.bitBoard[5])) {
@@ -357,8 +345,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 		ttSave(depth, pos.hash, bs, type, bm);
 		return bs;
-	}*/
-	return 0;
+	}
+	return 0;*/
 }
 void search(struct search* s, struct position* pos) {
 
@@ -382,9 +370,15 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		return 0;
 	}
 
+	/*for (int i = 0; i < 10; i++) {
+		               
+	}*/
 
-
+	rkey[ply] = pos.hash;
 	if (pos.side) {
+		if (!isLegal(BLACK, &pos)) {
+			return mateScore - ply;
+		}
 		if (pos.hash == tt[pos.hash % ttSize].zHash) {
 			if (tt[pos.hash % ttSize].depth>=depth) {
 				if (tt[pos.hash % ttSize].type == 0) {
@@ -408,13 +402,19 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		}
 		
 		int ctr = 0;
+		bool isdraw = isLegal(WHITE, &pos);
 		for (int i = 0; i < mt->mvl[ply].mam; i++) {
 
 
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
 			}
-			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
+			struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], pos);
+			int score = alpha;
+			if (isLegal(WHITE, &pos2)) {
+				isdraw = false;
+				score = AlphaBeta(s, pos2, false, alpha, beta, depth - 1, ply + 1, mt, ct);
+			}
 			if (!s->searching) {
 				return 0;
 			}
@@ -438,10 +438,17 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 			ctr++;
 		}
 		ttSave(depth, pos.hash, bs, type, bm);
-		return bs;
+		if (isdraw) {
+			return 0;
+		}
+		else {
+			return bs;
+		}
 	}
 	else {
-
+		if (!isLegal(WHITE, &pos)) {
+			return -mateScore + ply;
+		}
 		if (pos.hash == tt[pos.hash % ttSize].zHash) {
 			if (tt[pos.hash % ttSize].depth >= depth) {
 				if (tt[pos.hash % ttSize].type == 0) {
@@ -463,14 +470,19 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 			orderMvl(&mt->mvl[ply], ply, &pos);
 		}
 		int ctr = 0;
+		bool isdraw = isLegal(BLACK, &pos);
 		for (int i = 0; i < mt->mvl[ply].mam; i++) {
 
 
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
 			}
-
-			int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], pos), false, alpha, beta, depth - 1, ply + 1, mt, ct);
+			struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], pos);
+			int score = beta;
+			if (isLegal(BLACK, &pos2)) {
+				isdraw = false;
+				score = AlphaBeta(s, pos2, false, alpha, beta, depth - 1, ply + 1, mt, ct);
+			}
 			if (!s->searching) {
 				return 0;
 			}
@@ -498,7 +510,12 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 
 		ttSave(depth, pos.hash, bs, type, bm);
 
-		return bs;
+		if (isdraw) {
+			return 0;
+		}
+		else {
+			return bs;
+		}
 	}
 
 
@@ -509,6 +526,9 @@ void mainSearch(struct search* s, struct position* pos) {
 		for (int e = 0; e < 64; e++) {
 			ht[i][e] = 0;
 		}
+	}
+	for (int i = 0; i < 100; i++) {
+		rkey[i] = 0;
 	}
 	pos->hash = getHash(pos);
 	//std::cout << pos->hash;
@@ -521,6 +541,7 @@ void mainSearch(struct search* s, struct position* pos) {
 	int beta = 1999999;
 	int ply = 0;
 	if (pos->side) {
+		rkey[ply] = pos->hash;
 		for (int depth = 2; depth < 30; depth++) {
 			
 			int bs = -1999999;
