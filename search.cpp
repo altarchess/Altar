@@ -217,10 +217,10 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 	printCord(f);
 	printCord(t);
 
-	if ((getPiece(pos, f) == 4 && t>55)) {
+	if ((getPiece(pos, f) == 5 && t>55)) {
 		std::cout << "q";
 	}
-	if ((getPiece(pos, f) == 7 && t < 8)) {
+	if ((getPiece(pos, f) == 8 && t < 8)) {
 		std::cout << "q";
 	}
 	std::cout << std::endl;

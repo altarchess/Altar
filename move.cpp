@@ -80,10 +80,10 @@ void printBestMove(int bff, int bft, struct position* pos) {
 	std::cout << "bestmove ";
 	printCords(bff);
 	printCords(bft);
-	if ((getPiece(pos, bff) == 4 && bft > 55)) {
+	if ((getPiece(pos, bff) == 5 && bft > 55)) {
 		std::cout << "q";
 	}
-	if ((getPiece(pos, bff) == 7 && bft < 8)) {
+	if ((getPiece(pos, bff) == 8 && bft < 8)) {
 		std::cout << "q";
 	}
 	std::cout << std::endl;
