@@ -56,7 +56,7 @@ int compareCommand (char** buf, const char* cmd_str)
 void parseGO(char* buf) {
 
 	getSearchPointer()->movesToGo = 30;
-	getSearchPointer()->depth = 10;
+	getSearchPointer()->depth = 30;
 	getSearchPointer()->timetype = 0;
 	getSearchPointer()->inc = 0;
 	getSearchPointer()->time = 0;
@@ -302,7 +302,7 @@ void parseFEN(char* buf) {
 	{
 		while (*buf == ' ') buf++;
 		*getPositionPointer() = makeMove(bufToMove(buf), *getPositionPointer());
-		hh.hh[hh.index] = getHash(getPositionPointer());
+		hh.hh[hh.index] = getPositionPointer()->hash;
 		hh.index += 1;
 	}
 	return;
@@ -321,7 +321,7 @@ void startPos(char* buf) {
 		while (*buf == ' ') buf++;
 		struct move M = bufToMove(buf);
 		*getPositionPointer() = makeMove(M, *getPositionPointer());
-		hh.hh[hh.index] = getHash(getPositionPointer());
+		hh.hh[hh.index] = getPositionPointer()->hash;
 		hh.index += 1;
 	}
 }

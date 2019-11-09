@@ -21,7 +21,7 @@ int mvVal[13] = {
 	0,12,6,4,3,1,1000,1000,1,3,4,6,12
 };
 
-unsigned long long rkey[100];
+
 
 void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int scores[100];
@@ -371,12 +371,13 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 	}
 
 	for (int i = 0; i < pos.mov50; i++) {
-		if (pos.hash == hh->hh[hh->index - 1 - i]) {
+		//std::cout << "yesss";
+		if (pos.hash == hh->hh[hh->index+ply-2- i]) {
 			return 0;
 		}
 	}
 
-	hh->hh[hh->index == pos.hash];
+	hh->hh[hh->index+ply-1] = pos.hash;
 	if (pos.side) {
 		if (!isLegal(BLACK, &pos)) {
 			return mateScore - ply;
@@ -530,9 +531,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 		}
 	}
 	for (int i = 0; i < 100; i++) {
-		rkey[i] = 0;
 	}
-	pos->hash = getHash(pos);
 	//std::cout << pos->hash;
 	struct moveTable tb;
 	struct moveTable* mt = &tb;
@@ -543,7 +542,6 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	int beta = 1999999;
 	int ply = 0;
 	if (pos->side) {
-		rkey[ply] = pos->hash;
 		for (int depth = 2; depth < 30; depth++) {
 			
 			int bs = -1999999;

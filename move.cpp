@@ -92,7 +92,6 @@ void printBestMove(int bff, int bft, struct position* pos) {
 
 struct position makeMove(struct move MOVE, struct position calcPos) {
 
-	calcPos.mov50 += 1;
 	unsigned long long type = MOVE.type;
 	unsigned long long from = MOVE.f;
 	unsigned long long to = MOVE.t;
@@ -291,6 +290,7 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 			break;
 		}
 	}
+	calcPos.mov50 += 1;
 	return calcPos;
 }
 
