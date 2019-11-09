@@ -1,10 +1,7 @@
-﻿  search.cpp
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(70,12): warning C4102:  'defbypawn': unreferenced label
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(565,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(608,54): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+﻿  uci.cpp
   Generating code
-  1 of 179 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
+  43 of 185 functions (23.2%) were compiled, the rest were copied from previous compilation.
+    35 functions were new in current compilation
+    16 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Altar.vcxproj -> C:\Users\kim\source\repos\Altar\x64\test\Altar.exe

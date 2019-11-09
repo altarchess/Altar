@@ -351,7 +351,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 void search(struct search* s, struct position* pos) {
 
 }
-int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct) {
+int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 	
 	if (!__popcnt64(pos.bitBoard[6])) {
 		return bMateScore + ply;
@@ -370,11 +370,13 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 		return 0;
 	}
 
-	/*for (int i = 0; i < 10; i++) {
-		               
-	}*/
+	for (int i = 0; i < pos.mov50; i++) {
+		if (pos.hash == hh->hh[hh->index - 1 - i]) {
+			return 0;
+		}
+	}
 
-	rkey[ply] = pos.hash;
+	hh->hh[hh->index == pos.hash];
 	if (pos.side) {
 		if (!isLegal(BLACK, &pos)) {
 			return mateScore - ply;
@@ -413,7 +415,7 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 			int score = alpha;
 			if (isLegal(WHITE, &pos2)) {
 				isdraw = false;
-				score = AlphaBeta(s, pos2, false, alpha, beta, depth - 1, ply + 1, mt, ct);
+				score = AlphaBeta(s, pos2, false, alpha, beta, depth - 1, ply + 1, mt, ct, hh);
 			}
 			if (!s->searching) {
 				return 0;
@@ -481,7 +483,7 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 			int score = beta;
 			if (isLegal(BLACK, &pos2)) {
 				isdraw = false;
-				score = AlphaBeta(s, pos2, false, alpha, beta, depth - 1, ply + 1, mt, ct);
+				score = AlphaBeta(s, pos2, false, alpha, beta, depth - 1, ply + 1, mt, ct, hh);
 			}
 			if (!s->searching) {
 				return 0;
@@ -521,7 +523,7 @@ int AlphaBeta(struct search* s, struct position pos, bool pvnode, int alpha, int
 
 }
 
-void mainSearch(struct search* s, struct position* pos) {
+void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
 			ht[i][e] = 0;
@@ -553,7 +555,8 @@ void mainSearch(struct search* s, struct position* pos) {
 				if (ctr == mt->mvl[ply].gcapt) {
 					ctr = 20;
 				}
-				int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, bs, beta, depth - 1, ply + 1, mt, ct);
+				int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, bs, beta, depth - 1, ply + 1, mt, ct, &hh);
+
 
 				
 				if (!s->searching) {
@@ -597,7 +600,7 @@ void mainSearch(struct search* s, struct position* pos) {
 					ctr = 20;
 				}
 
-				int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, alpha, bs, depth - 1, ply + 1, mt, ct);
+				int score = AlphaBeta(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, alpha, bs, depth - 1, ply + 1, mt, ct, &hh);
 
 				if (!s->searching) {
 					goto end;

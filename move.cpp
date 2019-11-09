@@ -91,6 +91,8 @@ void printBestMove(int bff, int bft, struct position* pos) {
 }
 
 struct position makeMove(struct move MOVE, struct position calcPos) {
+
+	calcPos.mov50 += 1;
 	unsigned long long type = MOVE.type;
 	unsigned long long from = MOVE.f;
 	unsigned long long to = MOVE.t;
@@ -134,7 +136,7 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 			//std::cout << "from:" << fromPiece << "to:" << to <<  "topiece:" << toPiece;
 			calcPos.hash ^= ttrndp[toPiece - 1][to];
 			calcPos.bitBoard[toPiece - 1] &= ~getBit(to);
-
+			calcPos.mov50 = 0;
 		}
 
 		//castling rights
@@ -185,6 +187,7 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 
 		//pawn move special rules;
 		if (fromPiece == 5 || fromPiece == 8) {
+			calcPos.mov50 = 0;
 			if (fromPiece == 5 && to > 55) { // black promo (Always Queen)
 				calcPos.bitBoard[fromPiece - 1] &= ~getBit(to);
 				calcPos.hash ^= ttrndp[fromPiece-1][to];
@@ -222,6 +225,7 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 	else {
 		//std::cout << "TYPE:" << type;
 		switch (type) {
+			calcPos.mov50 = 0;
 		case 1:
 			calcPos.castle[0] == false;
 			calcPos.castle[1] == false;

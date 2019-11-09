@@ -37,6 +37,8 @@
 #define test_Command		   "test"
 
 
+struct historyhash hh;
+
 int starts_With(char* buf, const char* str)
 {
 	return !strncmp(buf, str, strlen(str));
@@ -289,6 +291,10 @@ void parseFEN(char* buf) {
 			break;
 		}
 	}
+
+	hh.hh[0] = getHash(getPositionPointer());
+	hh.index = 1;
+
 	buf = strstr(buf, "moves");
 	if (buf == NULL) return;
 
@@ -296,6 +302,8 @@ void parseFEN(char* buf) {
 	{
 		while (*buf == ' ') buf++;
 		*getPositionPointer() = makeMove(bufToMove(buf), *getPositionPointer());
+		hh.hh[hh.index] = getHash(getPositionPointer());
+		hh.index += 1;
 	}
 	return;
 }
@@ -313,6 +321,8 @@ void startPos(char* buf) {
 		while (*buf == ' ') buf++;
 		struct move M = bufToMove(buf);
 		*getPositionPointer() = makeMove(M, *getPositionPointer());
+		hh.hh[hh.index] = getHash(getPositionPointer());
+		hh.index += 1;
 	}
 }
 
@@ -381,7 +391,7 @@ void uci() {
 
 			parseGO(buf);
 
-			std::thread mSearch(mainSearch, getSearchPointer(), getPositionPointer());
+			std::thread mSearch(mainSearch, getSearchPointer(), getPositionPointer(), hh);
 			mSearch.detach();
 		}
 
