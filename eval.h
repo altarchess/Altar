@@ -11,3 +11,4 @@
 #define centerMask 66229406269440
 void fillEvalTables();
 int eval(struct position* pos);
+int evals(struct position* pos);
