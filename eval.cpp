@@ -157,7 +157,7 @@ int eval(struct position* pos) {
 		if (__popcnt64(isolaniMask[_tzcnt_u64(p)]&pos->bitBoard[7])<1) {
 			solid -= 100;
 		}
-		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[7]) > 0) {
+		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[7]) > 1) {
 			solid -= 50; //only half the penalty since the other pawn will also trigger
 		}
 		p &= ~getBit(_tzcnt_u64(p));
@@ -175,7 +175,7 @@ int eval(struct position* pos) {
 		if (__popcnt64(isolaniMask[_tzcnt_u64(p)] & pos->bitBoard[4]) < 1) {
 			solid += 100;
 		}
-		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[4]) > 0) {
+		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[4]) > 1) {
 			solid += 50; //only half the penalty since the other pawn will also trigger
 		}
 		p &= ~getBit(_tzcnt_u64(p));
