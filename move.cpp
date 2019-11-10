@@ -294,7 +294,10 @@ struct position makeMove(struct move MOVE, struct position calcPos) {
 	return calcPos;
 }
 
-
+void makeNull(struct position* pos) {
+	pos->side = !pos->side;
+	pos->hash ^= ttside;
+}
 
 struct move bufToMove(char* buf) {
 	

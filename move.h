@@ -24,5 +24,6 @@ struct mres {
 void printBestMove(int, int, struct position*);
 int getPiece(struct position*, int);
 struct position makeMove(struct move, struct position);
+void makeNull(struct position* pos);
 char* moveToChar(int mov);
 struct move bufToMove(char* buf);

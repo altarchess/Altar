@@ -1,8 +1,18 @@
 ﻿  search.cpp
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(70,11): warning C4102:  'defbypawn': unreferenced label
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(404,52): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(27,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(28,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(51,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(52,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(53,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(54,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(57,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(58,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(59,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(60,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(162,11): warning C4102:  'defbypawn': unreferenced label
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(532,52): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
-  2 of 185 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+  2 of 188 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     5 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

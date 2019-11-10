@@ -21,31 +21,123 @@ int mvVal[13] = {
 	0,12,6,4,3,1,1000,1000,1,3,4,6,12
 };
 
+int inNull = 0;
 
+int nullStatus(struct position* pos) {
+	int wm =  __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
+	int bm =  __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
+
+	if ((wm + bm) / 256 > 30) {
+		return 1;
+	}
+
+	return 0;
+}
 
 void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int scores[100];
 	int hashmove = tt[pos->hash % ttSize].move;
+	
+	unsigned long long bcsq = 0;
+	unsigned long long pcsq = 0;
+	unsigned long long ncsq = 0;
+	unsigned long long rcsq = 0;
+
+	unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];
+	unsigned long long bOcc = pos->bitBoard[0] | pos->bitBoard[1] | pos->bitBoard[2] | pos->bitBoard[3] | pos->bitBoard[4] | pos->bitBoard[5];
+
+
+	if (pos->side) {
+		bcsq = bishopAttack(wOcc|bOcc, _tzcnt_u64(pos->bitBoard[5]));
+		rcsq = rookAttack(wOcc | bOcc, _tzcnt_u64(pos->bitBoard[5]));
+		ncsq = knightAttack(_tzcnt_u64(pos->bitBoard[5]));
+		pcsq = bPawnAttack(_tzcnt_u64(pos->bitBoard[5]));
+	}
+	else {
+		bcsq = bishopAttack(wOcc | bOcc, _tzcnt_u64(pos->bitBoard[6]));
+		rcsq = rookAttack(wOcc | bOcc, _tzcnt_u64(pos->bitBoard[6]));
+		ncsq = knightAttack(_tzcnt_u64(pos->bitBoard[6]));
+		pcsq = wPawnAttack(_tzcnt_u64(pos->bitBoard[6]));
+	}
 
 	int ctr = 0;
 	for (int i = 0; i < mvl->mam; i++) {
 		if (ctr == mvl->gcapt) {
 			ctr = 20;
 		}
+		int tp = getPiece(pos, mvl->MOVE[ctr].t);
+		int ft = getPiece(pos, mvl->MOVE[ctr].f);
+
 		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
+		if (pos->side) {
+			switch (ft-1) {
+			case 7:
+				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
+					scores[ctr] += 2500000;
+				}
+				break;
+			case 8:
+				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
+					scores[ctr] += 2500000;
+				}
+				break;
+			case 9:
+				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
+					scores[ctr] += 2500000;
+				}
+				break;
+			case 10:
+				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
+					scores[ctr] += 2500000;
+				}
+				break;
+			case 11:
+				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
+					scores[ctr] += 2500000;
+				}
+				break;
+			}
+		}
+		else {
+			switch (ft-1) {
+			case 4:
+				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
+					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+				}
+				break;
+			case 3:
+				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
+					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+				}
+				break;
+			case 2:
+				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
+					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+				}
+				break;
+			case 1:
+				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
+					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+				}
+				break;
+			case 0:
+				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
+					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+				}
+				break;
+			}
+		}
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
-			scores[ctr] = 5000001;
+			scores[ctr] += 5000001;
 		}
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
-			scores[ctr] = 5000002;
+			scores[ctr] += 5000002;
 		}
 
-		int tp = getPiece(pos, mvl->MOVE[ctr].t);
 		if (tp != 0) {
-			int ft = getPiece(pos, mvl->MOVE[ctr].f);
 			/*
 						//check if defended
 						if (pos->side) {
@@ -63,13 +155,13 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 							}
 						}*/
 			if (mvVal[ft] <= mvVal[tp]) {
-				scores[ctr] = 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
+				scores[ctr] += 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 			}
 		}
 
 	defbypawn:
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == hashmove) {
-			scores[ctr] = 10000003;
+			scores[ctr] = 100000003;
 			//std::cout << "h" << hashmove;
 		}
 		ctr++;
@@ -218,7 +310,6 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 	return;
 }
 
-
 int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	if (ply >= 5) {
 		return evals(&pos);
@@ -269,6 +360,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	if (!isLegal(!pos.side, &pos)) {
 		return mateScore - ply;
 	}
+
+
+
 	if (pos.hash == tt[pos.hash % ttSize].zHash) {
 		if (tt[pos.hash % ttSize].depth >= depth) {
 			if (tt[pos.hash % ttSize].type == 0) {
@@ -283,6 +377,39 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 	}
 
+	//check extension seems to loose elo at 30s + 0.3s?
+	/*if (!isLegal(pos.side,&pos)) {
+		depth += 1;
+	}*/
+
+	bool isdraw = isLegal(pos.side, &pos);
+	bool incheck = !isdraw;
+
+	int staticEval = evals(&pos);
+
+	//NULL MOVE STUFF
+	if (!pvnode&& !incheck && !inNull &&nullStatus(&pos)&&staticEval>=beta) {
+		makeNull(&pos);
+		inNull++;
+		
+		int score = alpha;
+
+		if (depth <= 3) {
+			//score = -Quis(pos, -beta, -alpha, 0, ct);
+		}
+		else { 
+			score = -pvs(s, pos, false, -beta, -beta+1, depth - 4, ply, mt, ct, hh);
+		}
+
+		makeNull(&pos);
+		inNull--;
+
+		if (score >= beta) {
+			return score;
+		}
+
+	}
+
 	int bs = -1999999;
 	int bm = 0;
 	int type = 2;
@@ -291,9 +418,10 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		orderMvl(&mt->mvl[ply], ply, &pos);
 	}
 
+
+
+
 	int ctr = 0;
-	bool isdraw = isLegal(pos.side, &pos);
-	//bool incheck = !isdraw;
 	for (int i = 0; i < mt->mvl[ply].mam; i++) {
 
 
@@ -304,7 +432,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		int score = alpha - 100;
 		if (isLegal(pos.side, &pos2)) {
 			isdraw = false;
-			//incheck = false;
+			incheck = false;
 
 			if (pvnode) {
 				if (i == 0) {
@@ -348,9 +476,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return 0;
 	}
 	else {
-		/*if (incheck) {
+		if (incheck) {
 			return -mateScore + ply;
-		}*/
+		}
 		return bs;
 	}
 }
