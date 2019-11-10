@@ -13,6 +13,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <thread>
+#include <algorithm>    // std::max
+
+#define FUTILITY_DEPTH 5
+#define FUTILITY_MARGIN 200
+
 
 int killers[100][2];
 int ht[64][64];
@@ -34,7 +39,9 @@ int nullStatus(struct position* pos) {
 	return 0;
 }
 
-void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
+int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
+	int interesting = 0;
+	
 	int scores[100];
 	int hashmove = tt[pos->hash % ttSize].move;
 	
@@ -62,6 +69,7 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 	int ctr = 0;
 	for (int i = 0; i < mvl->mam; i++) {
+		bool interest = false;
 		if (ctr == mvl->gcapt) {
 			ctr = 20;
 		}
@@ -75,26 +83,31 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 			case 7:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
 					scores[ctr] += 2500000;
+					interest = true;
 				}
 				break;
 			case 8:
 				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
 					scores[ctr] += 2500000;
+					interest = true;
 				}
 				break;
 			case 9:
 				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
 					scores[ctr] += 2500000;
+					interest = true;
 				}
 				break;
 			case 10:
 				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
 					scores[ctr] += 2500000;
+					interest = true;
 				}
 				break;
 			case 11:
 				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
 					scores[ctr] += 2500000;
+					interest = true;
 				}
 				break;
 			}
@@ -104,26 +117,31 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 			case 4:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					interest = true;
 				}
 				break;
 			case 3:
 				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					interest = true;
 				}
 				break;
 			case 2:
 				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					interest = true;
 				}
 				break;
 			case 1:
 				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					interest = true;
 				}
 				break;
 			case 0:
 				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					interest = true;
 				}
 				break;
 			}
@@ -131,10 +149,12 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
 			scores[ctr] += 5000001;
+			interest = true;
 		}
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
-			scores[ctr] += 5000002;
+			scores[ctr] += 5000002; 
+			interest = true;
 		}
 
 		if (tp != 0) {
@@ -156,23 +176,26 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 						}*/
 			if (mvVal[ft] <= mvVal[tp]) {
 				scores[ctr] += 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
+				interest = true;
 			}
 		}
 
 	defbypawn:
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == hashmove) {
 			scores[ctr] = 100000003;
+			interest = true;
 			//std::cout << "h" << hashmove;
 		}
+		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = 5;
-	if (mvl->mam <= maxo + 1) {
+	int maxo = std::min(interesting+3,mvl->mam);
+	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
 	if (maxo <= 3) {
-		return;
-	}
+		return mvl->mam;
+	}*/
 	ctr = 0;
 	for (int i = 0; i < maxo; i++) {
 		if (ctr == mvl->gcapt) {
@@ -207,6 +230,7 @@ void orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 		ctr++;
 	}
+	return interesting;
 }
 
 void printCord(int cord) {
@@ -387,6 +411,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 	int staticEval = evals(&pos);
 
+
 	//NULL MOVE STUFF
 	if (!pvnode&& !incheck && !inNull &&nullStatus(&pos)&&staticEval>=beta) {
 		makeNull(&pos);
@@ -395,7 +420,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		int score = alpha;
 
 		if (depth <= 3) {
-			//score = -Quis(pos, -beta, -alpha, 0, ct);
+			//score = -Quis(pos, -beta, -beta+1, 0, ct);
 		}
 		else { 
 			score = -pvs(s, pos, false, -beta, -beta+1, depth - 4, ply, mt, ct, hh);
@@ -414,17 +439,17 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	int bm = 0;
 	int type = 2;
 	genAllMoves(&mt->mvl[ply], pos.side, &pos);
-	if (depth > 0) {
-		orderMvl(&mt->mvl[ply], ply, &pos);
+
+	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
+	
+	//futility prune
+	if (!incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN*depth) {
+		return staticEval;
 	}
-
-
 
 
 	int ctr = 0;
 	for (int i = 0; i < mt->mvl[ply].mam; i++) {
-
-
 		if (ctr == mt->mvl[ply].gcapt) {
 			ctr = 20;
 		}
@@ -439,7 +464,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 				}
 				else {
-					score = -pvs(s, pos2, false, -alpha-1, -alpha, depth - 1, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1, ply + 1, mt, ct, hh);
 					if (score >= alpha) {
 						score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 					}
@@ -491,6 +516,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	}
 	for (int i = 0; i < 100; i++) {
 	}
+	int interesting = 0;
 	//std::cout << pos->hash;
 	struct moveTable tb;
 	struct moveTable* mt = &tb;
@@ -516,7 +542,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 			}
 			else {
-				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs -1, -bs, depth -1, ply + 1, mt, ct, &hh);
+				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs - 1, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				if (score >= bs) {
 					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
@@ -545,7 +571,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 		s->bff = bm.f;
 		s->bft = bm.t;
 		s->reacheddepth = depth;
-		orderMvl(&mt->mvl[0], 0, pos);
+		interesting = orderMvl(&mt->mvl[0], 0, pos);
 		if (s->depth <= s->reacheddepth) {
 			goto end;
 		};

@@ -93,7 +93,7 @@ unsigned long long doubledMask[64];
 void fillEvalTables() {
 	for (int i = 0; i < 64; i++) {
 		isolaniMask[i] = 0;
-		int x = i - i / 8;
+		int x = i%8;
 		if (x > 0) {
 			isolaniMask[i] |= rowMask[x - 1];
 		}
@@ -102,7 +102,7 @@ void fillEvalTables() {
 		}
 	}
 	for (int i = 0; i < 64; i++) {
-		int x = i - i / 8;
+		int x = i%8;
 		doubledMask[i] = rowMask[x];
 	}
 }
@@ -196,8 +196,8 @@ int evals(struct position* pos) {
 
 	int solid = 0;
 
-	int wEndGameSpace = 4 * kingendgamecenter[_tzcnt_u64(pos->bitBoard[7])];
-	int bEndGameSpace = 4 * kingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
+	int wEndGameSpace = 4 * kingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
+	int bEndGameSpace = 4 * kingendgamecenter[_tzcnt_u64(pos->bitBoard[5])];
 
 	unsigned long long wpawn = 0;
 	unsigned long long bpawn = 0;
@@ -341,5 +341,5 @@ int evals(struct position* pos) {
 		evalmult = -1;
 	}
 
-	return 5 + evalmult*(wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
+	return evalmult*(wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
 }
