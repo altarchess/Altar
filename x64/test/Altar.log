@@ -10,7 +10,8 @@ C:\Users\kim\source\repos\Altar\Altar\search.cpp(65,44): warning C4244:  'argume
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(66,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(67,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(183,11): warning C4102:  'defbypawn': unreferenced label
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(558,52): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(521,50): warning C4804:  '<': unsafe use of type 'bool' in operation
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(590,52): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
   2 of 189 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

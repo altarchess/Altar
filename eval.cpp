@@ -341,5 +341,16 @@ int evals(struct position* pos) {
 		evalmult = -1;
 	}
 
-	return evalmult * (wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
+	return 5+evalmult * (wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
+}
+
+int middleGameEval() {
+
+}
+
+int endGameEval() {
+
+}
+int evals2() {
+
 }

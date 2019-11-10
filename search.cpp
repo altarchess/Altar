@@ -420,7 +420,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		int score = alpha;
 
 		if (depth <= 3) {
-			//score = -Quis(pos, -beta, -beta+1, 0, ct);
+			score = -Quis(pos, -beta, -beta+1, 0, ct);
 		}
 		else {
 			score = -pvs(s, pos, false, -beta, -beta + 1, depth - 4, ply, mt, ct, hh);
@@ -508,6 +508,37 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 }
 
+int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
+	if (lastScore > 1000 || lastScore<-1000) {
+		return -pvs(s, pos, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+	}
+	int binc = 100;
+	int ainc = 100;
+	bool noScore = true;
+	while (noScore)
+	{
+		int score = -pvs(s, pos, true, -lastScore-binc, -lastScore+ainc, depth - 1, ply + 1, mt, ct, hh);
+		if (lastScore - ainc < score < lastScore + binc) {
+			return score;
+		}
+		else {
+			if (score >= lastScore + binc) {
+				binc = binc * 2;
+				if (binc >= 1500) {
+					binc = 1999999;
+				}
+			}
+			if (score <= lastScore - ainc) {
+				ainc = ainc * 2;
+				if (ainc >= 1500) {
+					ainc = 1999999;
+				}
+			}
+		}
+	}
+
+}
+
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
@@ -526,6 +557,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	int alpha = -1999999;
 	int beta = 1999999;
 	int ply = 0;
+	int lastScore = 0;
 	for (int depth = 2; depth < 30; depth++) {
 
 		int bs = -1999999;
@@ -539,7 +571,6 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			}
 			int score = 0;
 			if (i == 0) {
-				if (depth = 0)
 				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 			}
 			else {
@@ -573,6 +604,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 		s->bft = bm.t;
 		s->reacheddepth = depth;
 		interesting = orderMvl(&mt->mvl[0], 0, pos);
+		lastScore = bs;
 		if (s->depth <= s->reacheddepth) {
 			goto end;
 		};
