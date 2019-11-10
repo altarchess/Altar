@@ -1,7 +1,7 @@
 ﻿  search.cpp
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(32,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(33,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(58,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(58,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(59,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(60,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kim\source\repos\Altar\Altar\search.cpp(61,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data

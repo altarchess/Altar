@@ -140,6 +140,9 @@ void ttSave(int depth, unsigned long long hash, int eval, int type, int best) {
 
 
 	if ((tt[hash % ttSize].zHash == hash) && (tt[hash % ttSize].depth >= depth)) { return; };
+	if ((tt[hash % ttSize].type == 0) && (tt[hash % ttSize].type!= 0)) { return; };
+
+
 	//if (type == 0) { std::cout << eval << std::endl; };
 
 	tt[hash% ttSize].zHash = hash;

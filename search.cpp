@@ -29,8 +29,8 @@ int mvVal[13] = {
 int inNull = 0;
 
 int nullStatus(struct position* pos) {
-	int wm =  __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
-	int bm =  __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
+	int wm = __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
+	int bm = __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
 
 	if ((wm + bm) / 256 > 30) {
 		return 1;
@@ -41,10 +41,10 @@ int nullStatus(struct position* pos) {
 
 int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int interesting = 0;
-	
+
 	int scores[100];
 	int hashmove = tt[pos->hash % ttSize].move;
-	
+
 	unsigned long long bcsq = 0;
 	unsigned long long pcsq = 0;
 	unsigned long long ncsq = 0;
@@ -55,7 +55,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 
 	if (pos->side) {
-		bcsq = bishopAttack(wOcc|bOcc, _tzcnt_u64(pos->bitBoard[5]));
+		bcsq = bishopAttack(wOcc | bOcc, _tzcnt_u64(pos->bitBoard[5]));
 		rcsq = rookAttack(wOcc | bOcc, _tzcnt_u64(pos->bitBoard[5]));
 		ncsq = knightAttack(_tzcnt_u64(pos->bitBoard[5]));
 		pcsq = bPawnAttack(_tzcnt_u64(pos->bitBoard[5]));
@@ -79,7 +79,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
 		if (pos->side) {
-			switch (ft-1) {
+			switch (ft - 1) {
 			case 7:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
 					scores[ctr] += 2500000;
@@ -113,7 +113,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 			}
 		}
 		else {
-			switch (ft-1) {
+			switch (ft - 1) {
 			case 4:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
@@ -153,7 +153,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
-			scores[ctr] += 5000002; 
+			scores[ctr] += 5000002;
 			interest = true;
 		}
 
@@ -189,7 +189,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = std::min(interesting+3,mvl->mam);
+	int maxo = std::min(interesting + 3, mvl->mam);
 	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
@@ -402,9 +402,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 
 	//check extension seems to loose elo at 30s + 0.3s?
-	/*if (!isLegal(pos.side,&pos)) {
-		depth += 1;
-	}*/
+	if (!isLegal(pos.side,&pos)) {
+		//depth += 1;
+	}
 
 	bool isdraw = isLegal(pos.side, &pos);
 	bool incheck = !isdraw;
@@ -413,17 +413,17 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 
 	//NULL MOVE STUFF
-	if (!pvnode&& !incheck && !inNull &&nullStatus(&pos)&&staticEval>=beta) {
+	if (!pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval >= beta) {
 		makeNull(&pos);
 		inNull++;
-		
+
 		int score = alpha;
 
 		if (depth <= 3) {
 			//score = -Quis(pos, -beta, -beta+1, 0, ct);
 		}
-		else { 
-			score = -pvs(s, pos, false, -beta, -beta+1, depth - 4, ply, mt, ct, hh);
+		else {
+			score = -pvs(s, pos, false, -beta, -beta + 1, depth - 4, ply, mt, ct, hh);
 		}
 
 		makeNull(&pos);
@@ -441,9 +441,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	genAllMoves(&mt->mvl[ply], pos.side, &pos);
 
 	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
-	
+
 	//futility prune
-	if (!incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN*depth) {
+	if (!incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
 		return staticEval;
 	}
 
@@ -539,6 +539,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			}
 			int score = 0;
 			if (i == 0) {
+				if (depth = 0)
 				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 			}
 			else {

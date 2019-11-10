@@ -93,7 +93,7 @@ unsigned long long doubledMask[64];
 void fillEvalTables() {
 	for (int i = 0; i < 64; i++) {
 		isolaniMask[i] = 0;
-		int x = i%8;
+		int x = i % 8;
 		if (x > 0) {
 			isolaniMask[i] |= rowMask[x - 1];
 		}
@@ -102,7 +102,7 @@ void fillEvalTables() {
 		}
 	}
 	for (int i = 0; i < 64; i++) {
-		int x = i%8;
+		int x = i % 8;
 		doubledMask[i] = rowMask[x];
 	}
 }
@@ -173,7 +173,7 @@ int evals(struct position* pos) {
 	int wm = __popcnt64(pos->bitBoard[6]) * 100000 + __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
 	int bm = __popcnt64(pos->bitBoard[5]) * 100000 + __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
 
-	if (__popcnt64(pos->bitBoard[4])==0&& __popcnt64(pos->bitBoard[7]) == 0&& materialDraw(pos)) {
+	if (__popcnt64(pos->bitBoard[4]) == 0 && __popcnt64(pos->bitBoard[7]) == 0 && materialDraw(pos)) {
 		return 0;
 	}
 
@@ -341,5 +341,5 @@ int evals(struct position* pos) {
 		evalmult = -1;
 	}
 
-	return evalmult*(wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
+	return evalmult * (wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
 }
