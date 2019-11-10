@@ -1,17 +1,17 @@
 ﻿  search.cpp
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(32,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(33,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(58,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(59,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(60,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(61,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(64,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(65,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(66,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(67,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(183,11): warning C4102:  'defbypawn': unreferenced label
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(521,50): warning C4804:  '<': unsafe use of type 'bool' in operation
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(590,52): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(35,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(36,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(61,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(62,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(63,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(64,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(67,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(68,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(69,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(70,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(186,11): warning C4102:  'defbypawn': unreferenced label
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(528,50): warning C4804:  '<': unsafe use of type 'bool' in operation
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(597,52): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
   2 of 189 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

@@ -15,7 +15,10 @@
 #include <thread>
 #include <algorithm>    // std::max
 
+#define RAZOR_DEPTH 3
 #define FUTILITY_DEPTH 5
+
+#define RAZOR_MARGIN 500
 #define FUTILITY_MARGIN 200
 
 
@@ -442,10 +445,18 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
 
-	//futility prune
-	if (!incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
+	//razoring
+	if (!pvnode && !incheck && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
+	{
+		//int score = Quis(pos, alpha, beta, 0, ct);
+		//if (score < beta) return score;
+	}
+
+	//futility pruning
+	if (!pvnode && !incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
 		return staticEval;
 	}
+
 
 
 	int ctr = 0;
@@ -509,13 +520,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 }
 
 int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
-	if (lastScore > 1000 || lastScore<-1000) {
-		return -pvs(s, pos, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
-	}
-	int binc = 100;
-	int ainc = 100;
-	bool noScore = true;
-	while (noScore)
+	int binc = 20;
+	int ainc = 20;
+	while (true)
 	{
 		int score = -pvs(s, pos, true, -lastScore-binc, -lastScore+ainc, depth - 1, ply + 1, mt, ct, hh);
 		if (lastScore - ainc < score < lastScore + binc) {
@@ -576,7 +583,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			else {
 				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs - 1, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				if (score >= bs) {
-					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
 			}
 
