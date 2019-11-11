@@ -5,6 +5,7 @@
 #include <immintrin.h>
 #include <intrin.h>
 #include <stdlib.h>
+#include <algorithm>
 //score grain is 1/256 of a pawn.
 int center[64] =
 {
@@ -74,6 +75,16 @@ int bpawnendgame[64] =
 	0,0,0,0,0,0,0,0
 };
 
+int knightPSQT[64] = {
+-50,-40,-30,-30,-30,-30,-40,-50,
+-40,-20,  0,  0,  0,  0,-20,-40,
+-30,  0, 10, 15, 15, 10,  0,-30,
+-30,  5, 15, 20, 20, 15,  5,-30,
+-30,  0, 15, 20, 20, 15,  0,-30,
+-30,  5, 10, 15, 15, 10,  5,-30,
+-40,-20,  0,  5,  5,  0,-20,-40,
+-50,-40,-30,-30,-30,-30,-40,-50
+};
 
 int rowMask[8] = {
 	9259542123273814144,
@@ -344,13 +355,67 @@ int evals(struct position* pos) {
 	return 5+evalmult * (wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
 }
 
-int middleGameEval() {
+
+
+
+int middleGame(struct position* pos) {
+	int wm = __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
+	int bm = __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
+
+
+
+	return wm - bm;
 
 }
 
-int endGameEval() {
+int endGame(struct position* pos) {
+	int wm = __popcnt64(pos->bitBoard[7]) * pawnEndGame + __popcnt64(pos->bitBoard[8]) * knightEndGame + __popcnt64(pos->bitBoard[9]) * bishopEndGame + __popcnt64(pos->bitBoard[10]) * rookEndGame + __popcnt64(pos->bitBoard[11]) * queenEndGame;
+	int bm = __popcnt64(pos->bitBoard[4]) * pawnEndGame + __popcnt64(pos->bitBoard[3]) * knightEndGame + __popcnt64(pos->bitBoard[2]) * bishopEndGame + __popcnt64(pos->bitBoard[1]) * rookEndGame + __popcnt64(pos->bitBoard[0]) * queenEndGame;
 
+	
+
+	return wm - bm;
 }
-int evals2() {
+
+int eval(struct position* pos) {
+
+	if (!pos->bitBoard[5]) {
+		if (pos->side) {
+			return wMateScore - 100;
+		}
+		else {
+			return bMateScore + 100;
+		}
+	}
+	if (!pos->bitBoard[6]) {
+		if (pos->side) {
+			return bMateScore + 100;
+		}
+		else {
+			return wMateScore - 100;
+		}
+	}
+
+	int wm = __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
+	int bm =  __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
+
+	int phase = (wm+bm)/256;
+	phase = std::max(phase, 70);
+	phase = std::min(phase, 30);
+	phase -= 30;
+	int endGameEval = 0;
+	int middleGameEval = 0;
+
+	if (phase < 30) {
+		if (materialDraw(pos)) {
+			return 0;
+		}
+		endGameEval = endGame(pos);
+	}
+	if (phase > 0) {
+		middleGameEval = middleGame(pos);
+	}
+
+	return (middleGameEval*phase)/40+(endGameEval*(40-phase))/40;
 
 }

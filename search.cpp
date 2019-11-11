@@ -476,7 +476,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				}
 				else {
 					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1, ply + 1, mt, ct, hh);
-					if (score >= alpha) {
+					if (score > alpha) {
 						score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 					}
 				}
@@ -582,8 +582,8 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			}
 			else {
 				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs - 1, -bs, depth - 1, ply + 1, mt, ct, &hh);
-				if (score >= bs) {
-					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+				if (score > bs) {
+					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos),false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
 			}
 
