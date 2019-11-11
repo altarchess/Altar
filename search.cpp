@@ -595,7 +595,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				}
 				else {
 					int lmr = 0;
-					if (i > interesting) {
+					if (depth >= 3 && i > interesting) {
 						lmr = 2;
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
