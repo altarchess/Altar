@@ -81,33 +81,43 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
+		if (ft == 5 && mvl->MOVE[ctr].t >= 4 * 8) {
+			scores[ctr] = 3750000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+			interest = true;
+		}
+
+		if (ft == 8 && mvl->MOVE[ctr].t < 4 * 8) {
+			scores[ctr] = 3750000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+			interest = true;
+		}
+
 		if (pos->side) {
 			switch (ft - 1) {
-			case 7:
+			case 8:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
-			case 8:
+			case 9:
 				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
-			case 9:
+			case 10:
 				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
-			case 10:
+			case 11:
 				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
-			case 11:
+			case 12:
 				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
 					scores[ctr] += 2500000;
 					interest = true;
@@ -117,31 +127,31 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 		else {
 			switch (ft - 1) {
-			case 4:
+			case 5:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
-			case 3:
+			case 4:
 				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
-			case 2:
+			case 3:
 				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
-			case 1:
+			case 2:
 				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
-			case 0:
+			case 1:
 				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
@@ -149,6 +159,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 				break;
 			}
 		}
+
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
 			scores[ctr] += 5000001;
@@ -445,13 +456,6 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
 
-	//razoring
-	if (!pvnode && !incheck && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
-	{
-		//int score = Quis(pos, alpha, beta, 0, ct);
-		//if (score < beta) return score;
-	}
-
 	//futility pruning
 	if (!pvnode && !incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
 		return staticEval;
@@ -482,7 +486,14 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				}
 			}
 			else {
-				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+				int lmr = 0;
+				if (depth > 3 && i > interesting) {
+					lmr = 2;
+				}
+				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
+				if (lmr&&score>alpha){
+					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+				}
 			}
 		}
 		if (!s->searching) {
@@ -519,13 +530,13 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 }
 
-int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
+/*int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 	int binc = 20;
 	int ainc = 20;
 	while (true)
 	{
 		int score = -pvs(s, pos, true, -lastScore-binc, -lastScore+ainc, depth - 1, ply + 1, mt, ct, hh);
-		if (lastScore - ainc < score < lastScore + binc) {
+		if (lastScore - ainc < score && score < lastScore + binc) {
 			return score;
 		}
 		else {
@@ -544,7 +555,7 @@ int aspiration(int lastScore , struct search* s, struct position pos, bool pvnod
 		}
 	}
 
-}
+}*/
 
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
@@ -576,14 +587,52 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
 			}
-			int score = 0;
+			int score = -19999999;
+			struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], *pos);
+			if (isLegal(pos->side, &pos2)) {
+				if (i == 0) {
+					score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+				}
+				else {
+					int lmr = 0;
+					if (i > interesting) {
+						lmr = 2;
+					}
+					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
+					if (score > bs) {
+						score = -pvs(s, pos2, false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+					}
+				}
+
+
+				if (!s->searching) {
+					goto end;
+				}
+
+				if (score > bs) {
+					bs = score;
+					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos);
+					bm = mt->mvl[ply].MOVE[ctr];
+					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+					killers[0][1] = killers[0][0];
+					killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
+					s->bff = bm.f;
+					s->bft = bm.t;
+				}
+			}
+
+			/*int score = -19999999;
 			if (i == 0) {
-				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+				score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 			}
 			else {
-				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs - 1, -bs, depth - 1, ply + 1, mt, ct, &hh);
+				int lmr = 0;
+				if (i > interesting) {
+					lmr = 2;
+				}
+				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 				if (score > bs) {
-					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos),false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
 			}
 
@@ -601,7 +650,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 				s->bff = bm.f;
 				s->bft = bm.t;
-			}
+			}*/
 
 
 			ctr++;
