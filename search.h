@@ -7,4 +7,4 @@ struct historyhash {
 
 void mainSearch(struct search*, struct position*, struct historyhash);
 void searchManager(struct search*);
-
+void resetHistory();

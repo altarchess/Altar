@@ -379,6 +379,12 @@ void uci() {
 			printBoard();
 		}
 
+		if (compareCommand(&buf, newgame_Command))
+		{
+			resetHistory();
+			setTTSize(10000000);
+		}
+
 		if (compareCommand(&buf, go_Command))
 		{
 			if (getSearchPointer()->searching) {

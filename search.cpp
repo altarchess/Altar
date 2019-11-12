@@ -24,7 +24,13 @@
 
 int killers[100][2];
 int ht[64][64];
-
+void resetHistory() {
+	for (int i = 0; i < 64; i++) {
+		for (int e = 0; e < 64; e++) {
+			ht[i][e] = 0;
+		}
+	}
+}
 int mvVal[13] = {
 	0,12,6,4,3,1,1000,1000,1,3,4,6,12
 };
@@ -377,7 +383,7 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 
-
+	if (!isLegal(pos.side, &pos)) { depth += 1; }
 	if (depth == 0) {
 		s->nodeCount++;
 		return Quis(pos, alpha, beta, 0, ct);
@@ -560,7 +566,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
-			ht[i][e] = 0;
+			ht[i][e] = ht[i][e]/2;
 		}
 	}
 	for (int i = 0; i < 100; i++) {

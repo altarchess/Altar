@@ -9,6 +9,7 @@
 #include "bitboard.h"
 #include "gen.h"
 #include "tt.h"
+#include "search.h"
 
 int main()
 {
@@ -17,6 +18,7 @@ int main()
 	initSearch();
 	initArrays();
 	fillTables();
+	resetHistory();
 	uci();
 }
 
