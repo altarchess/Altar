@@ -621,38 +621,6 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				}
 			}
 
-			/*int score = -19999999;
-			if (i == 0) {
-				score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
-			}
-			else {
-				int lmr = 0;
-				if (i > interesting) {
-					lmr = 2;
-				}
-				score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
-				if (score > bs) {
-					score = -pvs(s, makeMove(mt->mvl[ply].MOVE[ctr], *pos), false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
-				}
-			}
-
-
-			if (!s->searching) {
-				goto end;
-			}
-
-			if (score > bs) {
-				bs = score;
-				infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos);
-				bm = mt->mvl[ply].MOVE[ctr];
-				ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
-				killers[0][1] = killers[0][0];
-				killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
-				s->bff = bm.f;
-				s->bft = bm.t;
-			}*/
-
-
 			ctr++;
 		}
 		ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
