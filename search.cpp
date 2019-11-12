@@ -24,6 +24,9 @@
 
 int killers[100][2];
 int ht[64][64];
+int pvTable[100][100];
+
+
 void resetHistory() {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
@@ -383,7 +386,8 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 
-	if (!isLegal(pos.side, &pos)) { depth += 1; }
+	//check extension seems to loose elo at 30s + 0.3s?
+	//if (!isLegal(pos.side, &pos)) { depth += 1; }
 	if (depth == 0) {
 		s->nodeCount++;
 		return Quis(pos, alpha, beta, 0, ct);
@@ -421,10 +425,6 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 	}
 
-	//check extension seems to loose elo at 30s + 0.3s?
-	if (!isLegal(pos.side,&pos)) {
-		//depth += 1;
-	}
 
 	bool isdraw = isLegal(pos.side, &pos);
 	bool incheck = !isdraw;

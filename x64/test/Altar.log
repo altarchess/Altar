@@ -1,23 +1,19 @@
-﻿  Altar.cpp
-  search.cpp
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(41,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(42,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(67,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(68,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(69,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(70,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(73,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(74,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(75,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(76,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(203,11): warning C4102:  'defbypawn': unreferenced label
-  tt.cpp
-C:\Users\kim\source\repos\Altar\Altar\search.cpp(620,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-  uci.cpp
-C:\Users\kim\source\repos\Altar\Altar\tt.cpp(43,22): warning C4244:  'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+﻿  search.cpp
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(44,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(45,9): warning C4244:  'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(70,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(71,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(72,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(73,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(76,46): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(77,44): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(78,33): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(79,32): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(206,11): warning C4102:  'defbypawn': unreferenced label
+C:\Users\kim\source\repos\Altar\Altar\search.cpp(623,53): warning C4244:  'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
-  6 of 190 functions ( 3.2%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
+  2 of 190 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
     5 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Altar.vcxproj -> C:\Users\kim\source\repos\Altar\x64\test\Altar.exe
