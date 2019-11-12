@@ -35,9 +35,8 @@ void resetHistory() {
 	}
 }
 int mvVal[13] = {
-	0,12,6,4,3,1,1000,1000,1,3,4,6,12
+	0,13,6,4,3,1,1000,1000,1,3,4,6,13
 };
-
 int inNull = 0;
 
 int nullStatus(struct position* pos) {
@@ -50,6 +49,7 @@ int nullStatus(struct position* pos) {
 
 	return 0;
 }
+
 
 int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int interesting = 0;
@@ -103,7 +103,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (pos->side) {
 			switch (ft - 1) {
 			case 8:
-				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
+				if (getBit(mvl->MOVE[ctr].t) & pcsq ) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
@@ -181,29 +181,11 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 
 		if (tp != 0) {
-			/*
-						//check if defended
-						if (pos->side) {
-							if (wPawnAttack(mvl->MOVE[ctr].t) && pos->bitBoard[4]) {
-								if (mvVal[ft] >= mvVal[tp]) {
-									goto defbypawn;
-								}
-							}
-						}
-						else {
-							if (bPawnAttack(mvl->MOVE[ctr].t) && pos->bitBoard[7]) {
-								if (mvVal[ft] >= mvVal[tp]) {
-									goto defbypawn;
-								}
-							}
-						}*/
 			if (mvVal[ft] <= mvVal[tp]) {
 				scores[ctr] += 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 				interest = true;
 			}
 		}
-
-	defbypawn:
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == hashmove) {
 			scores[ctr] = 100000003;
 			interest = true;
@@ -212,7 +194,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = std::min(interesting + 3, mvl->mam);
+	int maxo = std::min(interesting + 1, mvl->mam);
 	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
@@ -485,15 +467,19 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 				}
 				else {
-					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1, ply + 1, mt, ct, hh);
+					int lmr = 0;
+					if (depth > 3 && i >= interesting) {
+						lmr = 2;
+					}
+					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
 					if (score > alpha) {
-						score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 					}
 				}
 			}
 			else {
 				int lmr = 0;
-				if (depth > 3 && i > interesting) {
+				if (depth > 3 && i >= interesting) {
 					lmr = 2;
 				}
 				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
@@ -601,12 +587,12 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				}
 				else {
 					int lmr = 0;
-					if (depth >= 3 && i > interesting) {
+					if (depth >= 3 && i >= interesting) {
 						lmr = 2;
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
-						score = -pvs(s, pos2, false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 					}
 				}
 
