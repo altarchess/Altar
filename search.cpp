@@ -21,6 +21,9 @@
 #define RAZOR_MARGIN 500
 #define FUTILITY_MARGIN 200
 
+int max(int a, int b) {
+	return b < a ? a : b;
+}
 
 int killers[100][2];
 int ht[64][64];
@@ -48,6 +51,115 @@ int nullStatus(struct position* pos) {
 	}
 
 	return 0;
+}
+
+int getLeastValuableAttacker(struct position* pos,unsigned long long wOcc, unsigned long long bOcc, bool side,unsigned long long* cmask, int sq) {
+	
+	if (side) {
+		unsigned long long attacks = bPawnAttack(sq)&~*cmask;
+		if (pos->bitBoard[7] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks&pos->bitBoard[7]));
+			return mvVal[8];
+		}
+		attacks = knightAttack(sq) & ~*cmask;
+		if (pos->bitBoard[8] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[8]));
+			return mvVal[9];
+		}
+		attacks = bishopAttack((wOcc|bOcc)&~*cmask,sq) & ~*cmask;
+		if (pos->bitBoard[9] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[9]));
+			return mvVal[10];
+		}
+
+		attacks = rookAttack((wOcc | bOcc) & ~*cmask, sq) & ~*cmask;
+		if (pos->bitBoard[10] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[10]));
+			return mvVal[11];
+		}
+		attacks |= bishopAttack((wOcc | bOcc) & ~*cmask, sq) & ~*cmask;
+		if (pos->bitBoard[11] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[11]));
+			return mvVal[12];
+		}
+
+		attacks = kingAttack(sq) & ~*cmask;
+		if (pos->bitBoard[6] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[6]));
+			return mvVal[7];
+		}
+		return 0;
+	}
+	else {
+		unsigned long long attacks = wPawnAttack(sq) & ~*cmask;
+		if (pos->bitBoard[4] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[4]));
+			return mvVal[5];
+		}
+		attacks = knightAttack(sq) & ~*cmask;
+		if (pos->bitBoard[3] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[3]));
+			return mvVal[4];
+		}
+		attacks = bishopAttack((wOcc | bOcc) & ~*cmask, sq) & ~*cmask;
+		if (pos->bitBoard[2] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[2]));
+			return mvVal[3];
+		}
+
+		attacks = rookAttack((wOcc | bOcc) & ~*cmask, sq) & ~*cmask;
+		if (pos->bitBoard[1] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[1]));
+			return mvVal[2];
+		}
+		attacks |= bishopAttack((wOcc | bOcc) & ~*cmask, sq) & ~*cmask;
+		if (pos->bitBoard[0] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks & pos->bitBoard[0]));
+			return mvVal[1];
+		}
+
+		attacks = kingAttack(sq) & ~*cmask;
+		if (pos->bitBoard[5] & attacks) {
+			*cmask |= getBit(_tzcnt_u64(attacks& pos->bitBoard[5]));
+			return mvVal[6];
+		}
+		return 0;
+	}
+}
+
+int see(struct position* pos, int from, int to) {
+	
+	unsigned long long cmask = 0; //this mask is used so we can remove pieces from movegen in order to see xrays
+	unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];
+	unsigned long long bOcc = pos->bitBoard[0] | pos->bitBoard[1] | pos->bitBoard[2] | pos->bitBoard[3] | pos->bitBoard[4] | pos->bitBoard[5];
+	bool side = pos->side;
+
+	int gain[32];
+	int d = 0;
+
+	int fp = getPiece(pos, from);
+	int tp = getPiece(pos, to);
+
+	gain[d] = mvVal[tp];
+
+
+	while (true) {
+		d++;
+		side = !side;
+		int newP = getLeastValuableAttacker(pos, wOcc, bOcc, side, &cmask, to);
+		if (newP) {
+			gain[d] = mvVal[fp] - gain[d - 1];
+			fp = newP;
+		}
+		else {
+			break;
+		}
+		if (max(-gain[d - 1], gain[d]) < 0) { break; }
+	}
+	while (d--) {
+		gain[d - 1] = -max(-gain[d - 1], gain[d]);
+	}
+	return gain[0];
 }
 
 int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
@@ -92,12 +204,12 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
-		if (ft == 5 && mvl->MOVE[ctr].t >= 4 * 8) {
+		if (ft == 5 && mvl->MOVE[ctr].t >= 4 * 8&&see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>=0) {
 			scores[ctr] = 3750000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 			interest = true;
 		}
 
-		if (ft == 8 && mvl->MOVE[ctr].t < 4 * 8) {
+		if (ft == 8 && mvl->MOVE[ctr].t < 4 * 8 && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 			scores[ctr] = 3750000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 			interest = true;
 		}
@@ -105,31 +217,31 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (pos->side) {
 			switch (ft - 1) {
 			case 8:
-				if (getBit(mvl->MOVE[ctr].t) & pcsq ) {
+				if (getBit(mvl->MOVE[ctr].t) & pcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 9:
-				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
+				if (getBit(mvl->MOVE[ctr].t) & ncsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 10:
-				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
+				if (getBit(mvl->MOVE[ctr].t) & bcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 11:
-				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
+				if (getBit(mvl->MOVE[ctr].t) & rcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 12:
-				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
+				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq) && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
 					interest = true;
 				}
@@ -139,31 +251,31 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		else {
 			switch (ft - 1) {
 			case 5:
-				if (getBit(mvl->MOVE[ctr].t) & pcsq) {
+				if (getBit(mvl->MOVE[ctr].t) & pcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
 			case 4:
-				if (getBit(mvl->MOVE[ctr].t) & ncsq) {
+				if (getBit(mvl->MOVE[ctr].t) & ncsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
 			case 3:
-				if (getBit(mvl->MOVE[ctr].t) & bcsq) {
+				if (getBit(mvl->MOVE[ctr].t) & bcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
 			case 2:
-				if (getBit(mvl->MOVE[ctr].t) & rcsq) {
+				if (getBit(mvl->MOVE[ctr].t) & rcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
 				break;
 			case 1:
-				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq)) {
+				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq) && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 					interest = true;
 				}
@@ -183,7 +295,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 
 		if (tp != 0) {
-			if (mvVal[ft] <= mvVal[tp]) {
+			if (mvVal[ft] <= mvVal[tp]|| see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>0) {
 				scores[ctr] += 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 				interest = true;
 			}
@@ -312,7 +424,7 @@ void printMove(struct move MOVE, struct position pos) {
 			break;
 		case 3:
 			f = 4;
-			t = 7;
+			t = 6;
 			break;
 		case 4:
 			f = 4;
@@ -365,7 +477,7 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 }
 
 int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
-	if (ply >= 5) {
+	if (ply >= 10) {
 		return evals(&pos);
 	}
 
@@ -376,8 +488,6 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	if (alpha >= beta) {
 		return alpha;
 	}
-
-
 
 	genAllCaptures(&ct->QL[ply], pos.side, &pos);
 	for (int i = 0; i < ct->QL[ply].mam; i++) {

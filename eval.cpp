@@ -370,7 +370,7 @@ int evals(struct position* pos) {
 }
 
 
-int wKingShield(struct position* pos) {
+/*int wKingShield(struct position* pos) {
 	
 }
 
@@ -401,4 +401,4 @@ int eval(struct position* pos) {
 
 
 
-}
+}*/
