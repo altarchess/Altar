@@ -509,8 +509,11 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	//check extension seems to loose elo at 30s + 0.3s?
 	//if (!isLegal(pos.side, &pos)) { depth += 1; }
 	if (depth == 0) {
-		s->nodeCount++;
-		return Quis(pos, alpha, beta, 0, ct);
+		if (!isLegal(pos.side, &pos)) { depth += 1; }
+		else {
+			s->nodeCount++;
+			return Quis(pos, alpha, beta, 0, ct);
+		}
 	}
 
 	if (!s->searching) {
