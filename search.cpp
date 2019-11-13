@@ -351,6 +351,9 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	if (alpha >= beta) {
 		return alpha;
 	}
+
+
+
 	genAllCaptures(&ct->QL[ply], pos.side, &pos);
 	for (int i = 0; i < ct->QL[ply].mam; i++) {
 		int score = -Quis(makeMove(ct->QL[ply].MOVE[i], pos), -beta, -alpha, ply + 1, ct);
@@ -411,7 +414,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	bool isdraw = isLegal(pos.side, &pos);
 	bool incheck = !isdraw;
 
-	int staticEval = evals(&pos);
+	int staticEval = std::max(alpha,evals(&pos));
 
 
 	//NULL MOVE STUFF
@@ -451,6 +454,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 
 
+
 	int ctr = 0;
 	for (int i = 0; i < mt->mvl[ply].mam; i++) {
 		if (ctr == mt->mvl[ply].gcapt) {
@@ -473,7 +477,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 					}
 					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
 					if (score > alpha) {
-						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+						score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 					}
 				}
 			}
@@ -521,8 +525,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return bs;
 	}
 }
-
-/*int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
+/*
+int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 	int binc = 20;
 	int ainc = 20;
 	while (true)
@@ -547,8 +551,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 	}
 
-}*/
-
+}
+*/
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
@@ -592,7 +596,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
-						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+						score = -pvs(s, pos2, false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 					}
 				}
 

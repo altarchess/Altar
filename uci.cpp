@@ -56,7 +56,7 @@ int compareCommand (char** buf, const char* cmd_str)
 void parseGO(char* buf) {
 
 	getSearchPointer()->movesToGo = 30;
-	getSearchPointer()->depth = 30;
+	getSearchPointer()->depth = 50;
 	getSearchPointer()->timetype = 0;
 	getSearchPointer()->inc = 0;
 	getSearchPointer()->time = 0;

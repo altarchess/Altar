@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <iostream>
 
+int cVal[13] = {
+	0,13,6,4,3,1,15,15,1,3,4,6,13
+};
 
 void genAllMoves(struct moveList* mvl, bool side, struct position* calcPos) {
 
@@ -470,11 +473,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 	unsigned long long wOcc = calcPos->bitBoard[6] | calcPos->bitBoard[7] | calcPos->bitBoard[8] | calcPos->bitBoard[9] | calcPos->bitBoard[10] | calcPos->bitBoard[11];
 	unsigned long long bOcc = calcPos->bitBoard[0] | calcPos->bitBoard[1] | calcPos->bitBoard[2] | calcPos->bitBoard[3] | calcPos->bitBoard[4] | calcPos->bitBoard[5];
 
-	for (int i = 0; i < 100; i++) {
+	//not needed
+	/*for (int i = 0; i < 100; i++) {
 		ql->MOVE[i].type = 0;
 		ql->MOVE[i].f = 0;
 		ql->MOVE[i].t = 0;
-	}
+	}*/
+
+	int bestSoFar = -1000;
 
 	if (side) {
 
@@ -491,6 +497,13 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (calcPos->bitBoard[7] & getBit(cord + SW)) {
 					ql->MOVE[ctr].f = cord + SW;
 					ql->MOVE[ctr].t = cord;
+					if (cVal[5]*10 - cVal[8]>bestSoFar) {
+						bestSoFar = cVal[5] * 10 - cVal[8];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f=cord+SW;
+						ql->MOVE[0].t=cord;
+					}
 					ctr++;
 				}
 			}
@@ -498,6 +511,13 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (calcPos->bitBoard[7] & getBit(cord + SE)) {
 					ql->MOVE[ctr].f = cord + SE;
 					ql->MOVE[ctr].t = cord;
+					if (cVal[5] * 10 - cVal[8] > bestSoFar) {
+						bestSoFar = cVal[5] * 10 - cVal[8];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord + SE;
+						ql->MOVE[0].t = cord;
+					}
 					ctr++;
 				}
 			}
@@ -512,6 +532,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (bOcc & getBit(cord + NW)) {
 					ql->MOVE[ctr].f = cord;
 					ql->MOVE[ctr].t = cord + NW;
+					int otherp = getPiece(calcPos,cord+NW);
+					if (cVal[otherp] * 10 - cVal[8] > bestSoFar) {
+						bestSoFar = cVal[otherp] * 10 - cVal[8];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord;
+						ql->MOVE[0].t = cord+NW;
+					}
 					ctr++;
 				}
 			}
@@ -519,6 +547,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (bOcc & getBit(cord + NE)) {
 					ql->MOVE[ctr].f = cord;
 					ql->MOVE[ctr].t = cord + NE;
+					int otherp = getPiece(calcPos, cord + NE);
+					if (cVal[otherp] * 10 - cVal[8] > bestSoFar) {
+						bestSoFar = cVal[otherp] * 10 - cVal[8];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord;
+						ql->MOVE[0].t = cord + NE;
+					}
 					ctr++;
 
 				}
@@ -538,6 +574,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[9] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[9];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -557,6 +601,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[10] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[10];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -576,6 +628,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[11] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[11];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -595,6 +655,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[12] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[12];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -619,6 +687,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[7] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[7];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -642,6 +718,13 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (calcPos->bitBoard[4] & getBit(cord + NW)) {
 					ql->MOVE[ctr].f = cord + NW;
 					ql->MOVE[ctr].t = cord;
+					if (cVal[8] * 10 - cVal[5] > bestSoFar) {
+						bestSoFar = cVal[8] * 10 - cVal[5];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord + NW;
+						ql->MOVE[0].t = cord;
+					}
 					ctr++;
 				}
 			}
@@ -649,6 +732,13 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (calcPos->bitBoard[4] & getBit(cord + NE)) {
 					ql->MOVE[ctr].f = cord + NE;
 					ql->MOVE[ctr].t = cord;
+					if (cVal[8] * 10 - cVal[5] > bestSoFar) {
+						bestSoFar = cVal[8] * 10 - cVal[5];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord + NE;
+						ql->MOVE[0].t = cord;
+					}
 					ctr++;
 				}
 			}
@@ -664,6 +754,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (wOcc & getBit(cord + SW)) {
 					ql->MOVE[ctr].f = cord;
 					ql->MOVE[ctr].t = cord + SW;
+					int otherp = getPiece(calcPos, cord + SW);
+					if (cVal[otherp] * 10 - cVal[5] > bestSoFar) {
+						bestSoFar = cVal[otherp] * 10 - cVal[5];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord;
+						ql->MOVE[0].t = cord + SW;
+					}
 					ctr++;
 				}
 			}
@@ -671,6 +769,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 				if (wOcc & getBit(cord + SE)) {
 					ql->MOVE[ctr].f = cord;
 					ql->MOVE[ctr].t = cord + SE;
+					int otherp = getPiece(calcPos, cord + SE);
+					if (cVal[otherp] * 10 - cVal[5] > bestSoFar) {
+						bestSoFar = cVal[otherp] * 10 - cVal[5];
+						ql->MOVE[ctr].f = ql->MOVE[0].f;
+						ql->MOVE[ctr].t = ql->MOVE[0].t;
+						ql->MOVE[0].f = cord;
+						ql->MOVE[0].t = cord + SE;
+					}
 					ctr++;
 
 				}
@@ -691,6 +797,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[4] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[4];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -710,6 +824,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[3] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[3];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -730,6 +852,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[2] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[2];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -749,6 +879,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[1] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[1];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
@@ -774,6 +912,14 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			for (int e = 0; e < capm; e++) {
 				ql->MOVE[ctr].f = cord;
 				ql->MOVE[ctr].t = _tzcnt_u64(capt);
+				int otherp = getPiece(calcPos, _tzcnt_u64(capt));
+				if (cVal[otherp] * 10 - cVal[6] > bestSoFar) {
+					bestSoFar = cVal[otherp] * 10 - cVal[6];
+					ql->MOVE[ctr].f = ql->MOVE[0].f;
+					ql->MOVE[ctr].t = ql->MOVE[0].t;
+					ql->MOVE[0].f = cord;
+					ql->MOVE[0].t = _tzcnt_u64(capt);
+				}
 				ctr++;
 				capt &= ~getBit(_tzcnt_u64(capt));
 			}
