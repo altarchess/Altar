@@ -50,12 +50,14 @@ int nullStatus(struct position* pos) {
 	return 0;
 }
 
-
 int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 	int interesting = 0;
 
 	int scores[100];
-	int hashmove = tt[pos->hash % ttSize].move;
+	int hashmove = -1;
+	if (tt[pos->hash % ttSize].zHash == pos->hash) {
+		hashmove = tt[pos->hash % ttSize].move;
+	}
 
 	unsigned long long bcsq = 0;
 	unsigned long long pcsq = 0;
@@ -295,11 +297,7 @@ void printCord(int cord) {
 	}
 }
 
-void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos) {
-
-	std::cout << "info depth " << depth << " score cp " << score / 3 << " nodes " << nodes << " pv ";
-
-
+void printMove(struct move MOVE, struct position pos) {
 	int f = MOVE.f;
 	int t = MOVE.t;
 	if (MOVE.type != 0) {
@@ -326,12 +324,39 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 	printCord(f);
 	printCord(t);
 
-	if ((getPiece(pos, f) == 5 && t > 55)) {
+	if ((getPiece(&pos, f) == 5 && t > 55)) {
 		std::cout << "q";
 	}
-	if ((getPiece(pos, f) == 8 && t < 8)) {
+	if ((getPiece(&pos, f) == 8 && t < 8)) {
 		std::cout << "q";
 	}
+	std::cout << " ";
+}
+
+void printpv(struct position pos, int ply) {
+	int hashmove = 0;
+	if (tt[pos.hash % ttSize].zHash == pos.hash) {
+		hashmove = tt[pos.hash % ttSize].move;
+	}
+	
+	if (hashmove) {
+		struct move MOVE = ttMoveToMove(hashmove);
+		printMove(MOVE, pos);
+		struct position pos2 = makeMove(MOVE, pos);
+		ply--;
+		if (ply < 0) {
+			return;
+		}
+		printpv(pos2, ply);
+	}
+}
+
+void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos) {
+
+	std::cout << "info depth " << depth << " score cp " << score / 3 << " nodes " << nodes << " pv ";
+	printpv(*pos, depth);
+
+
 	std::cout << std::endl;
 
 	fflush(stdout);
@@ -607,19 +632,21 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 
 				if (score > bs) {
 					bs = score;
-					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos);
 					bm = mt->mvl[ply].MOVE[ctr];
 					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 					killers[0][1] = killers[0][0];
 					killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 					s->bff = bm.f;
 					s->bft = bm.t;
+					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
+					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos);
+
+
 				}
 			}
 
 			ctr++;
 		}
-		ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
 		s->bff = bm.f;
 		s->bft = bm.t;
 		s->reacheddepth = depth;

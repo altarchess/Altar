@@ -298,7 +298,6 @@ void makeNull(struct position* pos) {
 	pos->side = !pos->side;
 	pos->hash ^= ttside;
 }
-
 struct move bufToMove(char* buf) {
 	
 	int from = getCord(buf[0]) + getCord(buf[1]);
@@ -346,6 +345,54 @@ struct move bufToMove(char* buf) {
 	//printBitBoard(move);
 
 	return MOVE;
+
+}
+
+struct move ttMoveToMove(int mov) {
+		int to = mov/100;
+		int from = mov-to*100;
+
+		struct position* mainPosition = getPositionPointer();
+
+		struct move MOVE;
+		MOVE.type = 0;
+
+		if (mainPosition->bitBoard[5] & getBit(from) && from == 4 && to == 6) { // black kingside castle
+
+			MOVE.type = 3;
+			MOVE.f = 4;
+			MOVE.t = 6;
+			return MOVE;
+		}
+
+		if (mainPosition->bitBoard[5] & getBit(from) && from == 4 && to == 2) { // black queenside castle
+			MOVE.type = 4;
+			MOVE.f = 4;
+			MOVE.t = 2;
+			return MOVE;
+		}
+
+		if (mainPosition->bitBoard[6] & getBit(from) && from == 60 && to == 62) { // white kingside castle
+			MOVE.type = 1;
+			MOVE.f = 60;
+			MOVE.t = 62;
+			return MOVE;
+		}
+
+		if (mainPosition->bitBoard[6] & getBit(from) && from == 60 && to == 58) { // white queenside castle
+			MOVE.type = 2;
+			MOVE.f = 60;
+			MOVE.t = 58;
+			return MOVE;
+		}
+
+
+		MOVE.f = from;
+		MOVE.t = to;
+
+		//printBitBoard(move);
+
+		return MOVE;
 
 }
 

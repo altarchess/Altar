@@ -27,3 +27,4 @@ struct position makeMove(struct move, struct position);
 void makeNull(struct position* pos);
 char* moveToChar(int mov);
 struct move bufToMove(char* buf);
+struct move ttMoveToMove(int mov);
