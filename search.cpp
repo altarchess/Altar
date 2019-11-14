@@ -17,6 +17,7 @@
 
 #define RAZOR_DEPTH 3
 #define FUTILITY_DEPTH 5
+#define IID_DEPTH 5
 
 #define RAZOR_MARGIN 500
 #define FUTILITY_MARGIN 200
@@ -26,14 +27,15 @@ int max(int a, int b) {
 }
 
 int killers[100][2];
-int ht[64][64];
+int ht[2][64][64];
 int pvTable[100][100];
 
 
 void resetHistory() {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
-			ht[i][e] = 0;
+			ht[0][i][e] = 0;
+			ht[1][i][e] = 0;
 		}
 	}
 }
@@ -202,15 +204,15 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		int tp = getPiece(pos, mvl->MOVE[ctr].t);
 		int ft = getPiece(pos, mvl->MOVE[ctr].f);
 
-		scores[ctr] = ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+		scores[ctr] = ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 
 		if (ft == 5 && mvl->MOVE[ctr].t >= 4 * 8&&see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>=0) {
-			scores[ctr] = 3750000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+			scores[ctr] = 3750000 + ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 			interest = true;
 		}
 
 		if (ft == 8 && mvl->MOVE[ctr].t < 4 * 8 && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-			scores[ctr] = 3750000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+			scores[ctr] = 3750000 + ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
 			interest = true;
 		}
 
@@ -252,31 +254,31 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 			switch (ft - 1) {
 			case 5:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 4:
 				if (getBit(mvl->MOVE[ctr].t) & ncsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 3:
 				if (getBit(mvl->MOVE[ctr].t) & bcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 2:
 				if (getBit(mvl->MOVE[ctr].t) & rcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
 			case 1:
 				if (getBit(mvl->MOVE[ctr].t) & (rcsq | bcsq) && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-					scores[ctr] += 2500000 + ht[mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+					scores[ctr] += 2500000;
 					interest = true;
 				}
 				break;
@@ -285,18 +287,18 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 
 
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
-			scores[ctr] += 5000001;
+			scores[ctr] = 5000001;
 			interest = true;
 		}
-
+		
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
-			scores[ctr] += 5000002;
+			scores[ctr] = 5000002;
 			interest = true;
 		}
 
 		if (tp != 0) {
 			if (mvVal[ft] <= mvVal[tp]|| see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>0) {
-				scores[ctr] += 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
+				scores[ctr] = 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 				interest = true;
 			}
 		}
@@ -308,7 +310,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = std::min(interesting + 1, mvl->mam);
+	int maxo = std::min(interesting + 5, mvl->mam);
 	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
@@ -463,9 +465,13 @@ void printpv(struct position pos, int ply) {
 	}
 }
 
-void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos) {
+void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos, struct search* s) {
 
-	std::cout << "info depth " << depth << " score cp " << score / 3 << " nodes " << nodes << " pv ";
+	unsigned long long currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
+	unsigned long long sTime = s->sTime;
+	int tTime = currentTime - sTime + 1;
+	std::cout << "info depth " << depth << " score cp " << score / 3 << " nodes " << nodes << " nps " << nodes/tTime << " time " << tTime <<" pv ";
 	printpv(*pos, depth);
 
 
@@ -488,18 +494,21 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	if (alpha >= beta) {
 		return alpha;
 	}
-
+	//delta pruning
+	/*if (staticEval < alpha - queenMiddleGame-40) {
+		return alpha;
+	}*/
 	genAllCaptures(&ct->QL[ply], pos.side, &pos);
 	for (int i = 0; i < ct->QL[ply].mam; i++) {
-		int score = -Quis(makeMove(ct->QL[ply].MOVE[i], pos), -beta, -alpha, ply + 1, ct);
-		if (score > staticEval) {
-			staticEval = score;
-			if (staticEval >= alpha) {
-				alpha = staticEval;
-			}
-			if (alpha >= beta) {
-				return alpha;
-			}
+			int score = -Quis(makeMove(ct->QL[ply].MOVE[i], pos), -beta, -alpha, ply + 1, ct);
+			if (score > staticEval) {
+				staticEval = score;
+				if (staticEval >= alpha) {
+					alpha = staticEval;
+				}
+				if (alpha >= beta) {
+					return alpha;
+				}
 		}
 	}
 	return staticEval;
@@ -581,17 +590,20 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	int bs = -1999999;
 	int bm = 0;
 	int type = 2;
-	genAllMoves(&mt->mvl[ply], pos.side, &pos);
-
-	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
 
 	//futility pruning
 	if (!pvnode && !incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
 		return staticEval;
 	}
 
-
-
+	//razoring
+	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
+	{
+		int score = Quis(pos, alpha, beta, 0, ct);
+		if (score < beta) return score;
+	}
+	genAllMoves(&mt->mvl[ply], pos.side, &pos);
+	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
 
 	int ctr = 0;
 	for (int i = 0; i < mt->mvl[ply].mam; i++) {
@@ -615,7 +627,10 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 					}
 					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
 					if (score > alpha) {
-						score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+						if (depth >= IID_DEPTH) {
+							score = -pvs(s, pos2, true, -beta, -alpha, depth - 3, ply + 1, mt, ct, hh);
+						}
+						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
 					}
 				}
 			}
@@ -642,7 +657,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			alpha = bs;
 			type = 0;
 			if (alpha >= beta) {
-				ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+				ht[pos.side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 				killers[ply][1] = killers[ply][0];
 				killers[ply][0] = bm;
 				ttSave(depth, pos.hash, bs, 1, bm);
@@ -663,7 +678,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return bs;
 	}
 }
-/*
+
 int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 	int binc = 20;
 	int ainc = 20;
@@ -690,11 +705,12 @@ int aspiration(int lastScore , struct search* s, struct position pos, bool pvnod
 	}
 
 }
-*/
+
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
-			ht[i][e] = ht[i][e]/2;
+			ht[0][i][e] = ht[0][i][e]/2;
+			ht[1][i][e] = ht[1][i][e] / 2;
 		}
 	}
 	for (int i = 0; i < 100; i++) {
@@ -725,6 +741,12 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], *pos);
 			if (isLegal(pos->side, &pos2)) {
 				if (i == 0) {
+					/*if (depth > 4) {
+						score = aspiration(lastScore, s, pos2, true, alpha, beta, depth, ply, mt, ct, &hh);
+					}
+					else {
+						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+					}*/
 					score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
 				else {
@@ -734,7 +756,10 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
-						score = -pvs(s, pos2, false, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+						if (depth >= IID_DEPTH) {
+							score = -pvs(s, pos2, true, -beta, -alpha, depth - 3, ply + 1, mt, ct, &hh);
+						}
+						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 					}
 				}
 
@@ -746,13 +771,13 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				if (score > bs) {
 					bs = score;
 					bm = mt->mvl[ply].MOVE[ctr];
-					ht[mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+					ht[pos->side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 					killers[0][1] = killers[0][0];
 					killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 					s->bff = bm.f;
 					s->bft = bm.t;
 					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
-					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos);
+					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos,s);
 
 
 				}
