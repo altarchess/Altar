@@ -8,6 +8,8 @@
 #include "test.h"
 #include "search.h"
 #include "tt.h"
+#include "eval.h"
+#include "tune.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -25,13 +27,16 @@
 #define newgame_Command        "ucinewgame"
 #define position_Command       "position fen"
 #define startpos_Command       "position startpos"
+#define staticEval_Command	   "staticeval"
+#define tune_Command	   "autotune"
+#define tune_kCommand	   "ktuner"
 
 #define CMD_PERFT              "perft"
 #define CMD_TEST               "test"
 
 #define READ_BUFFER_SIZE       65536
 
-#define Version				   "191026"
+#define Version				   "191117"
 #define Author                 "Kim Kahre, Markus Kahre"
 
 #define test_Command		   "test"
@@ -308,6 +313,14 @@ void parseFEN(char* buf) {
 	return;
 }
 
+void parseTest(char* buf) {
+		std::cout << "OKOKKOKOK";
+		while (*buf == ' ') buf++;
+		struct move M = bufToMove(buf);
+		int seeScore = see(getPositionPointer(), M.f, M.t);
+		std::cout << "seeSCORE:" << seeScore;
+		fflush(stdout);
+}
 void startPos(char* buf) {
 	char initialFEN[] = starting_Position;
 	parseFEN(initialFEN);
@@ -327,7 +340,106 @@ void startPos(char* buf) {
 }
 
 void uci() {
-	setTTSize(10000000);
+	setTTSize(40000000);
+	/*
+
+0 == PAWNENDGAMESPACE
+1 == PAWNMIDDLEGAMESPACE
+
+2 == ISOLANIEFFECT
+3 == DOUBLEDEFFECT
+4 == BISHOP MIDDLEGAME MOBILITY
+5 == BISHOP ENDGAME MOBILITY
+6 == BISHOP ENDGAME MOBILITY
+7 == KNIGHT MOBILITY MIDDLEGAME
+8 == KNIGHT PSQT ENDGAME
+9 == ROOK MIDDLEGAME MOB
+10 == ROOK ENDGAME MOB
+9 == ROOK MIDDLEGAME MOB
+10 == ROOK ENDGAME MOB
+11 == QUEEN MIDDLEGAME MOB
+12 == QUEEN ENDGAME MOB
+13 == BISHOP PAIR BONUS
+14 == KNIGHT PAIR BONUS
+15 == king defenders count
+16 == kingShield count
+17 == kingPSQTMIDDLEGAME
+18 == kingPSQTENDGAME
+19 == atcounter
+20 == pawnMiddle
+21 == knightMiddle
+22 == bishopMiddle
+23 == rookMiddle
+24 == queenMiddle
+25 == pawnEnd
+26 == knightEnd
+27 == bishopEnd
+28 == rookEnd
+29 == queenEnd
+*/
+	/*getTuneVector()->MODIF[0] = 0;// PAWNENDGAMESPACE
+	getTuneVector()->MODIF[1] = 0;//PAWNMIDDLEGAMESPACE
+	getTuneVector()->MODIF[2] = 0;//ISOLANIEFFECT
+	getTuneVector()->MODIF[3] = 0;//DOUBLEDEFFECT
+	getTuneVector()->MODIF[4] = 0;//BISHOP MIDDLEGAME MOBILITY
+	getTuneVector()->MODIF[5] = 0;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[6] = 0;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[7] = 0;//KNIGHT MOBILITY MIDDLEGAME
+	getTuneVector()->MODIF[8] = 0;//KNIGHT PSQT ENDGAME
+	getTuneVector()->MODIF[9] = 0;// ROOK MIDDLEGAME MOB
+	getTuneVector()->MODIF[10] = 0;//ROOK ENDGAME MOB
+	getTuneVector()->MODIF[11] = 0;//QUEEN MIDDLEGAME MOB
+	getTuneVector()->MODIF[12] = 0;//QUEEN ENDGAME MOB
+	getTuneVector()->MODIF[13] = 0;//BISHOP PAIR BONUS
+	getTuneVector()->MODIF[14] = 0; //KNIGHT PAIR BONUS
+	getTuneVector()->MODIF[15] = 0;// king defenders count
+	getTuneVector()->MODIF[16] = 0;//kingShield count
+	getTuneVector()->MODIF[17] = 0;//kingPSQTMIDDLEGAME
+	getTuneVector()->MODIF[18] = 0;// kingPSQTENDGAME
+	getTuneVector()->MODIF[19] = 0; //atcounter
+	getTuneVector()->MODIF[20] = pawnMiddleGame;
+	getTuneVector()->MODIF[21] = knightMiddleGame;
+	getTuneVector()->MODIF[22] = bishopMiddleGame;
+	getTuneVector()->MODIF[23] = rookMiddleGame;
+	getTuneVector()->MODIF[24] = queenMiddleGame;
+	getTuneVector()->MODIF[25] = pawnEndGame;
+	getTuneVector()->MODIF[26] = knightEndGame;
+	getTuneVector()->MODIF[27] = bishopEndGame;
+	getTuneVector()->MODIF[28] = rookEndGame;
+	getTuneVector()->MODIF[29] = queenEndGame;
+	getTuneVector()->active = 30;*/
+    getTuneVector()->MODIF[0] = 126;// PAWNENDGAMESPACE
+	getTuneVector()->MODIF[1] = 66;//PAWNMIDDLEGAMESPACE
+	getTuneVector()->MODIF[2] = 102;//ISOLANIEFFECT
+	getTuneVector()->MODIF[3] = 108;//DOUBLEDEFFECT
+	getTuneVector()->MODIF[4] = 51;//BISHOP MIDDLEGAME MOBILITY
+	getTuneVector()->MODIF[5] = 81;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[6] = -12;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[7] = 15;//KNIGHT MOBILITY MIDDLEGAME
+	getTuneVector()->MODIF[8] = 24;//KNIGHT PSQT ENDGAME
+	getTuneVector()->MODIF[9] = 48;// ROOK MIDDLEGAME MOB
+	getTuneVector()->MODIF[10] = 63;//ROOK ENDGAME MOB
+	getTuneVector()->MODIF[11] = -15;//QUEEN MIDDLEGAME MOB
+	getTuneVector()->MODIF[12] = 117;//QUEEN ENDGAME MOB
+	getTuneVector()->MODIF[13] = 396;//BISHOP PAIR BONUS
+	getTuneVector()->MODIF[14] = 0; //KNIGHT PAIR BONUS
+	getTuneVector()->MODIF[15] = 72;// king defenders count
+	getTuneVector()->MODIF[16] = 0;//kingShield count
+	getTuneVector()->MODIF[17] = 12;//kingPSQTMIDDLEGAME
+	getTuneVector()->MODIF[18] = 189;// kingPSQTENDGAME
+	getTuneVector()->MODIF[19] = 96; //atcounter
+	getTuneVector()->MODIF[20] = pawnMiddleGame;
+	getTuneVector()->MODIF[21] = knightMiddleGame;
+	getTuneVector()->MODIF[22] = bishopMiddleGame;
+	getTuneVector()->MODIF[23] = rookMiddleGame;
+	getTuneVector()->MODIF[24] = queenMiddleGame;
+	getTuneVector()->MODIF[25] = pawnEndGame;
+	getTuneVector()->MODIF[26] = knightEndGame;
+	getTuneVector()->MODIF[27] = bishopEndGame;
+	getTuneVector()->MODIF[28] = rookEndGame;
+	getTuneVector()->MODIF[29] = queenEndGame;
+	getTuneVector()->active = 30;
+
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);
 	printf("Altar %s by Kim Kahre\n", Version);	fflush(stdout);
@@ -382,7 +494,7 @@ void uci() {
 		if (compareCommand(&buf, newgame_Command))
 		{
 			resetHistory();
-			setTTSize(10000000);
+			setTTSize(40000000);
 		}
 
 		if (compareCommand(&buf, go_Command))
@@ -427,9 +539,26 @@ void uci() {
 		if (compareCommand(&buf, test_Command))
 		{
 			//na
-			printBitBoard(rookAttack(getPositionPointer()->bitBoard[4] ,28)| bishopAttack(getPositionPointer()->bitBoard[4], 28)); // queen attackset test
+			testf(25);
+			//parseTest(buf);
+		}		
+		
+		if (compareCommand(&buf, staticEval_Command))
+		{
+			//na
+			showStatic();
 		}
 
+		if (compareCommand(&buf, tune_Command))
+		{
+			//na
+			tuneVal(getTuneVector());
+		}
+		if (compareCommand(&buf, tune_kCommand))
+		{
+			//na
+			tuneK();
+		}
 
 	};
 	free(tt);

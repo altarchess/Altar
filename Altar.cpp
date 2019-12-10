@@ -10,9 +10,11 @@
 #include "gen.h"
 #include "tt.h"
 #include "search.h"
+#include "eval.h"
 
 int main()
 {
+	fillEvalTables();
 	initBits();
 	initPosition();
 	initSearch();

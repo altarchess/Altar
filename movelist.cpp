@@ -925,6 +925,7 @@ void genAllCaptures(struct QList* ql,bool side, struct position* calcPos) {
 			}
 
 
+
 			bKing &= ~getBit(cord);
 		}
 

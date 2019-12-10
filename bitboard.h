@@ -16,7 +16,7 @@ bool isLegal(bool side, struct position*);
 bool isLegalSQ(bool side, struct position*, int cord);
 void printBoard();
 void printBitBoard(unsigned long long board);
-
+bool hasKings(struct position* pos);
 struct position {
 	bool side;
 	unsigned long long bitBoard[12];

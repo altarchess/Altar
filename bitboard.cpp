@@ -44,6 +44,12 @@ int getCord(char letter) {
 	}
 	return 0;
 }
+bool hasKings(struct position* pos) {
+	if (pos->bitBoard[6] && pos->bitBoard[5]) {
+		return true;
+	}
+	return false;
+}
 bool isLegal(bool side, struct position* pos) {
 	if (side) {
 		unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];

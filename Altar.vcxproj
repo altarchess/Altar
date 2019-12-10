@@ -235,6 +235,7 @@
     <ClCompile Include="search.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="tt.cpp" />
+    <ClCompile Include="tune.cpp" />
     <ClCompile Include="uci.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +249,7 @@
     <ClInclude Include="search.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="tt.h" />
+    <ClInclude Include="tune.h" />
     <ClInclude Include="uci.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

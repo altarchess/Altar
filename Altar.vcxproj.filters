@@ -48,6 +48,9 @@
     <ClCompile Include="tt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tune.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="uci.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tune.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,8 +19,8 @@
 #define FUTILITY_DEPTH 5
 #define IID_DEPTH 5
 
-#define RAZOR_MARGIN 500
-#define FUTILITY_MARGIN 200
+#define RAZOR_MARGIN 2000
+#define FUTILITY_MARGIN 800
 
 int max(int a, int b) {
 	return b < a ? a : b;
@@ -455,13 +455,15 @@ void printpv(struct position pos, int ply) {
 	
 	if (hashmove) {
 		struct move MOVE = ttMoveToMove(hashmove);
-		printMove(MOVE, pos);
 		struct position pos2 = makeMove(MOVE, pos);
-		ply--;
-		if (ply < 0) {
-			return;
+		if (isLegal(pos.side, &pos2)) {
+			printMove(MOVE, pos);
+			ply--;
+			if (ply < 0) {
+				return;
+			}
+			printpv(pos2, ply);
 		}
-		printpv(pos2, ply);
 	}
 }
 
@@ -471,7 +473,7 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 
 	unsigned long long sTime = s->sTime;
 	int tTime = currentTime - sTime + 1;
-	std::cout << "info depth " << depth << " score cp " << score / 3 << " nodes " << nodes << " nps " << nodes/tTime << " time " << tTime <<" pv ";
+	std::cout << "info depth " << depth << " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes/tTime << " time " << tTime <<" pv ";
 	printpv(*pos, depth);
 
 
@@ -484,10 +486,10 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 
 int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	if (ply >= 10) {
-		return evals(&pos);
+		return eval(&pos);
 	}
 
-	int staticEval = evals(&pos);
+	int staticEval = eval(&pos);
 	if (staticEval >= alpha) {
 		alpha = staticEval;
 	}
