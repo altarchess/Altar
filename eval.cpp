@@ -532,34 +532,46 @@ int eval(struct position* pos) {
 	unsigned long long p = pos->bitBoard[7];
 	int range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
-		unsigned long long attack = wPawnAttack(_tzcnt_u64(p));
+		int cord = _tzcnt_u64(p);
+		unsigned long long attack = wPawnAttack(cord);
 		wpawn |= attack;
-		v.egMob[0] += tv.MODIF[0]*wpawnendgame[_tzcnt_u64(p)];
-		v.mgMob[0] += tv.MODIF[1] * wpawnmiddlegame[_tzcnt_u64(p)];
+		v.egMob[0] += tv.MODIF[0]*wpawnendgame[cord];
+		v.mgMob[0] += tv.MODIF[1] * wpawnmiddlegame[cord];
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
-		v.positionalThemes[0] += 2 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		if (__popcnt64(isolaniMask[_tzcnt_u64(p)] & pos->bitBoard[7]) < 1) {
+		v.positionalThemes[0] += 2 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
+		if (__popcnt64(isolaniMask[cord] & pos->bitBoard[7]) < 1) {
 			v.positionalThemes[0] -= tv.MODIF[2];
 		}
-		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[7]) > 1) {
+		if (__popcnt64(doubledMask[cord] & pos->bitBoard[7]) > 1) {
 			v.positionalThemes[0] -= tv.MODIF[3];
+		}
+		if (cord > 15) {
+			if (__popcnt64(wPawnAttack(cord + 8)&pos->bitBoard[4])> __popcnt64(bPawnAttack(cord + 8) & pos->bitBoard[7])) {
+				v.positionalThemes[0] -= tv.MODIF[30];
+			}
 		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[4];
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
-		unsigned long long attack = bPawnAttack(_tzcnt_u64(p));
+		int cord = _tzcnt_u64(p);
+		unsigned long long attack = bPawnAttack(cord);
 		bpawn |= attack;
-		v.egMob[1] += tv.MODIF[0] *bpawnendgame[_tzcnt_u64(p)];
-		v.mgMob[1] += tv.MODIF[1] * bpawnmiddlegame[_tzcnt_u64(p)];
+		v.egMob[1] += tv.MODIF[0] *bpawnendgame[cord];
+		v.mgMob[1] += tv.MODIF[1] * bpawnmiddlegame[cord];
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
-		v.positionalThemes[1] += 2 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		if (__popcnt64(isolaniMask[_tzcnt_u64(p)] & pos->bitBoard[4]) < 1) {
+		v.positionalThemes[1] += 2 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
+		if (__popcnt64(isolaniMask[cord] & pos->bitBoard[4]) < 1) {
 			v.positionalThemes[1] -= tv.MODIF[2];
 		}
-		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[4]) > 1) {
+		if (__popcnt64(doubledMask[cord] & pos->bitBoard[4]) > 1) {
 			v.positionalThemes[1] -= tv.MODIF[3];
+		}
+		if (cord < 47) {
+			if (__popcnt64(bPawnAttack(cord - 8) & pos->bitBoard[7]) > __popcnt64(wPawnAttack(cord - 8) & pos->bitBoard[4])) {
+				v.positionalThemes[0] -= tv.MODIF[30];
+			}
 		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}

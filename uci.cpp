@@ -409,25 +409,25 @@ void uci() {
 	getTuneVector()->MODIF[29] = queenEndGame;
 	getTuneVector()->active = 30;*/
     getTuneVector()->MODIF[0] = 126;// PAWNENDGAMESPACE
-	getTuneVector()->MODIF[1] = 66;//PAWNMIDDLEGAMESPACE
-	getTuneVector()->MODIF[2] = 102;//ISOLANIEFFECT
-	getTuneVector()->MODIF[3] = 108;//DOUBLEDEFFECT
-	getTuneVector()->MODIF[4] = 51;//BISHOP MIDDLEGAME MOBILITY
+	getTuneVector()->MODIF[1] = 63;//PAWNMIDDLEGAMESPACE
+	getTuneVector()->MODIF[2] = 103;//ISOLANIEFFECT
+	getTuneVector()->MODIF[3] = 100;//DOUBLEDEFFECT
+	getTuneVector()->MODIF[4] = 53;//BISHOP MIDDLEGAME MOBILITY
 	getTuneVector()->MODIF[5] = 81;//BISHOP ENDGAME MOBILITY
-	getTuneVector()->MODIF[6] = -12;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[6] = -14;//BISHOP ENDGAME MOBILITY
 	getTuneVector()->MODIF[7] = 15;//KNIGHT MOBILITY MIDDLEGAME
-	getTuneVector()->MODIF[8] = 24;//KNIGHT PSQT ENDGAME
-	getTuneVector()->MODIF[9] = 48;// ROOK MIDDLEGAME MOB
-	getTuneVector()->MODIF[10] = 63;//ROOK ENDGAME MOB
+	getTuneVector()->MODIF[8] = 26;//KNIGHT PSQT ENDGAME
+	getTuneVector()->MODIF[9] = 49;// ROOK MIDDLEGAME MOB
+	getTuneVector()->MODIF[10] = 61;//ROOK ENDGAME MOB
 	getTuneVector()->MODIF[11] = -15;//QUEEN MIDDLEGAME MOB
-	getTuneVector()->MODIF[12] = 117;//QUEEN ENDGAME MOB
-	getTuneVector()->MODIF[13] = 396;//BISHOP PAIR BONUS
-	getTuneVector()->MODIF[14] = 0; //KNIGHT PAIR BONUS
-	getTuneVector()->MODIF[15] = 72;// king defenders count
+	getTuneVector()->MODIF[12] = 120;//QUEEN ENDGAME MOB
+	getTuneVector()->MODIF[13] = 395;//BISHOP PAIR BONUS
+	getTuneVector()->MODIF[14] = -5; //KNIGHT PAIR BONUS
+	getTuneVector()->MODIF[15] = 69;// king defenders count
 	getTuneVector()->MODIF[16] = 0;//kingShield count
 	getTuneVector()->MODIF[17] = 12;//kingPSQTMIDDLEGAME
-	getTuneVector()->MODIF[18] = 189;// kingPSQTENDGAME
-	getTuneVector()->MODIF[19] = 96; //atcounter
+	getTuneVector()->MODIF[18] = 191;// kingPSQTENDGAME
+	getTuneVector()->MODIF[19] = 93; //atcounter
 	getTuneVector()->MODIF[20] = pawnMiddleGame;
 	getTuneVector()->MODIF[21] = knightMiddleGame;
 	getTuneVector()->MODIF[22] = bishopMiddleGame;
@@ -438,7 +438,8 @@ void uci() {
 	getTuneVector()->MODIF[27] = bishopEndGame;
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
-	getTuneVector()->active = 30;
+	getTuneVector()->MODIF[30] = 0; //weakPenalty
+	getTuneVector()->active = 31;
 
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);

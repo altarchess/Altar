@@ -210,7 +210,7 @@ void tuneK() {
 	}
 };
 void tuneVal(tuneVector* adress) {
-	lr = 3;
+	lr = 1;
 	LoadPositions();
 	nodeCOUNT = 0;
 	t = adress;
