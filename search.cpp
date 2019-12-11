@@ -28,6 +28,7 @@ int max(int a, int b) {
 
 int killers[100][2];
 int ht[2][64][64];
+int cmh[2][64][64];
 int pvTable[100][100];
 
 
@@ -217,7 +218,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 
 		if (pos->side) {
-			switch (ft - 1) {
+			switch (ft) {
 			case 8:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
@@ -251,7 +252,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 			}
 		}
 		else {
-			switch (ft - 1) {
+			switch (ft) {
 			case 5:
 				if (getBit(mvl->MOVE[ctr].t) & pcsq && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
 					scores[ctr] += 2500000;
@@ -310,7 +311,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = std::min(interesting + 5, mvl->mam);
+	int maxo = std::min(interesting+3, mvl->mam);
 	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
@@ -473,7 +474,20 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 
 	unsigned long long sTime = s->sTime;
 	int tTime = currentTime - sTime + 1;
-	std::cout << "info depth " << depth << " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes/tTime << " time " << tTime <<" pv ";
+
+	if (abs(score) > mateScore - 1000) {
+		int side = score;
+		score =( mateScore - abs(score) )/ 2;
+		if (side < 0) {
+			score = -1 * score;
+		}
+		std::cout << "info depth " << depth << " score mate " << score << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+	}
+	else {
+		std::cout << "info depth " << depth << " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+	}
+	
+	
 	printpv(*pos, depth);
 
 
@@ -497,7 +511,7 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 		return alpha;
 	}
 	//delta pruning
-	/*if (staticEval < alpha - queenMiddleGame-40) {
+	/*if (staticEval < alpha - queenMiddleGame-300) {
 		return alpha;
 	}*/
 	genAllCaptures(&ct->QL[ply], pos.side, &pos);
@@ -563,9 +577,18 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	bool isdraw = isLegal(pos.side, &pos);
 	bool incheck = !isdraw;
 
-	int staticEval = std::max(alpha,evals(&pos));
+	int staticEval = std::max(alpha,eval(&pos));
 
-
+	//razoring
+	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
+	{
+		int score = Quis(pos, alpha, beta, 0, ct);
+		if (score < beta) return score;
+	}
+	//futility pruning
+	if (!pvnode && !incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
+		return staticEval;
+	}
 	//NULL MOVE STUFF
 	if (!pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval >= beta) {
 		makeNull(&pos);
@@ -589,21 +612,15 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 	}
 
+	//IID
+	if (depth > IID_DEPTH && pvnode && pos.hash == tt[pos.hash % ttSize].zHash && tt[pos.hash % ttSize].move <= 0) {
+		-pvs(s, pos, true, -beta, -alpha, depth/2, ply, mt, ct, hh);
+	}
+
 	int bs = -1999999;
 	int bm = 0;
 	int type = 2;
 
-	//futility pruning
-	if (!pvnode && !incheck && depth <= FUTILITY_DEPTH && staticEval >= beta + FUTILITY_MARGIN * depth) {
-		return staticEval;
-	}
-
-	//razoring
-	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
-	{
-		int score = Quis(pos, alpha, beta, 0, ct);
-		if (score < beta) return score;
-	}
 	genAllMoves(&mt->mvl[ply], pos.side, &pos);
 	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
 
@@ -613,26 +630,26 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			ctr = 20;
 		}
 		struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], pos);
-		int score = alpha - 100;
+		int score = alpha - 10000;
 		if (isLegal(pos.side, &pos2)) {
 			isdraw = false;
 			incheck = false;
-
+			int extension = 0;
+			if (i < interesting && !isLegal(pos2.side, &pos2)) {
+				//extension = 1;
+			}
 			if (pvnode) {
 				if (i == 0) {
-					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
 				}
 				else {
 					int lmr = 0;
 					if (depth > 3 && i >= interesting) {
 						lmr = 2;
 					}
-					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 					if (score > alpha) {
-						if (depth >= IID_DEPTH) {
-							score = -pvs(s, pos2, true, -beta, -alpha, depth - 3, ply + 1, mt, ct, hh);
-						}
-						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
 					}
 				}
 			}
@@ -641,9 +658,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				if (depth > 3 && i >= interesting) {
 					lmr = 2;
 				}
-				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr, ply + 1, mt, ct, hh);
+				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 				if (lmr&&score>alpha){
-					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
 				}
 			}
 		}
@@ -682,8 +699,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 }
 
 int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
-	int binc = 20;
-	int ainc = 20;
+	int binc = 50;
+	int ainc = 50;
 	while (true)
 	{
 		int score = -pvs(s, pos, true, -lastScore-binc, -lastScore+ainc, depth - 1, ply + 1, mt, ct, hh);
@@ -758,9 +775,6 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
-						if (depth >= IID_DEPTH) {
-							score = -pvs(s, pos2, true, -beta, -alpha, depth - 3, ply + 1, mt, ct, &hh);
-						}
 						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 					}
 				}
