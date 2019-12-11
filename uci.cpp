@@ -438,7 +438,7 @@ void uci() {
 	getTuneVector()->MODIF[27] = bishopEndGame;
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
-	getTuneVector()->MODIF[30] = 0; //weakPenalty
+	getTuneVector()->MODIF[30] = -1; //weakPenalty
 	getTuneVector()->active = 31;
 
 	char* buf, input_buf[READ_BUFFER_SIZE];
