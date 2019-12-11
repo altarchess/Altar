@@ -636,7 +636,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			incheck = false;
 			int extension = 0;
 			if (i < interesting && !isLegal(pos2.side, &pos2)) {
-				//extension = 1;
+				extension = 1;
 			}
 			if (pvnode) {
 				if (i == 0) {
