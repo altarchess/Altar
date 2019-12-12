@@ -511,9 +511,9 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 		return alpha;
 	}
 	//delta pruning
-	/*if (staticEval < alpha - queenMiddleGame-300) {
+	if (staticEval < alpha - queenMiddleGame-300) {
 		return alpha;
-	}*/
+	}
 	genAllCaptures(&ct->QL[ply], pos.side, &pos);
 	for (int i = 0; i < ct->QL[ply].mam; i++) {
 			int score = -Quis(makeMove(ct->QL[ply].MOVE[i], pos), -beta, -alpha, ply + 1, ct);
@@ -533,7 +533,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 	//check extension seems to loose elo at 30s + 0.3s?
 	//if (!isLegal(pos.side, &pos)) { depth += 1; }
-	if (depth == 0) {
+	if (depth <= 0) {
 		if (!isLegal(pos.side, &pos)) { depth += 1; }
 		else {
 			s->nodeCount++;
@@ -590,18 +590,12 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return staticEval;
 	}
 	//NULL MOVE STUFF
-	if (!pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval >= beta) {
+	if (!pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval >= beta && depth >= 2) {
 		makeNull(&pos);
 		inNull++;
 
 		int score = alpha;
-
-		if (depth <= 3) {
-			score = -Quis(pos, -beta, -beta+1, 0, ct);
-		}
-		else {
-			score = -pvs(s, pos, false, -beta, -beta + 1, depth - 4, ply, mt, ct, hh);
-		}
+		score = -pvs(s, pos, false, -beta, -beta + 1, depth - 3 - depth/4, ply, mt, ct, hh);
 
 		makeNull(&pos);
 		inNull--;
@@ -613,8 +607,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 
 	//IID
-	if (depth > IID_DEPTH && pvnode && pos.hash == tt[pos.hash % ttSize].zHash && tt[pos.hash % ttSize].move <= 0) {
-		-pvs(s, pos, true, -beta, -alpha, depth/2, ply, mt, ct, hh);
+	if (depth > IID_DEPTH && pvnode && !(pos.hash == tt[pos.hash % ttSize].zHash && tt[pos.hash % ttSize].move >= 0)) {
+		-pvs(s, pos, true, -beta, -alpha, depth-2, ply, mt, ct, hh);
 	}
 
 	int bs = -1999999;
@@ -635,7 +629,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			isdraw = false;
 			incheck = false;
 			int extension = 0;
-			if (i < interesting && !isLegal(pos2.side, &pos2)) {
+			if (i < interesting && !isLegal(pos2.side, &pos2)&&depth>=8) {
 				extension = 1;
 			}
 			if (pvnode) {
