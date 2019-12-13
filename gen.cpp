@@ -336,20 +336,20 @@ void genPawnAttacks(int sq) {
 	arrBPawnAttacks[sq] = 0;
 	int y = sq / 8;
 	int x =  sq-y*8;
-	if (y < 7) {
-		if (x > 0) {
-			arrWPawnAttacks[sq] |= getBit(y * 8 + x + 8 - 1);
-		}
-		if (x < 7) {
-			arrWPawnAttacks[sq] |= getBit(y * 8 +x  + 8 + 1);
-		}
-	}
 	if (y > 0) {
 		if (x > 0) {
-			arrBPawnAttacks[sq] |= getBit(y * 8 +x - 8 - 1);
+			arrWPawnAttacks[sq] |= getBit(y * 8 + x - 8 - 1);
 		}
 		if (x < 7) {
-			arrBPawnAttacks[sq] |= getBit(y * 8 +x  - 8 + 1);
+			arrWPawnAttacks[sq] |= getBit(y * 8 +x  - 8 + 1);
+		}
+	}
+	if (y < 7) {
+		if (x > 0) {
+			arrBPawnAttacks[sq] |= getBit(y * 8 +x + 8 - 1);
+		}
+		if (x < 7) {
+			arrBPawnAttacks[sq] |= getBit(y * 8 +x  + 8 + 1);
 		}
 	}
 }

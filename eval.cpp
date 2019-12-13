@@ -30,94 +30,115 @@ int center[64] =
 	-1,0,0,0,0,0,0,-1,
 	-2,-1,0,0,0,0,-1,-2
 };
-int kingendgamecenter[64] =
+int wkingendgamecenter[64] =
 {
-	-5,-4,-3,-2,-2,-3,-4,-5,
-	-4,-3,-2,-1,-1,-2,-3,-4,
-	-3,-2,-1,0,0,-1,-2,-3,
-	-2,-1,0,1,1,0,-1,-2,
-	-2,-1,0,1,1,0,-1,-2,
-	-3,-2,-1,0,0,-1,-2,-3,
-	-4,-3,-2,-1,-1,-2,-3,-4,
-	-5,-4,-3,-2,-2,-3,-4,-5
+	-4,-2,-1,-2,-2,-1,-2,-4,
+	-1,0,0,0,0,0,0,-1,
+	-1,1,1,0,0,1,1,-1,
+	-2,0,1,1,1,1,0,-2,
+	-3,-1,0,0,0,0,-1,-3,
+	-3,-1,0,0,0,0,-1,-3,
+	-4,-3,-1,-1,-1,-1,-3,-4,
+	-6,-4,-3,-3,-3,-3,-4,-6
+};
+int bkingendgamecenter[64] =
+{
+	-6,-4,-3,-3,-3,-3,-4,-6,
+	-4,-3,-1,-1,-1,-1,-3,-4,
+	-3,-1,0,0,0,0,-1,-3,
+	-3,-1,0,0,0,0,-1,-3,
+	-2,0,1,1,1,1,0,-2,
+	-1,1,1,0,0,1,1,-1,
+	-1,0,0,0,0,0,0,-1,
+	-4,-2,-1,-2,-2,-1,-2,-4
 };
 int wKingMiddleGame[64] =
 {
-	-40,-50,-60,-60,-60,-60,-50,-40,
-	-40,-50,-60,-60,-60,-60,-50,-40,
-	-50,-60,-70,-80,-80,-70,-60,-50,
-	-40,-50,-60,-60,-60,-60,-50,-40,
-	-40,-50,-50,-50,-50,-50,-50,-40,
-	-40,-40,-40,-40,-40,-40,-40,-40,
-	0,5,-10,-30,-30,-10,10,0,
-	14,18,10,-20,-10,3,18,14
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	4,16,-15,-46,-46,-15,16,4,
+	4,30,-4,0,0,-4,30,4
 };
 
 int bKingMiddleGame[64] =
 {
-	14,18,10,-20,-10,3,18,14,
-	0,5,-10,-30,-30,-10,10,0,
-	-40,-40,-40,-40,-40,-40,-40,-40,
-	-40,-50,-50,-50,-50,-50,-50,-40,
-	-40,-50,-60,-60,-60,-60,-50,-40,
-	-50,-60,-70,-80,-80,-70,-60,-50,
-	-40,-50,-60,-60,-60,-60,-50,-40,
-	-40,-50,-60,-60,-60,-60,-50,-40,
+	4,30,-4,0,0,-4,30,4,
+	4,16,-15,-46,-46,-15,16,4,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36,
+	-36,-36,-36,-36,-36,-36,-36,-36
 };
 int wpawnendgame[64] =
 {
 	0,0,0,0,0,0,0,0,
-	10,10,10,10,10,10,10,10,
-	6,6,6,6,6,6,6,6,
-	3,3,3,3,3,3,3,3,
-	1,1,1,1,1,1,1,1,
+	21,21,17,17,17,17,21,21,
+	9,10,8,7,7,8,10,9,
+	3,2,1,0,0,1,2,3,
+	1,0,-1,-1,-1,-1,0,1,
+	0,0,-1,0,0,-1,0,0,
 	0,0,0,0,0,0,0,0,
-	-1,-1,-1,-1,-1,-1,-1,-1,
 	0,0,0,0,0,0,0,0
 };
 int bpawnendgame[64] =
 {
 	0,0,0,0,0,0,0,0,
-	-1,-1,-1,-1,-1,-1,-1,-1,
 	0,0,0,0,0,0,0,0,
-	1,1,1,1,1,1,1,1,
-	3,3,3,3,3,3,3,3,
-	6,6,6,6,6,6,6,6,
-	10,10,10,10,10,10,10,10,
+	0,0,0,0,0,0,0,0,
+	1,0,-1,-1,-1,-1,0,1,
+	3,2,1,0,0,1,2,3,
+	9,10,7,7,7,7,10,9,
+	22,20,16,16,16,16,20,22,
 	0,0,0,0,0,0,0,0
 };
 int wpawnmiddlegame[64] =
 {
 	0,0,0,0,0,0,0,0,
-	10,10,10,10,10,10,10,10,
-	6,6,6,6,6,6,6,6,
-	1,1,2,5,5,2,1,1,
-	0,0,1,3,3,1,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,0,-2,-2,0,0,0,
+	1,14,10,15,15,10,14,1,
+	0,2,8,7,7,8,2,0,
+	-2,2,3,5,5,3,2,-2,
+	-3,-1,1,3,3,1,-1,-3,
+	0,2,1,0,0,1,2,0,
+	-1,1,0,-4,-4,0,1,-1,
 	0,0,0,0,0,0,0,0
 };
 int bpawnmiddlegame[64] =
 {
 	0,0,0,0,0,0,0,0,
-	0,0,0,-2,-2,0,0,0,
-	0,0,0,0,0,0,0,0,
-	0,0,1,3,3,1,0,0,
-	1,1,2,5,5,2,1,1,
-	6,6,6,6,6,6,6,6,
-	10,10,10,10,10,10,10,10,
+	-1,1,0,-4,-4,0,1,-1,
+	0,2,1,0,0,1,2,0,
+	-3,-1,1,3,3,1,-1,-3,
+	-2,2,3,5,5,3,2,-2,
+	0,2,8,7,7,8,2,0,
+	1,14,10,15,15,10,14,1,
 	0,0,0,0,0,0,0,0
 };
 
-int knightPSQT[64] = {
--50,-40,-30,-30,-30,-30,-40,-50,
--40,-20,  0,  0,  0,  0,-20,-40,
--30,  10, 10, 15, 15, 10,  0,-30,
--30,  15, 15, 20, 20, 15,  5,-30,
--30,  15, 15, 20, 20, 15,  0,-30,
--30,  10, 10, 15, 15, 10,  5,-30,
--40,-20,  0,  5,  5,  0,-20,-40,
--50,-40,-30,-30,-30,-30,-40,-50
+int wknightPSQT[64] = {
+	-115,-59,-37,-28,-28,-37,-59,-115,
+	-53,-20,-7,-3,-3,-7,-20,-53,
+	-31,7,23,20,20,23,7,-31,
+	-12,3,29,25,25,39,3,-12,
+	-30,1,17,20,20,17,1,-30,
+	-38,-3,12,14,14,12,-3,-38,
+	-49,-35,-13,-6,-6,-13,-35,-49,
+	-68,-37,-34,-31,-31,-34,-37,-68
+};
+int bknightPSQT[64] = {
+	-68,-37,-34,-31,-31,-34,-37,-68,
+	-49,-35,-13,-6,-6,-13,-35,-49,
+	-38,-3,12,14,14,12,-3,-38,
+	-30,1,17,20,20,17,1,-30,
+	-12,3,29,25,25,39,3,-12,
+	-31,7,23,20,20,23,7,-31,
+	-53,-20,-7,-3,-3,-7,-20,-53,
+	-115,-59,-37,-28,-28,-37,-59,-115,
 };
 
 unsigned long long rowMask[8] = {
@@ -134,6 +155,8 @@ unsigned long long rowMask[8] = {
 //eval Tables;
 unsigned long long isolaniMask[64];
 unsigned long long doubledMask[64];
+unsigned long long wPasserMask[64];
+unsigned long long bPasserMask[64];
 
 struct evalVector {
 	int gamePhase;
@@ -165,6 +188,42 @@ void fillEvalTables() {
 	for (int i = 0; i < 64; i++) {
 		int x = i % 8;
 		doubledMask[i] = rowMask[7-x];
+	}
+	for (int i = 0; i < 64; i++) {
+		wPasserMask[i] = 0;
+		bPasserMask[i] = 0;
+		int y = i / 8;
+		int x = i-y*8;
+		x--;
+		y--;
+		while ((x>=0&&x<=7)&&(y>=0&&y<=7)) {
+			wPasserMask[i] |= getBit(y*8+x);
+			y--;
+		}
+		y = i / 8;
+		x = i % 8;
+		x++;
+		y--;
+		while ((x >= 0 && x <= 7) && (y >= 0 && y <= 7)) {
+			wPasserMask[i] |= getBit(y * 8 + x);
+			y--;
+		}
+		y = i / 8;
+		x = i % 8;
+		x--;
+		y++;
+		while ((x >= 0 && x <= 7) && (y >= 0 && y <= 7)) {
+			bPasserMask[i] |= getBit(y * 8 + x);
+			y++;
+		}
+		y = i / 8;
+		x = i % 8;
+		x++;
+		y++;
+		while ((x >= 0 && x <= 7) && (y >= 0 && y <= 7)) {
+			bPasserMask[i] |= getBit(y * 8 + x);
+			y++;
+		}
 	}
 	/*for (int i = 0; i < 64; i++) {
 		isolaniMask[i] = 0;
@@ -224,205 +283,6 @@ int materialDraw(struct position* pos) {
 		}
 	}
 	return false;
-}
-
-int evals(struct position* pos) {
-
-	if (!pos->bitBoard[5]) {
-		if (pos->side) {
-			return wMateScore - 100;
-		}
-		else {
-			return bMateScore + 100;
-		}
-	}
-	if (!pos->bitBoard[6]) {
-		if (pos->side) {
-			return bMateScore + 100;
-		}
-		else {
-			return wMateScore - 100;
-		}
-	}
-
-	int wm = __popcnt64(pos->bitBoard[6]) * 100000 + __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
-	int bm = __popcnt64(pos->bitBoard[5]) * 100000 + __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
-
-
-
-	if (__popcnt64(pos->bitBoard[4]) == 0 && __popcnt64(pos->bitBoard[7]) == 0 && materialDraw(pos)) {
-		return 0;
-	}
-
-	int gamePhase = __popcnt64(pos->bitBoard[8]) * knigthPhase + __popcnt64(pos->bitBoard[3]) * knigthPhase + __popcnt64(pos->bitBoard[9]) * bishopPhase + __popcnt64(pos->bitBoard[2]) * bishopPhase
-		+ __popcnt64(pos->bitBoard[10]) * rookPhase + __popcnt64(pos->bitBoard[1]) * rookPhase + __popcnt64(pos->bitBoard[11]) * queenPhase + __popcnt64(pos->bitBoard[0]) * queenPhase;
-
-
-	unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];
-	unsigned long long bOcc = pos->bitBoard[5] | pos->bitBoard[4] | pos->bitBoard[3] | pos->bitBoard[2] | pos->bitBoard[1] | pos->bitBoard[0];
-
-	int wdefenders = __popcnt64(wOcc & kingAttack(_tzcnt_u64(pos->bitBoard[6])));
-	int bdefenders = __popcnt64(bOcc & kingAttack(_tzcnt_u64(pos->bitBoard[5])));
-
-	unsigned long long wKingClose = kingAttack(_tzcnt_u64(pos->bitBoard[6])) | getBit(_tzcnt_u64(pos->bitBoard[6]));
-	unsigned long long bKingClose = kingAttack(_tzcnt_u64(pos->bitBoard[5])) | getBit(_tzcnt_u64(pos->bitBoard[5]));
-
-
-
-	int wAttacks = 0;
-	int bAttacks = 0;
-
-	int wSpace = 0;
-	int bSpace = 0;
-
-	int solid = 0;
-
-	int wEndGameSpace = 4 * kingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
-	int bEndGameSpace = 4 * kingendgamecenter[_tzcnt_u64(pos->bitBoard[5])];
-
-	unsigned long long wpawn = 0;
-	unsigned long long bpawn = 0;
-
-	//pawn eval
-	unsigned long long p = pos->bitBoard[7];
-	int range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = wPawnAttack(_tzcnt_u64(p));
-		wpawn |= attack;
-		wSpace += center[_tzcnt_u64(p)];
-		wSpace += 2 * wpawnendgame[_tzcnt_u64(p)];
-		wEndGameSpace += wpawnendgame[_tzcnt_u64(p)];
-		wAttacks += __popcnt64(bKingClose & attack);
-		solid += 2 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		if (__popcnt64(isolaniMask[_tzcnt_u64(p)] & pos->bitBoard[7]) < 1) {
-			solid -= 60;
-		}
-		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[7]) > 1) {
-			solid -= 30; //only half the penalty since the other pawn will also trigger
-		}
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-	p = pos->bitBoard[4];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = bPawnAttack(_tzcnt_u64(p));
-		bpawn |= attack;
-		bSpace += center[_tzcnt_u64(p)];
-		bSpace += 2 * bpawnendgame[_tzcnt_u64(p)];
-		bEndGameSpace += bpawnendgame[_tzcnt_u64(p)];
-		bAttacks += __popcnt64(wKingClose & attack);
-		solid -= 2 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		if (__popcnt64(isolaniMask[_tzcnt_u64(p)] & pos->bitBoard[4]) < 1) {
-			solid += 60;
-		}
-		if (__popcnt64(doubledMask[_tzcnt_u64(p)] & pos->bitBoard[4]) > 1) {
-			solid += 30; //only half the penalty since the other pawn will also trigger
-		}
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-
-	//knight eval
-	p = pos->bitBoard[8];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = knightAttack(_tzcnt_u64(p));
-		wSpace += 2 * __popcnt64(attack & centerMask & ~bpawn & ~wOcc);
-		wSpace += 2 * center[_tzcnt_u64(p)];
-		wAttacks += __popcnt64(bKingClose & attack);
-		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-	p = pos->bitBoard[3];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = knightAttack(_tzcnt_u64(p));
-		bSpace += 2 * __popcnt64(attack & centerMask & ~wpawn & ~bOcc);
-		bSpace += 2 * center[_tzcnt_u64(p)];
-		bAttacks += __popcnt64(wKingClose & attack);
-		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-
-	//bishop eval
-	p = pos->bitBoard[9];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p));
-		wSpace += 5 * __popcnt64(attack & centerMask & ~bpawn);
-		wAttacks += __popcnt64(bKingClose & attack);
-		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-	p = pos->bitBoard[2];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p));
-		bSpace += 5 * __popcnt64(attack & centerMask & ~wpawn);
-		bAttacks += __popcnt64(wKingClose & attack);
-		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-
-	//rook is 5 pawns no matter what
-	p = pos->bitBoard[10];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		wSpace += 2 * __popcnt64(attack & ~bpawn);
-		wAttacks += __popcnt64(bKingClose & attack);
-		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-	p = pos->bitBoard[1];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		bSpace += 2 * __popcnt64(attack & ~wpawn);
-		bAttacks += __popcnt64(wKingClose & attack);
-		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-
-	//Queen eval
-	p = pos->bitBoard[11];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p)) | rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		wSpace += 1 * __popcnt64(attack & centerMask & ~bpawn);
-		wAttacks += 2 * __popcnt64(bKingClose & attack);
-		solid += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-	p = pos->bitBoard[0];
-	range = __popcnt64(p);
-	for (int i = 0; i < range; i++) {
-		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p)) | rookAttack(wOcc | bOcc, _tzcnt_u64(p));
-		bSpace += 1 * __popcnt64(attack & centerMask & ~wpawn);
-		bAttacks += 2 * __popcnt64(wKingClose & attack);
-		solid -= 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		p &= ~getBit(_tzcnt_u64(p));
-	}
-
-
-	int endGamePhase = (2 * 100000 + 20000 - wm - bm) / 256;
-	int middleGamePhase = (wm + bm - 2 * 100000 - 8240) / 256;
-	if (middleGamePhase < 0) {
-		middleGamePhase = 0;
-	}
-
-
-	int safety = __popcnt64(bishopAttack(bOcc, _tzcnt_u64(pos->bitBoard[5])) | rookAttack(bOcc, _tzcnt_u64(pos->bitBoard[5]))) - __popcnt64(bishopAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])) | rookAttack(wOcc, _tzcnt_u64(pos->bitBoard[6])));
-	safety += wKingMiddleGame[_tzcnt_u64(pos->bitBoard[6])];
-	safety -= bKingMiddleGame[_tzcnt_u64(pos->bitBoard[5])];
-	safety += 4 * wAttacks;
-	safety -= 4 * bAttacks;
-
-	int evalmult = 1;
-	if (!pos->side) {
-		evalmult = -1;
-	}
-
-	return 5 + evalmult * (wm - bm + 3 * wSpace - 3 * bSpace + solid + safety * middleGamePhase / 10 + endGamePhase * (wEndGameSpace - bEndGameSpace) / 20);
 }
 
 //used for quick materialCount for qsearch cutoffs;
@@ -538,16 +398,23 @@ int eval(struct position* pos) {
 		v.egMob[0] += tv.MODIF[0]*wpawnendgame[cord];
 		v.mgMob[0] += tv.MODIF[1] * wpawnmiddlegame[cord];
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
-		v.positionalThemes[0] += 2 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
+		v.positionalThemes[0] += tv.MODIF[33] * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
 		if (__popcnt64(isolaniMask[cord] & pos->bitBoard[7]) < 1) {
 			v.positionalThemes[0] -= tv.MODIF[2];
 		}
 		if (__popcnt64(doubledMask[cord] & pos->bitBoard[7]) > 1) {
 			v.positionalThemes[0] -= tv.MODIF[3];
 		}
-		if (cord > 15) {
-			if (__popcnt64(wPawnAttack(cord + 8)&pos->bitBoard[4])> __popcnt64(bPawnAttack(cord + 8) & pos->bitBoard[7])) {
+		if (cord > 7) {
+			if (!(getBit(cord - 8) & (wOcc | bOcc)) && !(bPasserMask[cord]&pos->bitBoard[7]) && __popcnt64(wPawnAttack(cord - 8) & pos->bitBoard[4]) > __popcnt64(bPawnAttack(cord - 8) & pos->bitBoard[7])) {
 				v.positionalThemes[0] -= tv.MODIF[30];
+
+				if (!(doubledMask[cord] & pos->bitBoard[4])) {
+					v.positionalThemes[0] -= tv.MODIF[31]; 
+					if (pos->bitBoard[1]) {
+						v.positionalThemes[0] -= tv.MODIF[32];
+					}
+				}
 			}
 		}
 		p &= ~getBit(_tzcnt_u64(p));
@@ -561,16 +428,22 @@ int eval(struct position* pos) {
 		v.egMob[1] += tv.MODIF[0] *bpawnendgame[cord];
 		v.mgMob[1] += tv.MODIF[1] * bpawnmiddlegame[cord];
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
-		v.positionalThemes[1] += 2 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
+		v.positionalThemes[1] += tv.MODIF[33] * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
 		if (__popcnt64(isolaniMask[cord] & pos->bitBoard[4]) < 1) {
 			v.positionalThemes[1] -= tv.MODIF[2];
 		}
 		if (__popcnt64(doubledMask[cord] & pos->bitBoard[4]) > 1) {
 			v.positionalThemes[1] -= tv.MODIF[3];
 		}
-		if (cord < 47) {
-			if (__popcnt64(bPawnAttack(cord - 8) & pos->bitBoard[7]) > __popcnt64(wPawnAttack(cord - 8) & pos->bitBoard[4])) {
-				v.positionalThemes[0] -= tv.MODIF[30];
+		if (cord < 55) {
+			if (!(getBit(cord + 8) & (wOcc | bOcc)) && !(wPasserMask[cord] & pos->bitBoard[4]) && __popcnt64(bPawnAttack(cord + 8) & pos->bitBoard[7]) > __popcnt64(wPawnAttack(cord + 8) & pos->bitBoard[4])) {
+				v.positionalThemes[1] -= tv.MODIF[30];
+				if (!(doubledMask[cord] & pos->bitBoard[7])) {
+					v.positionalThemes[1] -= tv.MODIF[31];
+				}
+				if (pos->bitBoard[10]) {
+					v.positionalThemes[1] -= tv.MODIF[32];
+				}
 			}
 		}
 		p &= ~getBit(_tzcnt_u64(p));
@@ -607,8 +480,8 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = knightAttack(_tzcnt_u64(p));
 		v.mgMob[0] += tv.MODIF[6] * __popcnt64(attack & centerMask & ~bpawn & ~wOcc);
-		v.mgMob[0] += tv.MODIF[7] * knightPSQT[_tzcnt_u64(p)]/2;
-		v.egMob[0] += tv.MODIF[8] * knightPSQT[_tzcnt_u64(p)] / 2;
+		v.mgMob[0] += tv.MODIF[7] * wknightPSQT[_tzcnt_u64(p)]/2;
+		v.egMob[0] += tv.MODIF[8] * wknightPSQT[_tzcnt_u64(p)] / 2;
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -618,8 +491,8 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		unsigned long long attack = knightAttack(_tzcnt_u64(p));
 		v.mgMob[1] += tv.MODIF[6] * __popcnt64(attack & centerMask & ~wpawn & ~bOcc);
-		v.mgMob[1] += tv.MODIF[7] * knightPSQT[_tzcnt_u64(p)]/2;
-		v.egMob[1] += tv.MODIF[8] * knightPSQT[_tzcnt_u64(p)] / 2;
+		v.mgMob[1] += tv.MODIF[7] * bknightPSQT[_tzcnt_u64(p)]/2;
+		v.egMob[1] += tv.MODIF[8] * bknightPSQT[_tzcnt_u64(p)] / 2;
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
 		p &= ~getBit(_tzcnt_u64(p));
@@ -692,8 +565,8 @@ int eval(struct position* pos) {
 
 	v.mgMob[0] += tv.MODIF[17] * wKingMiddleGame[_tzcnt_u64(pos->bitBoard[6])];
 	v.mgMob[1] += tv.MODIF[17] * bKingMiddleGame[_tzcnt_u64(pos->bitBoard[5])];
-	v.egMob[0] += tv.MODIF[18] *kingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
-	v.egMob[1] += tv.MODIF[18] *kingendgamecenter[_tzcnt_u64(pos->bitBoard[5])];
+	v.egMob[0] += tv.MODIF[18] *wkingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
+	v.egMob[1] += tv.MODIF[18] *bkingendgamecenter[_tzcnt_u64(pos->bitBoard[5])];
 
 	v.gamePhase = phase;
 	//evalmult = always return eval relative to side
@@ -721,10 +594,6 @@ void showStatic() {
 	std::cout << "phase: " << v.gamePhase << std::endl;
 }
 void testf(int i ) {
-	printBitBoard(isolaniMask[i]);
-	printBitBoard(isolaniMask[1]);
-	printBitBoard(isolaniMask[2]);
-	printBitBoard(isolaniMask[3]);
-	printBitBoard(isolaniMask[4]);
-	printBitBoard(isolaniMask[5]);
+	printBitBoard(wPasserMask[i]);
+	printBitBoard(bPasserMask[i]);
 }

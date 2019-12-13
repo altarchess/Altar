@@ -14,8 +14,8 @@
 
 int main()
 {
-	fillEvalTables();
 	initBits();
+	fillEvalTables();
 	initPosition();
 	initSearch();
 	initArrays();

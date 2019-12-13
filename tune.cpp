@@ -166,7 +166,44 @@ bool isBetter() {
 		return false;
 	}
 };
-
+void randomTuneTable(int index) {
+	int y = index / 8;
+	int x = index - y * 8;
+	unsigned long long rnd = std::rand();
+	int mult = 1;
+	if (rnd % 2 == 0) {
+		//std::cout << "OKASD";
+		wkingendgamecenter[y*8+x] += lr;
+		wkingendgamecenter[y*8 + 7-x] += lr;
+		bkingendgamecenter[63 - (y*8+x)] += lr;
+		bkingendgamecenter[63 - (y * 8 + 7 - x)] += lr;
+		if (isBetter()) {
+			return;
+		}
+		wkingendgamecenter[y * 8 + x] -= lr;
+		wkingendgamecenter[y * 8 + 7 - x] -= lr;
+		bkingendgamecenter[63 - (y * 8 + x)] -= lr;
+		bkingendgamecenter[63 - (y * 8 + 7 - x)] -= lr;
+	}
+	else {
+		wkingendgamecenter[y * 8 + x] -= lr;
+		wkingendgamecenter[y * 8 + 7 - x] -= lr;
+		bkingendgamecenter[63 - (y * 8 + x)] -= lr;
+		bkingendgamecenter[63 - (y * 8 + 7 - x)] -= lr;
+		if (isBetter()) {
+			return;
+		}
+		wkingendgamecenter[y * 8 + x] += lr;
+		wkingendgamecenter[y * 8 + 7 - x] += lr;
+		bkingendgamecenter[63 - (y * 8 + x)] += lr;
+		bkingendgamecenter[63 - (y * 8 + 7 - x)] += lr;
+		int mult = -1;
+	}
+	if (isBetter()) {
+		return;
+	}
+	return;
+};
 struct tuneVector randomTune(int index, struct tuneVector tune) {
 	tuneVector tune2 = tune;
 	unsigned long long rnd = std::rand();
@@ -232,14 +269,25 @@ void tuneVal(tuneVector* adress) {
 			std::cout << std::endl;
 			std::cout << std::endl;
 		}*/
-		for (int e = 0; e < adress->active; e++) {
+		for (int e = 0; e < 64; e++) {
+			randomTuneTable(e);
+			std::cout << "#";
+		}
+		std::cout << std::endl << "ITERATION " << i << " COST " << oldCost << " NODES " << nodeCOUNT << std::endl;
+		for (int e = 0; e < 64; e++) {
+			if (e % 8 == 0) {
+				std::cout << std::endl;
+			}
+			std::cout << wkingendgamecenter[e] << " ";
+		}
+		/*for (int e = 0; e < adress->active; e++) {
 			*adress = randomTune(e, *adress);
 			std::cout << "#";
 		}
 		std::cout << std::endl << "ITERATION " << i << " COST " << oldCost << " NODES " << nodeCOUNT<<  std::endl;
 		for (int e = 0; e < adress->active; e++) {
 			std::cout << adress->MODIF[e] << " ";
-		}
+		}*/
 	}
 
 };

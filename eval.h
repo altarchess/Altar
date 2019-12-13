@@ -16,17 +16,17 @@
 #define rookEndGame 2548
 #define queenEndGame 5613*/
 
-#define pawnMiddleGame 832
-#define knightMiddleGame 3768
-#define bishopMiddleGame 3233
-#define rookMiddleGame 4458
-#define queenMiddleGame 10355
+#define pawnMiddleGame 788
+#define knightMiddleGame 3619
+#define bishopMiddleGame 3238
+#define rookMiddleGame 4349
+#define queenMiddleGame 10482
 
-#define pawnEndGame 1264
-#define knightEndGame 3415
-#define bishopEndGame 3044
-#define rookEndGame 5788
-#define queenEndGame 9973
+#define pawnEndGame 1250
+#define knightEndGame 3459
+#define bishopEndGame 3061
+#define rookEndGame 5931
+#define queenEndGame 10168
 
 #define pawnPhase 0
 #define knigthPhase 1
@@ -45,6 +45,16 @@ void showStatic();
 int eval(struct position* pos);
 int evals(struct position* pos);
 int materialEval(struct position* pos);
+extern int wpawnendgame[64];
+extern int bpawnendgame[64];
+extern int wpawnmiddlegame[64];
+extern int bpawnmiddlegame[64];
+extern int wknightPSQT[64];
+extern int bknightPSQT[64];
+extern int wKingMiddleGame[64];
+extern int bKingMiddleGame[64];
+extern int wkingendgamecenter[64];
+extern int bkingendgamecenter[64];
 void testf(int);
 
 /*

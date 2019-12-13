@@ -64,7 +64,7 @@ bool isLegal(bool side, struct position* pos) {
 		if (rookAttack(wOcc | bOcc, cord) & (pos->bitBoard[1] | pos->bitBoard[0])) {
 			return false;
 		}
-		if (bPawnAttack(cord)&pos->bitBoard[4]) {
+		if (wPawnAttack(cord)&pos->bitBoard[4]) {
 			return false;
 		}
 		if (kingAttack(cord) & pos->bitBoard[5]) {
@@ -85,7 +85,7 @@ bool isLegal(bool side, struct position* pos) {
 		if (rookAttack(wOcc | bOcc, cord) & (pos->bitBoard[10] | pos->bitBoard[11])) {
 			return false;
 		}
-		if (wPawnAttack(cord) & pos->bitBoard[7]) {
+		if (bPawnAttack(cord) & pos->bitBoard[7]) {
 			return false;
 		}
 		if (kingAttack(cord) & pos->bitBoard[6]) {
