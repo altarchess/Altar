@@ -311,7 +311,7 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = std::min(interesting+7, mvl->mam);
+	int maxo = std::min(interesting+3, mvl->mam);
 	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
@@ -560,7 +560,6 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 
 	if (pos.hash == tt[pos.hash % ttSize].zHash) {
-		tt[pos.hash % ttSize].age = 0;
 		if (tt[pos.hash % ttSize].depth >= depth) {
 			if (tt[pos.hash % ttSize].type == 0) {
 				return  tt[pos.hash % ttSize].eval;
@@ -583,7 +582,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	//razoring
 	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
 	{
-		int score = Quis(pos, beta-1, beta, 0, ct);
+		int score = Quis(pos, alpha, beta, 0, ct);
 		if (score < beta) return score;
 	}
 	//futility pruning
@@ -614,8 +613,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 
 	//IID
-	if (depth >= IID_DEPTH && !inNull && pvnode && pos.hash != tt[pos.hash % ttSize].zHash) {
-		-pvs(s, pos, true, -beta, -alpha, depth-2, ply, mt, ct, hh);
+	if (depth > IID_DEPTH && pvnode && pos.hash == tt[pos.hash % ttSize].zHash && tt[pos.hash % ttSize].move <= 0) {
+		-pvs(s, pos, true, -beta, -alpha, depth/2, ply, mt, ct, hh);
 	}
 
 	int bs = -1999999;
@@ -639,15 +638,15 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			if (i < interesting && !isLegal(pos2.side, &pos2)) {
 				extension = 1;
 			}
-			int lmr = 0;
-			if (depth >= 3 && i >= interesting && i>0) {
-				lmr = 2;
-			}
 			if (pvnode) {
 				if (i == 0) {
 					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
 				}
 				else {
+					int lmr = 0;
+					if (depth > 3 && i >= interesting) {
+						lmr = 2;
+					}
 					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 					if (score > alpha) {
 						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
@@ -655,6 +654,10 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				}
 			}
 			else {
+				int lmr = 0;
+				if (depth > 3 && i >= interesting) {
+					lmr = 2;
+				}
 				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 				if (lmr&&score>alpha){
 					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
@@ -676,14 +679,14 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				ht[pos.side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 				killers[ply][1] = killers[ply][0];
 				killers[ply][0] = bm;
-				ttSave(depth, pos.hash, bs, 1, bm, pvnode);
+				ttSave(depth, pos.hash, bs, 1, bm);
 				return alpha;
 			}
 		}
 
 		ctr++;
 	}
-	ttSave(depth, pos.hash, bs, type, bm,pvnode);
+	ttSave(depth, pos.hash, bs, type, bm);
 	if (isdraw) {
 		return 0;
 	}
@@ -767,7 +770,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				}
 				else {
 					int lmr = 0;
-					if (depth >= 3 && i >= interesting && i > 0) {
+					if (depth >= 3 && i >= interesting) {
 						lmr = 2;
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
@@ -789,7 +792,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 					s->bff = bm.f;
 					s->bft = bm.t;
-					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100, true);
+					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
 					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos,s);
 
 
@@ -826,14 +829,12 @@ void searchManager(struct search* s) {
 				if (s->depth <= s->reacheddepth) {
 					s->searching = false;
 					printBestMove(s->bff, s->bft, getPositionPointer());
-					ageTT();
 				}
 				break;
 			case 1:
 				if (currentTime >= sTime + (UsableTime + inc * (moves - 1)) / moves) {
 					s->searching = false;
 					printBestMove(s->bff, getSearchPointer()->bft, getPositionPointer());
-					ageTT();
 				}
 				break;
 			case 2:

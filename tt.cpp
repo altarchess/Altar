@@ -101,16 +101,10 @@ void setTTSize(int size) {
 		tt[i].move = 0;
 		tt[i].zHash = 0;
 		tt[i].eval = 0;
-		tt[i].age = 1;
-		tt[i].type = 1;
 	}
 
 };
-void ageTT() {
-	for (int i = 0; i < ttSize; i++) {
-		tt[i].age = 1;
-	}
-}
+
 int ttProbe(unsigned long long hash, int depth, int alpha, int beta, int* bm) {
 	if (!ttSize)return invalid;
 
@@ -140,19 +134,12 @@ int ttProbe(unsigned long long hash, int depth, int alpha, int beta, int* bm) {
 
 }
 
-void ttSave(int depth, unsigned long long hash, int eval, int type, int best, bool ispv) {
+void ttSave(int depth, unsigned long long hash, int eval, int type, int best) {
 
 	if (!ttSize)return;
-	if (tt[hash % ttSize].age != 0 ||(type == 0 && tt[hash % ttSize].type!=0) || ispv) {
-		tt[hash % ttSize].zHash = hash;
-		tt[hash % ttSize].eval = eval;
-		tt[hash % ttSize].type = type;
-		tt[hash % ttSize].depth = depth;
-		tt[hash % ttSize].move = best;
-		tt[hash % ttSize].age = 0;
-		return;
-	}
-	if (tt[hash % ttSize].depth > depth) { return; };
+
+	if ((tt[hash % ttSize].zHash == hash) && type!= 0&& (tt[hash % ttSize].depth > depth)) { return; };
+	if ((tt[hash % ttSize].type == 0) && (tt[hash % ttSize].depth>depth)) { return; };
 	//if (type == 0) { std::cout << eval << std::endl; };
 
 	tt[hash% ttSize].zHash = hash;
@@ -160,7 +147,7 @@ void ttSave(int depth, unsigned long long hash, int eval, int type, int best, bo
 	tt[hash% ttSize].type = type;
 	tt[hash% ttSize].depth = depth;
 	tt[hash% ttSize].move = best;
-	tt[hash % ttSize].age = 0;
+
 
 	return;
 }
