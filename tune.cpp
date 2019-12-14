@@ -269,7 +269,7 @@ void tuneVal(tuneVector* adress) {
 			std::cout << std::endl;
 			std::cout << std::endl;
 		}*/
-		for (int e = 0; e < 64; e++) {
+	/*	for (int e = 0; e < 64; e++) {
 			randomTuneTable(e);
 			std::cout << "#";
 		}
@@ -279,15 +279,15 @@ void tuneVal(tuneVector* adress) {
 				std::cout << std::endl;
 			}
 			std::cout << wkingendgamecenter[e] << " ";
-		}
-		/*for (int e = 0; e < adress->active; e++) {
+		}*/
+		for (int e = 0; e < adress->active; e++) {
 			*adress = randomTune(e, *adress);
 			std::cout << "#";
 		}
 		std::cout << std::endl << "ITERATION " << i << " COST " << oldCost << " NODES " << nodeCOUNT<<  std::endl;
 		for (int e = 0; e < adress->active; e++) {
 			std::cout << adress->MODIF[e] << " ";
-		}*/
+		}
 	}
 
 };

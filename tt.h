@@ -10,6 +10,7 @@ struct ttEntry {
 	int type;
 	int depth;
 	int move;
+	int age;
 };
 
 extern unsigned long long ttrndp[12][64];
@@ -21,6 +22,7 @@ extern struct ttEntry* tt;
 
 unsigned long long getHash(struct position* pos);
 int ttProbe(unsigned long long, int , int, int , int*);
-void ttSave(int, unsigned long long, int, int, int);
+void ttSave(int, unsigned long long, int, int, int, bool);
 void setTTSize(int);
 void fillTables();
+void ageTT();
