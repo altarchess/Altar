@@ -613,8 +613,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 
 	//IID
-	if (depth > IID_DEPTH && pvnode && pos.hash == tt[pos.hash % ttSize].zHash && tt[pos.hash % ttSize].move <= 0) {
-		-pvs(s, pos, true, -beta, -alpha, depth/2, ply, mt, ct, hh);
+	if (depth >= IID_DEPTH && pvnode && pos.hash != tt[pos.hash % ttSize].zHash) {
+		-pvs(s, pos, pvnode, -beta, -alpha, depth-2, ply, mt, ct, hh);
 	}
 
 	int bs = -1999999;
@@ -644,8 +644,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				}
 				else {
 					int lmr = 0;
-					if (depth > 3 && i >= interesting) {
-						lmr = 2;
+					if (depth >= 3 && i >= interesting) {
+						lmr = depth/3;
 					}
 					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 					if (score > alpha) {
@@ -655,8 +655,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			}
 			else {
 				int lmr = 0;
-				if (depth > 3 && i >= interesting) {
-					lmr = 2;
+				if (depth >= 3 && i >= interesting) {
+					lmr = depth / 3;
 				}
 				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 				if (lmr&&score>alpha){
@@ -771,7 +771,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 				else {
 					int lmr = 0;
 					if (depth >= 3 && i >= interesting) {
-						lmr = 2;
+						lmr = depth / 3;
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {

@@ -16,17 +16,17 @@
 #define rookEndGame 2548
 #define queenEndGame 5613*/
 
-#define pawnMiddleGame 788
-#define knightMiddleGame 3619
-#define bishopMiddleGame 3238
-#define rookMiddleGame 4349
-#define queenMiddleGame 10482
+#define pawnMiddleGame 766
+#define knightMiddleGame 3575
+#define bishopMiddleGame 3204
+#define rookMiddleGame 4282
+#define queenMiddleGame 10575
 
-#define pawnEndGame 1250
-#define knightEndGame 3459
-#define bishopEndGame 3061
-#define rookEndGame 5931
-#define queenEndGame 10168
+#define pawnEndGame 1035
+#define knightEndGame 3559
+#define bishopEndGame 3175
+#define rookEndGame 6119
+#define queenEndGame 10354
 
 #define pawnPhase 0
 #define knigthPhase 1

@@ -98,9 +98,10 @@ void setTTSize(int size) {
 	}
 
 	for (int i = 0; i < ttSize; i++) {
-		tt[i].move = 0;
-		tt[i].zHash = 0;
+		tt[i].move = -1;
+		tt[i].zHash = 121;
 		tt[i].eval = 0;
+		tt[i].type = 3;
 	}
 
 };
@@ -137,17 +138,22 @@ int ttProbe(unsigned long long hash, int depth, int alpha, int beta, int* bm) {
 void ttSave(int depth, unsigned long long hash, int eval, int type, int best) {
 
 	if (!ttSize)return;
-
-	if ((tt[hash % ttSize].zHash == hash) && type!= 0&& (tt[hash % ttSize].depth > depth)) { return; };
-	if ((tt[hash % ttSize].type == 0) && (tt[hash % ttSize].depth>depth)) { return; };
+	if (type == 0) {
+		tt[hash % ttSize].zHash = hash;
+		tt[hash % ttSize].eval = eval;
+		tt[hash % ttSize].type = type;
+		tt[hash % ttSize].depth = depth;
+		tt[hash % ttSize].move = best;
+		return;
+	}
+	if (tt[hash % ttSize].depth > depth || tt[hash % ttSize].type == 0) { return; };
 	//if (type == 0) { std::cout << eval << std::endl; };
 
-	tt[hash% ttSize].zHash = hash;
-	tt[hash% ttSize].eval = eval;
-	tt[hash% ttSize].type = type;
-	tt[hash% ttSize].depth = depth;
-	tt[hash% ttSize].move = best;
-
+	tt[hash % ttSize].zHash = hash;
+	tt[hash % ttSize].eval = eval;
+	tt[hash % ttSize].type = type;
+	tt[hash % ttSize].depth = depth;
+	tt[hash % ttSize].move = best;
 
 	return;
 }
