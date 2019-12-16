@@ -646,7 +646,6 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			int lmr = 0;
 			if (depth >= 3 && i >= interesting) {
 				lmr = depth / 3;
-				lmr = min(2, lmr);
 			}
 			if (pvnode) {
 				if (i == 0) {
@@ -774,7 +773,6 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					int lmr = 0;
 					if (depth >= 3 && i >= interesting) {
 						lmr = depth / 3;
-						lmr = min(2, lmr);
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
