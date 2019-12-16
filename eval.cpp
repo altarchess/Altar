@@ -18,11 +18,8 @@ struct tuneVector* getTuneVector() {
 	return &tv;
 }
 
-unsigned long long wSide = 0xFFFFFFFF;
-unsigned long long bSide = 0xFFFFFFFF00000000;
-unsigned long long whiteColor = 0xAA55AA55AA55AA55;
-unsigned long long blackColor = 0x55AA55AA55AA55AA;
-unsigned long long color[64];
+unsigned long long wSide = 0xFFFF;
+unsigned long long bSide = 0xFFFF0000;
 
 //score grain is 1/256 of a pawn.
 int center[64] =
@@ -245,14 +242,20 @@ void fillEvalTables() {
 			y++;
 		}
 	}
-	for (int i = 0; i < 64; i++) {
-		if (getBit(i) & whiteColor) {
-			color[i] = whiteColor;
+	/*for (int i = 0; i < 64; i++) {
+		isolaniMask[i] = 0;
+		int x = i % 8;
+		if (x > 0) {
+			isolaniMask[i] |= rowMask[x - 1];
 		}
-		else {
-			color[i] = blackColor;
+		if (x < 7) {
+			isolaniMask[i] |= rowMask[x + 1];
 		}
 	}
+	for (int i = 0; i < 64; i++) {
+		int x = i % 8;
+		doubledMask[i] = rowMask[x];
+	}*/
 }
 
 int materialDraw(struct position* pos) {
@@ -480,30 +483,26 @@ int eval(struct position* pos) {
 	p = pos->bitBoard[9];
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
-		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bishopAttack(wOcc|bOcc, _tzcnt_u64(p));
 		v.mgMob[0] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~bpawn) +  __popcnt64(attack & ~bpawn));
 		v.mgMob[0] += tv.MODIF[34] * __popcnt64(attack & bSide);
 		v.mgMob[0] += tv.MODIF[37] * __popcnt64(attack & wSide);
 		v.egMob[0] += tv.MODIF[5] * __popcnt64(attack);
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
-		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
-		v.positionalThemes[0] -= tv.MODIF[39]*__popcnt64(color[cord]&pos->bitBoard[7]);
-		p &= ~getBit(cord);
+		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
+		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[2];
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
-		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p));
 		v.mgMob[1] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~wpawn)+ __popcnt64(attack & ~wpawn));
 		v.mgMob[1] += tv.MODIF[34] * __popcnt64(attack & wSide);
 		v.mgMob[1] += tv.MODIF[37] * __popcnt64(attack & bSide);
 		v.egMob[1] += tv.MODIF[5] * __popcnt64(attack);
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
-		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
-		v.positionalThemes[1] -= tv.MODIF[39] * __popcnt64(color[cord] & pos->bitBoard[4]);
-		p &= ~getBit(cord);
+		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
+		p &= ~getBit(_tzcnt_u64(p));
 	}
 	//knight eval psqt * valid squares
 	p = pos->bitBoard[8];

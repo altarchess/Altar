@@ -52,6 +52,6 @@ unsigned long long perft(struct position pos, struct moveTable* mt, int depth) {
 		ctr++;
 
 	}
-	ttSave(depth, pos.hash, counter, 0, 0, true);
+	ttSave(depth, pos.hash, counter, 0, 0);
 	return counter;
 }
