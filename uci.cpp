@@ -408,26 +408,26 @@ void uci() {
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
 	getTuneVector()->active = 30;*/
-    getTuneVector()->MODIF[0] = 128;// PAWNENDGAMESPACE
-	getTuneVector()->MODIF[1] = 53;//PAWNMIDDLEGAMESPACE
-	getTuneVector()->MODIF[2] = 87;//ISOLANIEFFECT
-	getTuneVector()->MODIF[3] = 78;//DOUBLEDEFFECT
-	getTuneVector()->MODIF[4] = 62;//BISHOP MIDDLEGAME MOBILITY
-	getTuneVector()->MODIF[5] = 82;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[0] = 131;// PAWNENDGAMESPACE
+	getTuneVector()->MODIF[1] = 48;//PAWNMIDDLEGAMESPACE
+	getTuneVector()->MODIF[2] = 122;//ISOLANIEFFECT
+	getTuneVector()->MODIF[3] = 67;//DOUBLEDEFFECT
+	getTuneVector()->MODIF[4] = 46;//BISHOP MIDDLEGAME MOBILITY
+	getTuneVector()->MODIF[5] = 80;//BISHOP ENDGAME MOBILITY
 	getTuneVector()->MODIF[6] = 113;//BISHOP ENDGAME MOBILITY
-	getTuneVector()->MODIF[7] = 14;//KNIGHT MOBILITY MIDDLEGAME
-	getTuneVector()->MODIF[8] = 22;//KNIGHT PSQT ENDGAME
-	getTuneVector()->MODIF[9] = 78;// ROOK MIDDLEGAME MOB
-	getTuneVector()->MODIF[10] = 55;//ROOK ENDGAME MOB
-	getTuneVector()->MODIF[11] = 4;//QUEEN MIDDLEGAME MOB
-	getTuneVector()->MODIF[12] = 120;//QUEEN ENDGAME MOB
-	getTuneVector()->MODIF[13] = 403;//BISHOP PAIR BONUS
-	getTuneVector()->MODIF[14] = -31; //KNIGHT PAIR BONUS
-	getTuneVector()->MODIF[15] = 72;// king defenders count
+	getTuneVector()->MODIF[7] = 15;//KNIGHT MOBILITY MIDDLEGAME
+	getTuneVector()->MODIF[8] = 21;//KNIGHT PSQT ENDGAME
+	getTuneVector()->MODIF[9] = 112;// ROOK MIDDLEGAME MOB
+	getTuneVector()->MODIF[10] = 48;//ROOK ENDGAME MOB
+	getTuneVector()->MODIF[11] = -6;//QUEEN MIDDLEGAME MOB
+	getTuneVector()->MODIF[12] = 112;//QUEEN ENDGAME MOB
+	getTuneVector()->MODIF[13] = 406;//BISHOP PAIR BONUS
+	getTuneVector()->MODIF[14] = -21; //KNIGHT PAIR BONUS
+	getTuneVector()->MODIF[15] = 68;// king defenders count
 	getTuneVector()->MODIF[16] = 0;//kingShield count
 	getTuneVector()->MODIF[17] = 12;//kingPSQTMIDDLEGAME
-	getTuneVector()->MODIF[18] = 220;// kingPSQTENDGAME
-	getTuneVector()->MODIF[19] = 78; //atcounter
+	getTuneVector()->MODIF[18] = 218;// kingPSQTENDGAME
+	getTuneVector()->MODIF[19] = 75; //atcounter
 	getTuneVector()->MODIF[20] = pawnMiddleGame;
 	getTuneVector()->MODIF[21] = knightMiddleGame;
 	getTuneVector()->MODIF[22] = bishopMiddleGame;
@@ -438,16 +438,17 @@ void uci() {
 	getTuneVector()->MODIF[27] = bishopEndGame;
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
-	getTuneVector()->MODIF[30] = 22; //weakPenalty
-	getTuneVector()->MODIF[31] = 28; //openfileweakPenalty
-	getTuneVector()->MODIF[32] = 43; //openfileweakPenaltyRook
-	getTuneVector()->MODIF[33] = 79; //protectedPawn
-	getTuneVector()->MODIF[34] = 24; //bishopEnemyTerritory
-	getTuneVector()->MODIF[35] = 0; //QueenEnemyTerritory
-	getTuneVector()->MODIF[36] = 0; //RookEnemyTerritory
-	getTuneVector()->MODIF[37] = 1; //bishopOwnTerritory
-	getTuneVector()->MODIF[38] = 330; //PassedPawn
-	getTuneVector()->active = 39;
+	getTuneVector()->MODIF[30] = 17; //weakPenalty
+	getTuneVector()->MODIF[31] = 23; //openfileweakPenalty
+	getTuneVector()->MODIF[32] = 44; //openfileweakPenaltyRook
+	getTuneVector()->MODIF[33] = 66; //protectedPawn
+	getTuneVector()->MODIF[34] = 50; //bishopEnemyTerritory
+	getTuneVector()->MODIF[35] = 23; //QueenEnemyTerritory
+	getTuneVector()->MODIF[36] = -50; //RookEnemyTerritory
+	getTuneVector()->MODIF[37] = 18; //bishopOwnTerritory
+	getTuneVector()->MODIF[38] = 370; //PassedPawn
+	getTuneVector()->MODIF[39] = 52; //BishopPawnColorPenalty;
+	getTuneVector()->active = 40;
 
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);
@@ -512,11 +513,12 @@ void uci() {
 				getSearchPointer()->searching = false;
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}			
+
+
+			parseGO(buf);
 			getSearchPointer()->sTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 			getSearchPointer()->searching = true;
-
-			parseGO(buf);
 
 			std::thread mSearch(mainSearch, getSearchPointer(), getPositionPointer(), hh);
 			mSearch.detach();
