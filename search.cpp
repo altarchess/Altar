@@ -21,16 +21,27 @@
 
 #define RAZOR_MARGIN 2000
 #define FUTILITY_MARGIN 800
+#define HISTORYDIV 480
 
 int max(int a, int b) {
 	return b < a ? a : b;
 }
+int min(int a, int b) {
+	return !(b < a) ? a : b;
+}
 
 int killers[100][2];
 int ht[2][64][64];
-int cmh[2][64][64];
-int pvTable[100][100];
+int cmh[12][64][12][64];
+int lMove[200][2];
+int lmrReductions[64][64];
 
+void initReductionTable() {
+	for (int depth = 1; depth < 64; depth++) {
+		for (int movesSearched = 1; movesSearched < 64; movesSearched++)
+			lmrReductions[depth][movesSearched] = (int)(0.5 + log(depth) * log(movesSearched) / 2.1);
+	}
+}
 
 void resetHistory() {
 	for (int i = 0; i < 64; i++) {
@@ -39,21 +50,58 @@ void resetHistory() {
 			ht[1][i][e] = 0;
 		}
 	}
+	for (int i = 0; i < 200; i++) {
+		lMove[i][0] = -1;
+		lMove[i][1] = -1;
+	}
 }
+
+
+
 int mvVal[13] = {
 	0,13,6,4,3,1,1000,1000,1,3,4,6,13
 };
 int inNull = 0;
 
-int nullStatus(struct position* pos) {
-	int wm = __popcnt64(pos->bitBoard[7]) * pawnMiddleGame + __popcnt64(pos->bitBoard[8]) * knightMiddleGame + __popcnt64(pos->bitBoard[9]) * bishopMiddleGame + __popcnt64(pos->bitBoard[10]) * rookMiddleGame + __popcnt64(pos->bitBoard[11]) * queenMiddleGame;
-	int bm = __popcnt64(pos->bitBoard[4]) * pawnMiddleGame + __popcnt64(pos->bitBoard[3]) * knightMiddleGame + __popcnt64(pos->bitBoard[2]) * bishopMiddleGame + __popcnt64(pos->bitBoard[1]) * rookMiddleGame + __popcnt64(pos->bitBoard[0]) * queenMiddleGame;
+void updateHistory(bool cutOff, int ply, int depth, bool side, int f, int t, int index, struct moveTable* mt, struct position* pos) {
+	if (depth >= 12) {
+		return;
+	}
+	if (cutOff) {
+		ht[side][f][t] -= (depth*depth+5*depth-2) * ht[side][f][t] / HISTORYDIV;
+		ht[side][f][t] += (depth * depth + 5 * depth - 2);
+		cmh[lMove[ply-1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] -= (depth * depth + 5 * depth - 2) * cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] / HISTORYDIV;
+		cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] += (depth * depth + 5 * depth - 2);
+	}
+	else {
+		int ctr = 0;
+		for (int i = 0; i < index; i++) {
+			if (ctr == mt->mvl[ply].gcapt) {
+				ctr = 20;
+			}
+			ht[side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] -= (depth * depth + 5 * depth - 2) * ht[side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] / HISTORYDIV;
+			ht[side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] -= (depth * depth + 5 * depth - 2);
+			cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][getPiece(pos, mt->mvl[ply].MOVE[ctr].f)][mt->mvl[ply].MOVE[ctr].t] -= (depth * depth + 5 * depth - 2) * cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][getPiece(pos, mt->mvl[ply].MOVE[ctr].f)][mt->mvl[ply].MOVE[ctr].t] / HISTORYDIV;
+			cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][getPiece(pos, mt->mvl[ply].MOVE[ctr].f)][mt->mvl[ply].MOVE[ctr].t] -= (depth * depth + 5 * depth - 2);
+			ctr++;
+		}
+	}
+}
 
-	if ((wm + bm) / 256 > 30) {
-		return 1;
+bool nullStatus(struct position* pos) {
+
+	if (pos->side) {
+		if (__popcnt64(pos->bitBoard[8]) + __popcnt64(pos->bitBoard[9]) + __popcnt64(pos->bitBoard[10]) + 2*__popcnt64(pos->bitBoard[11])>1){
+		return true;
+		}
+	}
+	else {
+		if (__popcnt64(pos->bitBoard[3]) +__popcnt64(pos->bitBoard[2]) + __popcnt64(pos->bitBoard[1]) + 2 * __popcnt64(pos->bitBoard[0]) > 1) {
+			return true;
+		}
 	}
 
-	return 0;
+	return false;
 }
 
 int getLeastValuableAttacker(struct position* pos,unsigned long long wOcc, unsigned long long bOcc, bool side,unsigned long long* cmask, int sq) {
@@ -165,7 +213,7 @@ int see(struct position* pos, int from, int to) {
 	return gain[0];
 }
 
-int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
+int orderMvl(struct moveList* mvl, int ply, struct position* pos, int depth) {
 	int interesting = 0;
 
 	int scores[100];
@@ -204,16 +252,20 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		}
 		int tp = getPiece(pos, mvl->MOVE[ctr].t);
 		int ft = getPiece(pos, mvl->MOVE[ctr].f);
+		if (ply > 0) {
+			scores[ctr] = ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t]+cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][ft - 1][mvl->MOVE[ctr].t];
+		}
+		else {
+			scores[ctr] = ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+		}
 
-		scores[ctr] = ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
-
-		if (ft == 5 && mvl->MOVE[ctr].t >= 4 * 8&&see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>=0) {
-			scores[ctr] = 3750000 + ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+		if (ft == 5 && mvl->MOVE[ctr].t >= 5 * 8&&see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>=0) {
+			scores[ctr] += 3750000;
 			interest = true;
 		}
 
-		if (ft == 8 && mvl->MOVE[ctr].t < 4 * 8 && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
-			scores[ctr] = 3750000 + ht[pos->side][mvl->MOVE[ctr].f][mvl->MOVE[ctr].t];
+		if (ft == 8 && mvl->MOVE[ctr].t < 3 * 8 && see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t) >= 0) {
+			scores[ctr] += 3750000;
 			interest = true;
 		}
 
@@ -286,20 +338,23 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 			}
 		}
 
-
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][1]) {
 			scores[ctr] = 5000001;
 			interest = true;
 		}
-		
+
 		if (mvl->MOVE[ctr].f + 100 * mvl->MOVE[ctr].t == killers[ply][0]) {
 			scores[ctr] = 5000002;
 			interest = true;
 		}
-
 		if (tp != 0) {
-			if (mvVal[ft] <= mvVal[tp]|| see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>0) {
+			if (mvVal[ft] < mvVal[tp]|| see(pos, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t)>0) {
 				scores[ctr] = 7500000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
+
+				interest = true;
+			}
+			else if(mvVal[ft] == mvVal[tp]) {
+				scores[ctr] = 7000000 + (mvVal[tp] * 8 - mvVal[ft]) * 1000;
 				interest = true;
 			}
 		}
@@ -311,7 +366,11 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos) {
 		if (interest) { interesting++; }
 		ctr++;
 	}
-	int maxo = std::min(interesting+3, mvl->mam);
+	/*int maxo = min(interesting+2, mvl->mam);
+	if (depth >= 3) {
+		maxo = mvl->mam;
+	}*/
+	int maxo = mvl->mam;
 	/*if (mvl->mam <= maxo + 1) {
 		maxo = mvl->mam - 1;
 	}
@@ -530,11 +589,27 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	return staticEval;
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
-
-	//check extension seems to loose elo at 30s + 0.3s?
 	//if (!isLegal(pos.side, &pos)) { depth += 1; }
-	if (depth == 0) {
-		if (!isLegal(pos.side, &pos)) { depth += 1; }
+
+
+	if (!pos.bitBoard[5]) {
+		if (pos.side) {
+			return wMateScore - ply;
+		}
+		else {
+			return bMateScore + ply;
+		}
+	}
+	if (!pos.bitBoard[6]) {
+		if (pos.side) {
+			return bMateScore + ply;
+		}
+		else {
+			return wMateScore - ply;
+		}
+	}
+	if (depth <= 0) {
+		if (!isLegal(pos.side, &pos)) { depth = 1; }
 		else {
 			s->nodeCount++;
 			return Quis(pos, alpha, beta, 0, ct);
@@ -552,7 +627,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 	}
 
-	hh->hh[hh->index + ply - 1] = pos.hash;
+	hh->hh[hh->index + ply-1] = pos.hash;
 	if (!isLegal(!pos.side, &pos)) {
 		return mateScore - ply;
 	}
@@ -573,7 +648,6 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 	}
 
-
 	bool isdraw = isLegal(pos.side, &pos);
 	bool incheck = !isdraw;
 
@@ -590,18 +664,13 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return staticEval;
 	}
 	//NULL MOVE STUFF
-	if (!pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval >= beta) {
+	if (depth >= 2 &&  !pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval > beta) {
 		makeNull(&pos);
 		inNull++;
 
 		int score = alpha;
-
-		if (depth <= 3) {
-			score = -Quis(pos, -beta, -beta+1, 0, ct);
-		}
-		else {
-			score = -pvs(s, pos, false, -beta, -beta + 1, depth - 4, ply, mt, ct, hh);
-		}
+		score = -pvs(s, pos, false, -beta, -alpha, depth - 4, ply+1, mt, ct, hh);
+		
 
 		makeNull(&pos);
 		inNull--;
@@ -611,42 +680,49 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 
 	}
-
+	
 	//IID
-	if (depth >= IID_DEPTH && pvnode && pos.hash != tt[pos.hash % ttSize].zHash) {
-		-pvs(s, pos, pvnode, -beta, -alpha, depth-2, ply, mt, ct, hh);
+	if (depth >= IID_DEPTH && pvnode&&pos.hash != tt[pos.hash % ttSize].zHash) {
+		pvs(s, pos, pvnode, alpha, beta, depth-2, ply, mt, ct, hh);
 	}
+
 
 	int bs = -1999999;
 	int bm = 0;
 	int type = 2;
 
 	genAllMoves(&mt->mvl[ply], pos.side, &pos);
-	int interesting = orderMvl(&mt->mvl[ply], ply, &pos);
-
+	int interesting = orderMvl(&mt->mvl[ply], ply, &pos, depth);
 	int ctr = 0;
+
 	for (int i = 0; i < mt->mvl[ply].mam; i++) {
 		if (ctr == mt->mvl[ply].gcapt) {
 			ctr = 20;
 		}
 		struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], pos);
-		int score = alpha - 10000;
+		lMove[ply][0] = getPiece(&pos, mt->mvl[ply].MOVE[ctr].f)-1;
+		lMove[ply][1] = mt->mvl[ply].MOVE[ctr].t;
+		int score = alpha;
 		if (isLegal(pos.side, &pos2)) {
-			isdraw = false;
-			incheck = false;
 			int extension = 0;
 			if (i < interesting && !isLegal(pos2.side, &pos2)) {
 				extension = 1;
+			}
+
+
+
+			int lmr = 0;
+			if (depth >= 0 && !extension && i > 0 && !incheck) {
+				lmr = lmrReductions[depth][i];
+				if (getPiece(&pos, mt->mvl[ply].MOVE[ctr].t)) {
+					lmr = min(lmr, 2);
+				}
 			}
 			if (pvnode) {
 				if (i == 0) {
 					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
 				}
 				else {
-					int lmr = 0;
-					if (depth >= 3 && i >= interesting) {
-						lmr = depth/3;
-					}
 					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 					if (score > alpha) {
 						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
@@ -654,15 +730,13 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				}
 			}
 			else {
-				int lmr = 0;
-				if (depth >= 3 && i >= interesting) {
-					lmr = depth / 3;
-				}
 				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
 				if (lmr&&score>alpha){
 					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
 				}
 			}
+			isdraw = false;
+			incheck = false;
 		}
 		if (!s->searching) {
 			return 0;
@@ -676,21 +750,21 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			alpha = bs;
 			type = 0;
 			if (alpha >= beta) {
-				ht[pos.side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
+				updateHistory(true, ply, depth, pos.side, mt->mvl[ply].MOVE[ctr].f, mt->mvl[ply].MOVE[ctr].t, i, mt, &pos);
 				killers[ply][1] = killers[ply][0];
 				killers[ply][0] = bm;
-				ttSave(depth, pos.hash, bs, 1, bm);
+				ttSave(depth, pos.hash, bs, 1, bm, pvnode);
 				return alpha;
 			}
 		}
-
 		ctr++;
 	}
-	ttSave(depth, pos.hash, bs, type, bm);
 	if (isdraw) {
 		return 0;
 	}
 	else {
+		ttSave(depth, pos.hash, bs, type, bm, pvnode);
+
 		if (incheck) {
 			return -mateScore + ply;
 		}
@@ -698,42 +772,63 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 }
 
-int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
-	int binc = 50;
-	int ainc = 50;
-	while (true)
-	{
-		int score = -pvs(s, pos, true, -lastScore-binc, -lastScore+ainc, depth - 1, ply + 1, mt, ct, hh);
-		if (lastScore - ainc < score && score < lastScore + binc) {
-			return score;
-		}
-		else {
-			if (score >= lastScore + binc) {
-				binc = binc * 2;
-				if (binc >= 1500) {
-					binc = 1999999;
-				}
-			}
-			if (score <= lastScore - ainc) {
-				ainc = ainc * 2;
-				if (ainc >= 1500) {
-					ainc = 1999999;
-				}
-			}
-		}
-	}
+int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int hasalpha, int hasbeta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
 
+
+
+	int delta = 200;
+	int alpha = max(lastScore - delta, -mateScore);
+	alpha = max(alpha, hasalpha);
+	int beta = min(lastScore + delta, mateScore);
+	beta = min(beta, hasbeta);
+	int score = 0;
+		while (true)
+		{
+			
+				score = -pvs(s, pos, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+
+				if (s->searching == false) {
+					return 0;
+				}
+
+				// In case of failing low/high increase aspiration window and
+				// re-search, otherwise exit the loop.
+
+				if (score >= hasbeta ||score<=hasalpha) {
+					break;
+				}
+
+				if (score <= alpha)
+				{
+					beta = (alpha + beta) / 2;
+					alpha = max(score - delta, -mateScore);
+					alpha = max(alpha, hasalpha);
+
+				}
+				else if (score>= beta)
+				{
+					alpha = (alpha + beta) / 2;
+					beta = min(score + delta, mateScore);
+					beta = min(beta, hasbeta);
+				}
+				else
+					break;
+				delta += delta / 4 + 50;
+				if (delta >= knightMiddleGame) {
+					delta = mateScore;
+				}
+		}
+		return score;
 }
 
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
-			ht[0][i][e] = ht[0][i][e]/2;
-			ht[1][i][e] = ht[1][i][e] / 2;
+			ht[0][i][e] = ht[0][i][e] = 0;
+			ht[1][i][e] = ht[1][i][e] = 0;
 		}
 	}
-	for (int i = 0; i < 100; i++) {
-	}
+	initReductionTable();
 	int interesting = 0;
 	//std::cout << pos->hash;
 	struct moveTable tb;
@@ -741,41 +836,69 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	struct QTable qt;
 	struct QTable* ct = &qt;
 	genAllMoves(&mt->mvl[0], pos->side, pos);
-	int alpha = -1999999;
-	int beta = 1999999;
+	int alpha = -mateScore;
+	int beta = mateScore;
 	int ply = 0;
+	inNull = 0;
 	int lastScore = 0;
-	for (int depth = 2; depth < 30; depth++) {
-
-		int bs = -1999999;
+	for (int depth = 2; depth < 200; depth++) {
+		int bs = -mateScore;
 		struct move bm;
 
 		int ctr = 0;
+
+
 		for (int i = 0; i < mt->mvl[ply].mam; i++) {
 
 			if (ctr == mt->mvl[ply].gcapt) {
 				ctr = 20;
 			}
-			int score = -19999999;
+			int score = -mateScore;
 			struct position pos2 = makeMove(mt->mvl[ply].MOVE[ctr], *pos);
+			lMove[ply][0] = getPiece(pos, mt->mvl[ply].MOVE[ctr].f) - 1;
+			lMove[ply][1] = mt->mvl[ply].MOVE[ctr].t;
 			if (isLegal(pos->side, &pos2)) {
 				if (i == 0) {
-					/*if (depth > 4) {
+					if (depth > 4) {
 						score = aspiration(lastScore, s, pos2, true, alpha, beta, depth, ply, mt, ct, &hh);
 					}
 					else {
 						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
-					}*/
-					score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+					}
+					//score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
 				else {
+					int extension = 0;
+					if (i < interesting && !isLegal(pos2.side, &pos2)) {
+						extension = 1;
+					}
+
+					/*int lmr = 0;
+					if (depth >= 3 && i >= interesting && i > 0) {
+						lmr = sqrt(double(depth - 1)) + sqrt(double(i - 1));
+						lmr = min(lmr, 4);
+						if (getPiece(pos, mt->mvl[ply].MOVE[ctr].t)) {
+							lmr = min(lmr, 2);
+						}
+					}*/
+
+
+
 					int lmr = 0;
-					if (depth >= 3 && i >= interesting) {
-						lmr = depth / 3;
+					if (depth >= 0 && !extension&& i > 0) {
+						lmr = lmrReductions[depth][i];
+						if (getPiece(pos, mt->mvl[ply].MOVE[ctr].t)) {
+							lmr = min(lmr, 2);
+						}
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
-						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+						if (depth > 4) {
+							score = aspiration(lastScore, s, pos2, true,lastScore, beta, depth, ply, mt, ct, &hh);
+						}
+						else {
+							score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+						}
 					}
 				}
 
@@ -786,14 +909,16 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 
 				if (score > bs) {
 					bs = score;
+					lastScore = bs;
 					bm = mt->mvl[ply].MOVE[ctr];
-					ht[pos->side][mt->mvl[ply].MOVE[ctr].f][mt->mvl[ply].MOVE[ctr].t] += depth * depth;
 					killers[0][1] = killers[0][0];
 					killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 					s->bff = bm.f;
 					s->bft = bm.t;
-					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100);
-					infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos,s);
+					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100, true);
+					if (depth >= 2) {
+						infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos, s);
+					}
 
 
 				}
@@ -804,9 +929,9 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 		s->bff = bm.f;
 		s->bft = bm.t;
 		s->reacheddepth = depth;
-		interesting = orderMvl(&mt->mvl[0], 0, pos);
-		lastScore = bs;
+		interesting = orderMvl(&mt->mvl[0], 0, pos, depth);
 		if (s->depth <= s->reacheddepth) {
+
 			goto end;
 		};
 	}
@@ -829,12 +954,14 @@ void searchManager(struct search* s) {
 				if (s->depth <= s->reacheddepth) {
 					s->searching = false;
 					printBestMove(s->bff, s->bft, getPositionPointer());
+					ageTT();
 				}
 				break;
 			case 1:
 				if (currentTime >= sTime + (UsableTime + inc * (moves - 1)) / moves) {
 					s->searching = false;
 					printBestMove(s->bff, getSearchPointer()->bft, getPositionPointer());
+					ageTT();
 				}
 				break;
 			case 2:

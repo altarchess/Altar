@@ -18,8 +18,11 @@ struct tuneVector* getTuneVector() {
 	return &tv;
 }
 
-unsigned long long wSide = 0xFFFF;
-unsigned long long bSide = 0xFFFF0000;
+unsigned long long wSide = 0xFFFFFFFF;
+unsigned long long bSide = 0xFFFFFFFF00000000;
+unsigned long long whiteColor = 0xAA55AA55AA55AA55;
+unsigned long long blackColor = 0x55AA55AA55AA55AA;
+unsigned long long color[64];
 
 //score grain is 1/256 of a pawn.
 int center[64] =
@@ -242,20 +245,14 @@ void fillEvalTables() {
 			y++;
 		}
 	}
-	/*for (int i = 0; i < 64; i++) {
-		isolaniMask[i] = 0;
-		int x = i % 8;
-		if (x > 0) {
-			isolaniMask[i] |= rowMask[x - 1];
+	for (int i = 0; i < 64; i++) {
+		if (getBit(i)&whiteColor) {
+			color[i] = whiteColor;
 		}
-		if (x < 7) {
-			isolaniMask[i] |= rowMask[x + 1];
+		else {
+			color[i] = blackColor;
 		}
 	}
-	for (int i = 0; i < 64; i++) {
-		int x = i % 8;
-		doubledMask[i] = rowMask[x];
-	}*/
 }
 
 int materialDraw(struct position* pos) {
@@ -299,6 +296,16 @@ int materialDraw(struct position* pos) {
 				return true;
 		}
 	}
+
+	for (int i = 0; i < 64; i++) {
+		if (getBit(i)&whiteColor) {
+			color[i] = whiteColor;
+		}
+		else {
+			color[i] = blackColor;
+		}
+	}
+
 	return false;
 }
 
@@ -356,11 +363,13 @@ int eval(struct position* pos) {
 		return 0;
 	}
 
+	int bkc = _tzcnt_u64(pos->bitBoard[5]);
+	int wkc = _tzcnt_u64(pos->bitBoard[6]);
 	//piece occ for attackset generation & other bitboards
 	unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];
 	unsigned long long bOcc = pos->bitBoard[5] | pos->bitBoard[4] | pos->bitBoard[3] | pos->bitBoard[2] | pos->bitBoard[1] | pos->bitBoard[0];
-	unsigned long long wKingClose = kingAttack(_tzcnt_u64(pos->bitBoard[6])) | getBit(_tzcnt_u64(pos->bitBoard[6]));
-	unsigned long long bKingClose = kingAttack(_tzcnt_u64(pos->bitBoard[5])) | getBit(_tzcnt_u64(pos->bitBoard[5]));
+	unsigned long long wKingClose = kingAttack(wkc) | getBit(wkc);
+	unsigned long long bKingClose = kingAttack(bkc) | getBit(bkc);
 
 	//material scores
 	int wmm = __popcnt64(pos->bitBoard[6]) * 100000 + __popcnt64(pos->bitBoard[7]) * tv.MODIF[20] + __popcnt64(pos->bitBoard[8]) * tv.MODIF[21] + __popcnt64(pos->bitBoard[9]) * tv.MODIF[22] + __popcnt64(pos->bitBoard[10]) * tv.MODIF[23] + __popcnt64(pos->bitBoard[11]) * tv.MODIF[24];
@@ -424,7 +433,7 @@ int eval(struct position* pos) {
 		}
 
 		if (!((wPasserMask[cord] & pos->bitBoard[4]))) {
-			v.egMob[0] += tv.MODIF[38];
+			v.egMob[0] += tv.MODIF[37];
 		}
 
 		if (cord > 7) {
@@ -459,7 +468,7 @@ int eval(struct position* pos) {
 		}
 
 		if (!((bPasserMask[cord] & pos->bitBoard[7]))) {
-			v.egMob[1] += tv.MODIF[38];
+			v.egMob[1] += tv.MODIF[37];
 		}
 		if (cord < 55) {
 			if (!(getBit(cord + 8) & (wOcc | bOcc)) && !(wPasserMask[cord] & pos->bitBoard[4]) && __popcnt64(bPawnAttack(cord + 8) & pos->bitBoard[7]) > __popcnt64(wPawnAttack(cord + 8) & pos->bitBoard[4])) {
@@ -486,10 +495,11 @@ int eval(struct position* pos) {
 		unsigned long long attack = bishopAttack(wOcc|bOcc, _tzcnt_u64(p));
 		v.mgMob[0] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~bpawn) +  __popcnt64(attack & ~bpawn));
 		v.mgMob[0] += tv.MODIF[34] * __popcnt64(attack & bSide);
-		v.mgMob[0] += tv.MODIF[37] * __popcnt64(attack & wSide);
+		v.mgMob[0] += tv.MODIF[36] * __popcnt64(attack & wSide);
 		v.egMob[0] += tv.MODIF[5] * __popcnt64(attack);
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
+		v.positionalThemes[0] -= tv.MODIF[38] * __popcnt64(color[_tzcnt_u64(p)]& pos->bitBoard[7]);
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[2];
@@ -498,10 +508,11 @@ int eval(struct position* pos) {
 		unsigned long long attack = bishopAttack(wOcc | bOcc, _tzcnt_u64(p));
 		v.mgMob[1] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~wpawn)+ __popcnt64(attack & ~wpawn));
 		v.mgMob[1] += tv.MODIF[34] * __popcnt64(attack & wSide);
-		v.mgMob[1] += tv.MODIF[37] * __popcnt64(attack & bSide);
+		v.mgMob[1] += tv.MODIF[36] * __popcnt64(attack & bSide);
 		v.egMob[1] += tv.MODIF[5] * __popcnt64(attack);
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
+		v.positionalThemes[1] -= tv.MODIF[38] * __popcnt64(color[_tzcnt_u64(p)] & pos->bitBoard[4]);
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	//knight eval psqt * valid squares
@@ -531,24 +542,64 @@ int eval(struct position* pos) {
 	p = pos->bitBoard[10];
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
-		unsigned long long attack = rookAttack(wOcc | bOcc, _tzcnt_u64(p));
+		int cord = _tzcnt_u64(p);
+		unsigned long long attack = rookAttack(wOcc | bOcc,cord);
 		v.mgMob[0] += tv.MODIF[9] * __popcnt64(attack & ~bpawn);
-		v.mgMob[0] += tv.MODIF[36] * __popcnt64(attack & bSide);
 		v.egMob[0] += tv.MODIF[10] * __popcnt64(attack);
+
+		if (!(doubledMask[cord] & (pos->bitBoard[4] | pos->bitBoard[7]))) {
+			v.mgMob[0] += tv.MODIF[39];
+			v.egMob[0] += tv.MODIF[42];
+			if (cord % 8 == bkc % 8) {
+				v.mgMob[0] += tv.MODIF[45];
+			}
+		}
+		if (!(doubledMask[cord] & (pos->bitBoard[4]))) {
+			v.mgMob[0] += tv.MODIF[40];
+			v.egMob[0] += tv.MODIF[43];
+		}
+		if (!(doubledMask[cord] & (pos->bitBoard[7]))) {
+			v.mgMob[0] += tv.MODIF[41];
+			v.egMob[0] += tv.MODIF[44];
+			if (cord % 8 == bkc % 8) {
+				v.mgMob[0] += tv.MODIF[46];
+			}
+		}
+
 		v.attCnt[0] += 2 * __popcnt64(bKingClose & attack);
-		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
-		p &= ~getBit(_tzcnt_u64(p));
+		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
+		p &= ~getBit(cord);
 	}
 	p = pos->bitBoard[1];
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
-		unsigned long long attack = rookAttack(wOcc | bOcc, _tzcnt_u64(p));
+		int cord = _tzcnt_u64(p);
+		unsigned long long attack = rookAttack(wOcc | bOcc,cord);
 		v.mgMob[1] += tv.MODIF[9] * __popcnt64(attack & ~wpawn);
-		v.mgMob[1] += tv.MODIF[36] * __popcnt64(attack & wSide);
+
+		if (!(doubledMask[cord] & (pos->bitBoard[4] | pos->bitBoard[7]))) {
+			v.mgMob[1] += tv.MODIF[39];
+			v.egMob[1] += tv.MODIF[42];
+			if (cord % 8 == wkc % 8) {
+				v.mgMob[1] += tv.MODIF[45];
+			}
+		}
+		if (!(doubledMask[cord] & (pos->bitBoard[7]))) {
+			v.mgMob[1] += tv.MODIF[40];
+			v.egMob[1] += tv.MODIF[43];
+		}
+		if (!(doubledMask[cord] & (pos->bitBoard[4]))) {
+			v.mgMob[1] += tv.MODIF[41];
+			v.egMob[1] += tv.MODIF[44];
+			if (cord % 8 == wkc % 8) {
+				v.mgMob[1] += tv.MODIF[46];
+			}
+		}
+
 		v.egMob[1] += tv.MODIF[10] *  __popcnt64(attack);
 		v.attCnt[1] += 2 * __popcnt64(wKingClose & attack);
-		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
-		p &= ~getBit(_tzcnt_u64(p));
+		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
+		p &= ~getBit(cord);
 	}
 	//Queen eval
 	p = pos->bitBoard[11];
@@ -628,6 +679,6 @@ void showStatic() {
 	std::cout << "phase: " << v.gamePhase << std::endl;
 }
 void testf(int i ) {
-	printBitBoard(wPasserMask[i]);
+	printBitBoard(isolaniMask[i]);
 	printBitBoard(bPasserMask[i]);
 }
