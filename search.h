@@ -5,6 +5,7 @@ struct historyhash {
 	int index;
 };
 int max(int, int);
+int min(int a, int b);
 void mainSearch(struct search*, struct position*, struct historyhash);
 void searchManager(struct search*);
 void resetHistory();

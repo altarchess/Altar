@@ -24,6 +24,7 @@ unsigned long long whiteColor = 0xAA55AA55AA55AA55;
 unsigned long long blackColor = 0x55AA55AA55AA55AA;
 unsigned long long color[64];
 
+
 //score grain is 1/256 of a pawn.
 int center[64] =
 {
@@ -396,17 +397,18 @@ int eval(struct position* pos) {
 	v.blockages[1] = 0;
 	v.positionalThemes[0] = 0;
 	v.positionalThemes[1] = 0;
+	int phase = tv.MODIF[51];
+	phase -= __popcnt64(pos->bitBoard[8]) * tv.MODIF[47];
+	phase -= __popcnt64(pos->bitBoard[3]) * tv.MODIF[47];
+	phase -= __popcnt64(pos->bitBoard[9]) * tv.MODIF[48];
+	phase -= __popcnt64(pos->bitBoard[2]) * tv.MODIF[48];
+	phase -= __popcnt64(pos->bitBoard[10]) * tv.MODIF[49];
+	phase -= __popcnt64(pos->bitBoard[1]) * tv.MODIF[49];
+	phase -= __popcnt64(pos->bitBoard[11]) * tv.MODIF[50];
+	phase -= __popcnt64(pos->bitBoard[0]) * tv.MODIF[50];
 
-	int phase = totalPhase;
-	phase -= __popcnt64(pos->bitBoard[8]) * knigthPhase;
-	phase -= __popcnt64(pos->bitBoard[3]) * knigthPhase;
-	phase -= __popcnt64(pos->bitBoard[9]) * bishopPhase;
-	phase -= __popcnt64(pos->bitBoard[2]) * bishopPhase;
-	phase -= __popcnt64(pos->bitBoard[10]) * rookPhase;
-	phase -= __popcnt64(pos->bitBoard[1]) * rookPhase;
-	phase -= __popcnt64(pos->bitBoard[11]) * queenPhase;
-	phase -= __popcnt64(pos->bitBoard[0]) * queenPhase;
-
+	phase = max(0, phase);
+	phase = min(phase, 256);
 
 	//phase count;
 
@@ -663,7 +665,7 @@ int eval(struct position* pos) {
 	int mgScore = (wmm - bmm) + v.positionalThemes[0] - v.positionalThemes[1] + v.kingShield[0] - v.kingShield[1] + v.mgMob[0] - v.mgMob[1] + totalSafetyScore + v.materialAdjustment[0] - v.materialAdjustment[1];
 	int egScore = (wme - bme) + v.positionalThemes[0] - v.positionalThemes[1] + v.egMob[0] - v.egMob[1] + v.materialAdjustment[0] - v.materialAdjustment[1];
 
-	return 100+evalmult * ((egScore * phase) + (mgScore * (totalPhase-phase))) / totalPhase;
+	return 100+evalmult * ((egScore * phase) + (mgScore * (256-phase))) / 256;
 
 }
 

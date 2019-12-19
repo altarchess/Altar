@@ -408,26 +408,26 @@ void uci() {
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
 	getTuneVector()->active = 30;*/
-	getTuneVector()->MODIF[0] = 131;// PAWNENDGAMESPACE
-	getTuneVector()->MODIF[1] = 50;//PAWNMIDDLEGAMESPACE
-	getTuneVector()->MODIF[2] = 124;//ISOLANIEFFECT
-	getTuneVector()->MODIF[3] = 67;//DOUBLEDEFFECT
-	getTuneVector()->MODIF[4] = 44;//BISHOP MIDDLEGAME MOBILITY
-	getTuneVector()->MODIF[5] = 74;//BISHOP ENDGAME MOBILITY
-	getTuneVector()->MODIF[6] = 112;//BISHOP ENDGAME MOBILITY
-	getTuneVector()->MODIF[7] = 15;//KNIGHT MOBILITY MIDDLEGAME
+	getTuneVector()->MODIF[0] = 125;// PAWNENDGAMESPACE
+	getTuneVector()->MODIF[1] = 48;//PAWNMIDDLEGAMESPACE
+	getTuneVector()->MODIF[2] = 125;//ISOLANIEFFECT
+	getTuneVector()->MODIF[3] = 76;//DOUBLEDEFFECT
+	getTuneVector()->MODIF[4] = 43;//BISHOP MIDDLEGAME MOBILITY
+	getTuneVector()->MODIF[5] = 73;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[6] = 110;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[7] = 16;//KNIGHT MOBILITY MIDDLEGAME
 	getTuneVector()->MODIF[8] = 21;//KNIGHT PSQT ENDGAME
-	getTuneVector()->MODIF[9] = 75;// ROOK MIDDLEGAME MOB
-	getTuneVector()->MODIF[10] = 53;//ROOK ENDGAME MOB
-	getTuneVector()->MODIF[11] = -10;//QUEEN MIDDLEGAME MOB
-	getTuneVector()->MODIF[12] = 111;//QUEEN ENDGAME MOB
-	getTuneVector()->MODIF[13] = 405;//BISHOP PAIR BONUS
-	getTuneVector()->MODIF[14] = -24; //KNIGHT PAIR BONUS
-	getTuneVector()->MODIF[15] = 68;// king defenders count
+	getTuneVector()->MODIF[9] = 61;// ROOK MIDDLEGAME MOB
+	getTuneVector()->MODIF[10] = 35;//ROOK ENDGAME MOB
+	getTuneVector()->MODIF[11] = -4;//QUEEN MIDDLEGAME MOB
+	getTuneVector()->MODIF[12] = 121;//QUEEN ENDGAME MOB
+	getTuneVector()->MODIF[13] = 421;//BISHOP PAIR BONUS
+	getTuneVector()->MODIF[14] = -35; //KNIGHT PAIR BONUS
+	getTuneVector()->MODIF[15] = 67;// king defenders count
 	getTuneVector()->MODIF[16] = 0;//kingShield count
-	getTuneVector()->MODIF[17] = 12;//kingPSQTMIDDLEGAME
-	getTuneVector()->MODIF[18] = 220;// kingPSQTENDGAME
-	getTuneVector()->MODIF[19] = 83; //atcounter
+	getTuneVector()->MODIF[17] = 11;//kingPSQTMIDDLEGAME
+	getTuneVector()->MODIF[18] = 190;// kingPSQTENDGAME
+	getTuneVector()->MODIF[19] = 86; //atcounter
 	getTuneVector()->MODIF[20] = pawnMiddleGame;
 	getTuneVector()->MODIF[21] = knightMiddleGame;
 	getTuneVector()->MODIF[22] = bishopMiddleGame;
@@ -438,27 +438,34 @@ void uci() {
 	getTuneVector()->MODIF[27] = bishopEndGame;
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
-	getTuneVector()->MODIF[30] = 17; //weakPenalty
+	getTuneVector()->MODIF[30] = 21; //weakPenalty
 	getTuneVector()->MODIF[31] = 23; //openfileweakPenalty
-	getTuneVector()->MODIF[32] = 44; //openfileweakPenaltyRook
-	getTuneVector()->MODIF[33] = 67; //protectedPawn
-	getTuneVector()->MODIF[34] = 53; //bishopEnemyTerritory
-	getTuneVector()->MODIF[35] = 26; //QueenEnemyTerritory
-	getTuneVector()->MODIF[36] = 18; //bishopOwnTerritory
-	getTuneVector()->MODIF[37] = 373; //PassedPawn
-	getTuneVector()->MODIF[38] = 54; //BishopPawnColor
+	getTuneVector()->MODIF[32] = 47; //openfileweakPenaltyRook
+	getTuneVector()->MODIF[33] = 68; //protectedPawn
+	getTuneVector()->MODIF[34] = 59; //bishopEnemyTerritory
+	getTuneVector()->MODIF[35] = 28; //QueenEnemyTerritory
+	getTuneVector()->MODIF[36] = 20; //bishopOwnTerritory
+	getTuneVector()->MODIF[37] = 361; //PassedPawn
+	getTuneVector()->MODIF[38] = 55; //BishopPawnColor
 
 	//new Rook terms
-	getTuneVector()->MODIF[39] = 174; //rookOpenFileMiddleGame
-	getTuneVector()->MODIF[40] = 185; //rookOnlyOwnPawnsMiddleGame
-	getTuneVector()->MODIF[41] = 176; //rookOnlyEnemyPawnsMiddleGame
-	getTuneVector()->MODIF[42] = -114; //rookOpenFileEndGame
-	getTuneVector()->MODIF[43] = -45; //rookOnlyOwnPawnsEndGame
-	getTuneVector()->MODIF[44] = 90; //rookOnlyEnemyPawnsEndGame
-	getTuneVector()->MODIF[45] = 738; //RookOposingKingBonus (applied to 39)
-	getTuneVector()->MODIF[46] = 221; //RookOposingKingBonusWithEnemyPawns (applied to 40)
+	getTuneVector()->MODIF[39] = 130; //rookOpenFileMiddleGame
+	getTuneVector()->MODIF[40] = 181; //rookOnlyOwnPawnsMiddleGame
+	getTuneVector()->MODIF[41] = 218; //rookOnlyEnemyPawnsMiddleGame
+	getTuneVector()->MODIF[42] = -127; //rookOpenFileEndGame
+	getTuneVector()->MODIF[43] = 57; //rookOnlyOwnPawnsEndGame
+	getTuneVector()->MODIF[44] = 200; //rookOnlyEnemyPawnsEndGame
+	getTuneVector()->MODIF[45] = 846; //RookOposingKingBonus (applied to 39)
+	getTuneVector()->MODIF[46] = 155; //RookOposingKingBonusWithEnemyPawns (applied to 40)
 
-	getTuneVector()->active = 47;
+	//phase tune
+	getTuneVector()->MODIF[47] = 10; //knightPhase
+	getTuneVector()->MODIF[48] = 13; //bishopPhase
+	getTuneVector()->MODIF[49] = 22; //rookPhase
+	getTuneVector()->MODIF[50] = 59; //QueenPhase
+	getTuneVector()->MODIF[51] = 277; //totalPhase
+
+	getTuneVector()->active = 52;
 
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);
