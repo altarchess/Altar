@@ -218,8 +218,9 @@ int orderMvl(struct moveList* mvl, int ply, struct position* pos, int depth) {
 
 	int scores[100];
 	int hashmove = -1;
-	if (tt[pos->hash % ttSize].zHash == pos->hash) {
-		hashmove = tt[pos->hash % ttSize].move;
+	struct ttEntry ttEnt = ttProbe(pos->hash);
+	if (ttEnt.zHash == pos->hash) {
+		hashmove = ttEnt.move;
 	}
 
 	unsigned long long bcsq = 0;
@@ -509,8 +510,9 @@ void printMove(struct move MOVE, struct position pos) {
 
 void printpv(struct position pos, int ply) {
 	int hashmove = 0;
-	if (tt[pos.hash % ttSize].zHash == pos.hash) {
-		hashmove = tt[pos.hash % ttSize].move;
+	struct ttEntry ttEnt = ttProbe(pos.hash);
+	if (ttEnt.zHash == pos.hash) {
+		hashmove = ttEnt.move;
 	}
 	
 	if (hashmove) {
@@ -633,17 +635,17 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 
 
-
-	if (pos.hash == tt[pos.hash % ttSize].zHash) {
-		if (tt[pos.hash % ttSize].depth >= depth) {
-			if (tt[pos.hash % ttSize].type == 0) {
-				return  tt[pos.hash % ttSize].eval;
+	struct ttEntry ttEnt = ttProbe(pos.hash);
+	if (pos.hash == ttEnt.zHash) {
+		if (ttEnt.depth >= depth) {
+			if (ttEnt.type == 0) {
+				return  ttEnt.eval;
 			}
-			if (tt[pos.hash % ttSize].type == 2 && tt[pos.hash % ttSize].eval < alpha) {
-				return tt[pos.hash % ttSize].eval;
+			if (ttEnt.type == 2 && tt[pos.hash % ttSize].eval < alpha) {
+				return ttEnt.eval;
 			}
-			if (tt[pos.hash % ttSize].type == 1 && tt[pos.hash % ttSize].eval > beta) {
-				return tt[pos.hash % ttSize].eval;
+			if (ttEnt.type == 1 && tt[pos.hash % ttSize].eval > beta) {
+				return ttEnt.eval;
 			}
 		}
 	}

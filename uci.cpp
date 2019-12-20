@@ -340,7 +340,7 @@ void startPos(char* buf) {
 }
 
 void uci() {
-	setTTSize(40000000);
+	setTTSize(80000000);
 	/*
 
 0 == PAWNENDGAMESPACE
@@ -521,7 +521,7 @@ void uci() {
 		if (compareCommand(&buf, newgame_Command))
 		{
 			resetHistory();
-			setTTSize(40000000);
+			setTTSize(80000000);
 		}
 
 		if (compareCommand(&buf, go_Command))

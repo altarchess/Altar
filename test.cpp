@@ -23,11 +23,11 @@ unsigned long long perft(struct position pos, struct moveTable* mt, int depth) {
 	genAllMoves(&mt->mvl[depth], pos.side, &pos);
 	unsigned long long counter = 0;
 	int ctr = 0;
-
-	if (pos.hash == tt[pos.hash % ttSize].zHash) {
-		if (tt[pos.hash % ttSize].depth == depth) {
-			if (tt[pos.hash % ttSize].type == 0) {
-				return tt[pos.hash % ttSize].eval;
+	struct ttEntry ttEnt = ttProbe(pos.hash);
+	if (pos.hash == ttEnt.zHash) {
+		if (ttEnt.depth == depth) {
+			if (ttEnt.type == 0) {
+				return ttEnt.eval;
 			}
 		}
 	}
