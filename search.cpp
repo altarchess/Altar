@@ -30,6 +30,27 @@ int min(int a, int b) {
 	return !(b < a) ? a : b;
 }
 
+int mateToTT(int ply, int score) {
+	if (score >= mateScore - 1000) {
+		return score + ply;
+	}
+	if (score <= -mateScore + 1000) {
+		return score - ply;
+	}
+	return score;
+}
+
+int ttToMate(int ply, int score) {
+
+	if (score>=mateScore-1000) {
+		return score-ply;
+	}
+	if (score <= -mateScore + 1000) {
+		return score + ply;
+	}
+	return score;
+}
+
 int killers[100][2];
 int ht[2][64][64];
 int cmh[12][64][12][64];
@@ -618,6 +639,21 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 	}
 
+	//mate score pruning
+	if (beta > mateScore - ply) {
+		beta = mateScore - ply;
+		if (alpha >= mateScore - ply) {
+			return mateScore - ply;
+		}
+	}
+	if (alpha < -mateScore + ply) {
+		alpha = -mateScore + ply;
+		if (beta <= -mateScore + ply) {
+			return -mateScore + ply;
+		}
+	}
+
+
 	if (!s->searching) {
 		return 0;
 	}
@@ -638,14 +674,15 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	struct ttEntry ttEnt = ttProbe(pos.hash);
 	if (pos.hash == ttEnt.zHash) {
 		if (ttEnt.depth >= depth) {
+			int ttev = ttToMate(ply, tt[pos.hash % ttSize].eval);
 			if (ttEnt.type == 0) {
-				return  ttEnt.eval;
+				return  ttev;
 			}
-			if (ttEnt.type == 2 && tt[pos.hash % ttSize].eval < alpha) {
-				return ttEnt.eval;
+			if (ttEnt.type == 2 && ttev < alpha) {
+				return ttev;
 			}
-			if (ttEnt.type == 1 && tt[pos.hash % ttSize].eval > beta) {
-				return ttEnt.eval;
+			if (ttEnt.type == 1 && ttev > beta) {
+				return ttev;
 			}
 		}
 	}
@@ -755,7 +792,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				updateHistory(true, ply, depth, pos.side, mt->mvl[ply].MOVE[ctr].f, mt->mvl[ply].MOVE[ctr].t, i, mt, &pos);
 				killers[ply][1] = killers[ply][0];
 				killers[ply][0] = bm;
-				ttSave(depth, pos.hash, bs, 1, bm, pvnode);
+				ttSave(depth, pos.hash, mateToTT(ply, bs), 1, bm, pvnode);
 				return alpha;
 			}
 		}
@@ -765,7 +802,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return 0;
 	}
 	else {
-		ttSave(depth, pos.hash, bs, type, bm, pvnode);
+		ttSave(depth, pos.hash, mateToTT(ply, bs), type, bm, pvnode);
 
 		if (incheck) {
 			return -mateScore + ply;
@@ -843,7 +880,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 	int ply = 0;
 	inNull = 0;
 	int lastScore = 0;
-	for (int depth = 2; depth < 200; depth++) {
+	for (int depth = 2; depth < 100; depth++) {
 		int bs = -mateScore;
 		struct move bm;
 
@@ -917,7 +954,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					killers[0][0] = mt->mvl[ply].MOVE[ctr].f + 100 * mt->mvl[ply].MOVE[ctr].t;
 					s->bff = bm.f;
 					s->bft = bm.t;
-					ttSave(depth, pos->hash, bs, 0, bm.f + bm.t * 100, true);
+					ttSave(depth, pos->hash, mateToTT(ply, bs), 0, bm.f + bm.t * 100, true);
 					if (depth >= 2) {
 						infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos, s);
 					}
