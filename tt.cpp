@@ -121,7 +121,7 @@ void setTTSize(int size) {
 
 void ageTT() {
 	for (int i = 0; i < ttSize; i++) {
-		tt[i].depthmovetypeage |= getBit(63);
+		tt[i].depthmovetypeage |= ageMask;
 	}
 }
 
