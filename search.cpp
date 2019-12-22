@@ -550,7 +550,7 @@ void printpv(struct position pos, int ply) {
 	}
 }
 
-void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos, struct search* s) {
+void infoString(struct move MOVE, int depth, int score, int nodes, struct position* pos, struct search* s, int scoretype) {
 
 	unsigned long long currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
@@ -566,7 +566,17 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 		std::cout << "info depth " << depth << " score mate " << score << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
 	}
 	else {
-		std::cout << "info depth " << depth << " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+		if (scoretype == 0) {
+			std::cout << "info depth " << depth << " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+		}
+		else {
+			if (scoretype == 1) {
+				std::cout << "info depth " << depth << " score cp " << score / 10 << " lowerbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+			}
+			if (scoretype == 2) {
+				std::cout << "info depth " << depth << " score cp " << score / 10 << " upperbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+			}
+		}
 	}
 	
 	
@@ -678,11 +688,15 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			if (ttEnt.type == 0) {
 				return  ttev;
 			}
-			if (ttEnt.type == 2 && ttev < alpha) {
-				return ttev;
+			if (ttEnt.type == 2) {
+				if (ttev  < alpha) {
+					return ttev;
+				}
 			}
-			if (ttEnt.type == 1 && ttev > beta) {
-				return ttev;
+			if (ttEnt.type == 1) {
+				if (ttev > beta) {
+					return ttev;
+				}
 			}
 		}
 	}
@@ -726,7 +740,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 
 
-	int bs = -1999999;
+	int bs = -mateScore;
 	int bm = 0;
 	int type = 2;
 
@@ -811,7 +825,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 }
 
-int aspiration(int lastScore , struct search* s, struct position pos, bool pvnode, int hasalpha, int hasbeta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
+int aspiration(int lastScore , struct search* s, struct position ogpos, struct position pos, bool pvnode, int hasalpha, int hasbeta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh, int ctr) {
 
 
 
@@ -849,6 +863,16 @@ int aspiration(int lastScore , struct search* s, struct position pos, bool pvnod
 					alpha = (alpha + beta) / 2;
 					beta = min(score + delta, mateScore);
 					beta = min(beta, hasbeta);
+
+					//report move
+					struct move bm = mt->mvl[ply].MOVE[ctr];
+					s->bff = bm.f;
+					s->bft = bm.t;
+
+					ttSave(depth, ogpos.hash, mateToTT(ply,score), 2, bm.f + bm.t * 100, true);
+					if (depth >= 12) {
+						infoString(mt->mvl[ply].MOVE[ctr], depth, score, s->nodeCount, &ogpos, s, 1);
+					}
 				}
 				else
 					break;
@@ -899,7 +923,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 			if (isLegal(pos->side, &pos2)) {
 				if (i == 0) {
 					if (depth > 4) {
-						score = aspiration(lastScore, s, pos2, true, alpha, beta, depth, ply, mt, ct, &hh);
+						score = aspiration(lastScore, s,*pos, pos2, true, alpha, beta, depth, ply, mt, ct, &hh, ctr);
 					}
 					else {
 						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
@@ -933,7 +957,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
 					if (score > bs) {
 						if (depth > 4) {
-							score = aspiration(lastScore, s, pos2, true,lastScore, beta, depth, ply, mt, ct, &hh);
+							score = aspiration(lastScore, s, *pos, pos2, true,lastScore, beta, depth, ply, mt, ct, &hh, ctr);
 						}
 						else {
 							score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
@@ -956,7 +980,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					s->bft = bm.t;
 					ttSave(depth, pos->hash, mateToTT(ply, bs), 0, bm.f + bm.t * 100, true);
 					if (depth >= 2) {
-						infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos, s);
+						infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos, s, 0);
 					}
 
 

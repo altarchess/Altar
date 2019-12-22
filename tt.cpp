@@ -39,15 +39,19 @@ unsigned long long getRnd(){
 	return randULL;
 }*/
 void setTT(int depth, unsigned long long hash, int eval, int type, int best) {
+	
+	struct ttEntry tte= ttProbe(hash);
+	
 	tt[hash % ttSize].zHash = hash;
 	tt[hash % ttSize].eval = eval;
-
-	int bits = type << 1;
-	bits |= best << moveShift;
-	bits |= depth << depthShift;
+	if (tte.move != 0 && best <= 0) {
+		best = tte.move;
+	}
+	int bits = typeMask&(type << typeShift);
+	bits |= moveMask & (best << moveShift);
+	bits |= depthMask & (depth << depthShift);
 
 	tt[hash % ttSize].depthmovetypeage = bits;
-
 	return;
 
 }
@@ -144,13 +148,13 @@ struct ttEntry ttProbe(unsigned long long hash) {
 void ttSave(int depth, unsigned long long hash, int eval, int type, int best, bool pvnode) {
 
 	if (!ttSize)return;
-	if (type == 0 || pvnode || ((tt[hash % ttSize].depthmovetypeage&ageMask)!=0&& tt[hash % ttSize].zHash!=hash)) {
+	struct ttEntry tte = ttProbe(hash);
+	if (type == 0|| pvnode || (tte.age!=0&& tte.zHash!=hash)) {
 		setTT(depth, hash, eval, type, best);
 		return;
 	}
-	if (((tt[hash % ttSize].depthmovetypeage&depthMask)>>depthShift)> depth) { return; };
+	if (tte.depth> depth) { return; };
 	//if (type == 0) { std::cout << eval << std::endl; };
-
 	setTT(depth, hash, eval, type, best);
 
 	return;
