@@ -979,7 +979,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 					s->bff = bm.f;
 					s->bft = bm.t;
 					ttSave(depth, pos->hash, mateToTT(ply, bs), 0, bm.f + bm.t * 100, true);
-					if (depth >= 2) {
+					if (depth >= 7) {
 						infoString(mt->mvl[ply].MOVE[ctr], depth, bs, s->nodeCount, pos, s, 0);
 					}
 
