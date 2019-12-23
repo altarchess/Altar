@@ -1,2 +1,447 @@
-﻿  Altar.cpp
-C:\Users\kim\source\repos\Altar\Altar\Altar.cpp(11,15): error C3861:  '__pext_u64': identifier not found
+﻿  bitboard.cpp
+C:\Users\kimka\Desktop\Altar\bitboard.cpp(57,14): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\bitboard.cpp(78,14): error C3861: '_tzcnt_u64': identifier not found
+  eval.cpp
+C:\Users\kimka\Desktop\Altar\eval.cpp(261,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(262,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(263,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(264,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(266,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(267,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(268,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(269,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(333,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(333,51): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(333,99): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(333,149): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(333,199): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(333,248): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(334,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(334,51): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(334,99): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(334,149): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(334,199): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(334,247): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(363,6): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(363,43): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(367,12): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(368,12): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(376,12): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(376,52): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(376,98): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(376,144): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(376,190): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(376,237): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(377,12): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(377,52): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(377,98): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(377,144): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(377,190): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(377,236): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(379,12): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(379,52): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(379,98): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(379,144): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(379,190): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(379,237): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(380,12): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(380,52): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(380,98): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(380,144): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(380,190): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(380,236): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(401,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(402,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(403,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(404,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(405,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(406,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(407,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(408,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(421,14): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(423,14): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(428,18): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(429,43): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(430,7): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(433,7): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(442,88): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(442,143): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(453,16): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(456,10): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(458,14): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(463,18): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(464,43): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(465,7): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(468,7): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(476,90): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(476,145): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(486,16): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(495,10): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(497,55): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(498,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(498,76): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(499,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(500,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(501,31): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(502,18): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(503,55): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(503,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(504,60): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(504,43): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(505,16): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(508,10): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(510,57): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(511,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(511,74): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(512,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(513,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(514,31): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(515,18): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(516,55): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(516,32): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(517,60): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(517,43): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(518,16): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(522,10): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\eval.cpp(522,22): fatal error C1003: error count exceeds 100; stopping compilation
+  gen.cpp
+C:\Users\kimka\Desktop\Altar\gen.cpp(232,29): error C3861: '_pdep_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\gen.cpp(239,29): error C3861: '_pdep_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\gen.cpp(358,42): error C3861: '_pext_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\gen.cpp(365,46): error C3861: '_pext_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\gen.cpp(399,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\gen.cpp(407,29): error C3861: '__popcnt64': identifier not found
+  move.cpp
+C:\Users\kimka\Desktop\Altar\move.cpp(106,52): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(108,50): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(111,26): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\move.cpp(119,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(132,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(133,45): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(137,45): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(191,48): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(193,35): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(197,48): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(199,40): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(204,42): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(209,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(215,48): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(216,28): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\move.cpp(219,55): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\move.cpp(220,28): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\move.cpp(229,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(230,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(247,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(248,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(262,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(263,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(277,22): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\kimka\Desktop\Altar\move.cpp(278,22): warning C4553: '==': result of expression not used; did you intend '='?
+  movelist.cpp
+C:\Users\kimka\Desktop\Altar\movelist.cpp(45,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(49,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(50,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(52,41): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(53,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(54,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(59,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(60,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(61,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(67,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(69,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(72,42): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(72,72): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(73,37): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(74,41): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(76,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(76,74): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(77,40): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(78,45): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(83,26): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(84,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(85,35): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(90,28): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(91,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(92,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(97,22): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(101,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(103,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(104,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(105,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(107,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(108,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(110,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(112,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(113,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(115,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(117,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(119,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(120,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(122,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(125,24): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(128,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(130,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(131,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(132,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(134,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(135,55): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(136,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(138,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(139,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(141,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(143,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(145,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(146,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(148,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(151,24): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(154,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(156,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(157,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(158,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(160,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(161,55): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(162,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(164,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(165,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(167,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(169,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(171,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(172,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(174,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(177,22): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(181,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(183,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(184,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(185,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(187,55): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(187,97): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(188,56): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(188,107): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(189,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(191,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(192,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(194,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(196,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(198,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(199,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(201,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(204,23): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(209,6): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+C:\Users\kimka\Desktop\Altar\movelist.cpp(216,6): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+C:\Users\kimka\Desktop\Altar\movelist.cpp(224,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(226,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(227,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(228,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(230,41): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(231,42): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(233,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(235,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(236,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(238,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(240,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(242,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(243,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(245,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(248,21): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(256,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(260,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(261,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(263,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(264,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(265,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(270,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(271,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(272,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(278,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(280,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(281,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(282,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(283,42): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(283,72): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(284,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(285,44): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(287,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(287,74): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(288,40): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(289,45): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(294,28): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(295,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(296,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(301,28): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(302,31): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(303,36): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(308,22): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(312,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(314,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(315,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(316,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(318,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(319,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(321,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(323,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(324,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(326,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(328,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(330,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(331,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(333,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(336,24): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(339,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(341,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(342,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(343,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(345,56): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(346,57): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(347,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(349,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(350,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(352,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(354,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(356,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(357,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(359,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(362,24): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(365,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(367,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(368,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(369,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(371,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(372,55): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(373,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(375,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(376,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(378,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(380,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(382,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(383,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(385,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(388,22): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(391,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(393,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(394,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(395,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(397,55): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(397,98): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(398,56): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(398,108): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(399,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(401,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(402,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(404,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(406,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(408,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(409,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(411,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(414,23): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(419,6): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+C:\Users\kimka\Desktop\Altar\movelist.cpp(426,6): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+C:\Users\kimka\Desktop\Altar\movelist.cpp(434,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(436,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(437,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(438,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(440,41): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(441,42): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(443,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(445,30): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(446,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(448,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(450,17): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(452,39): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(453,39): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(455,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(458,21): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(490,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(494,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(495,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(497,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(498,29): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(499,24): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(504,25): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(505,21): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(511,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(512,29): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(513,24): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(518,28): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(519,23): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(526,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(528,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(532,28): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(533,24): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(534,29): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(535,40): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(540,23): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(541,27): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(547,28): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(548,24): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(549,29): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(550,42): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(555,23): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(556,28): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(562,22): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(566,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(568,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(569,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(570,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(572,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(573,15): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(575,23): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(576,23): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(577,36): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(582,22): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(583,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(586,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(590,24): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(593,11): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(595,30): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(596,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(597,14): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(599,56): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(600,30): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(602,23): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\movelist.cpp(603,23): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(604,36): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\movelist.cpp(604,51): fatal error C1003: error count exceeds 100; stopping compilation
+  search.cpp
+C:\Users\kimka\Desktop\Altar\search.cpp(115,7): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(115,38): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(115,69): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(115,103): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(120,7): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(120,37): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(120,68): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(120,103): error C3861: '__popcnt64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(133,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(138,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(143,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(149,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(154,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(160,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(168,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(173,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(178,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(184,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(189,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(195,21): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(257,36): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(258,34): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(259,23): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(260,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(263,36): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(264,34): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(265,23): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(266,22): error C3861: '_tzcnt_u64': identifier not found
+C:\Users\kimka\Desktop\Altar\search.cpp(558,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(874,57): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(983,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+  test.cpp
+C:\Users\kimka\Desktop\Altar\test.cpp(55,26): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+  tt.cpp
+C:\Users\kimka\Desktop\Altar\tt.cpp(59,22): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\kimka\Desktop\Altar\tt.cpp(95,18): error C3861: '_tzcnt_u64': identifier not found
+  tune.cpp
+C:\Users\kimka\Desktop\Altar\tune.cpp(121,23): warning C4244: '+=': conversion from 'double' to 'unsigned __int64', possible loss of data
+C:\Users\kimka\Desktop\Altar\tune.cpp(229,26): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\kimka\Desktop\Altar\tune.cpp(231,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  uci.cpp
+C:\Users\kimka\Desktop\Altar\uci.cpp(135,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...

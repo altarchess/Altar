@@ -488,7 +488,7 @@ void uci() {
 		if (compareCommand(&buf, uci_Command))
 		{
 			printf("id name Altar %s\n", Version);
-			printf("id Author %s", Author);
+			printf("id author %s", Author);
 			printf("\n");
 			printf("uciok\n");
 			fflush(stdout);
