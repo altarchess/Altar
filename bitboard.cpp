@@ -51,6 +51,7 @@ bool hasKings(struct position* pos) {
 	return false;
 }
 bool isLegal(bool side, struct position* pos) {
+	if (!hasKings(pos)) { return false; }
 	if (side) {
 		unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];
 		unsigned long long bOcc = pos->bitBoard[0] | pos->bitBoard[1] | pos->bitBoard[2] | pos->bitBoard[3] | pos->bitBoard[4] | pos->bitBoard[5];
@@ -107,7 +108,7 @@ bool isLegalSQ(bool side, struct position* pos, int cord) {
 		if (rookAttack(wOcc | bOcc, cord) & (pos->bitBoard[1] | pos->bitBoard[0])) {
 			return false;
 		}
-		if (bPawnAttack(cord) & pos->bitBoard[4]) {
+		if (wPawnAttack(cord) & pos->bitBoard[4]) {
 			return false;
 		}
 		return true;
@@ -124,7 +125,7 @@ bool isLegalSQ(bool side, struct position* pos, int cord) {
 		if (rookAttack(wOcc | bOcc, cord) & (pos->bitBoard[10] | pos->bitBoard[11])) {
 			return false;
 		}
-		if (wPawnAttack(cord) & pos->bitBoard[7]) {
+		if (bPawnAttack(cord) & pos->bitBoard[7]) {
 			return false;
 		}
 		return true;

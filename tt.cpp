@@ -14,6 +14,7 @@ unsigned long long ttrndc[4];
 unsigned long long ttrnde[16];
 unsigned long long ttside;
 unsigned long long ttSize;
+int ttSetting = 10000000;
 struct ttEntryCompressed* tt;
 
 
@@ -97,14 +98,14 @@ unsigned long long getHash(struct position* pos) {
 	return hash;
 }
 
-void setTTSize(int size) {
+void setTTSize() {
 	//free(tt);
 	
 	if (tt != NULL) {
 		free(tt);
 	}
-	tt = (ttEntryCompressed*)malloc((size)*sizeof(ttEntryCompressed));
-	ttSize = size-2;
+	tt = (ttEntryCompressed*)malloc((ttSetting)*sizeof(ttEntryCompressed));
+	ttSize = ttSetting-2;
 	if (tt==NULL)
 	{
 		std::cout << "malloc fucked up";
@@ -127,9 +128,6 @@ void ageTT() {
 
 struct ttEntry ttProbe(unsigned long long hash) {
 	struct ttEntry t;
-	if (tt[hash % ttSize].zHash == hash) {
-		tt[hash % ttSize].depthmovetypeage = tt[hash % ttSize].depthmovetypeage & ~ageMask;
-	}
 	t.zHash = tt[hash % ttSize].zHash;
 	t.eval = tt[hash % ttSize].eval;
 
@@ -140,7 +138,10 @@ struct ttEntry ttProbe(unsigned long long hash) {
 	t.type = (bits & typeMask) >> typeShift;
 	t.move = (bits & moveMask) >> moveShift;
 	t.depth = (bits & depthMask) >> depthShift;
-
+	t.age = bits & ageMask;
+	if (tt[hash % ttSize].zHash == hash) {
+		tt[hash % ttSize].depthmovetypeage = tt[hash % ttSize].depthmovetypeage & ~ageMask;
+	}
 	return t;
 
 }

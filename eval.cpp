@@ -100,8 +100,8 @@ int bpawnendgame[64] =
 	0,0,0,0,0,0,0,0,
 	1,0,-1,-1,-1,-1,0,1,
 	3,2,1,0,0,1,2,3,
-	9,10,7,7,7,7,10,9,
-	22,20,16,16,16,16,20,22,
+	9,10,8,7,7,8,10,9,
+	21,21,17,17,17,17,21,21,
 	0,0,0,0,0,0,0,0
 };
 int wpawnmiddlegame[64] =
@@ -159,11 +159,17 @@ unsigned long long rowMask[8] = {
 	72340172838076673
 };
 
+int attackWeights[12] = { 0,0,50,75,88,94,97,99,100,100,100,100 };
+
+unsigned long long kFlankMask[64] = {};
+
 //eval Tables;
 unsigned long long isolaniMask[64];
 unsigned long long doubledMask[64];
 unsigned long long wPasserMask[64];
 unsigned long long bPasserMask[64];
+unsigned long long wBlockerMask[64];
+unsigned long long bBlockerMask[64];
 
 struct evalVector {
 	int gamePhase;
@@ -195,6 +201,29 @@ void fillEvalTables() {
 	for (int i = 0; i < 64; i++) {
 		int x = i % 8;
 		doubledMask[i] = rowMask[7-x];
+	}
+	for (int y = 0; y < 8; y++) {
+		for (int x = 1; x < 4; x++) {
+			kFlankMask[y*8+x] = rowMask[7 - (x-1)];
+		}
+		for (int x = 4; x < 7; x++) {
+			kFlankMask[y * 8 + x] = rowMask[7 - (x+1)];
+		}
+	}
+	for (int i = 0; i < 64; i++) {
+		wBlockerMask[i] = 0;
+		bBlockerMask[i] = 0;
+		int y = i / 8;
+		int x = i - y * 8;
+		while (y > 0) {
+			y--;
+			wBlockerMask[i] |= getBit(y * 8 + x);
+		}
+		y = i / 8;
+		while (y < 7) {
+			y++;
+			bBlockerMask[i] |= getBit(y * 8 + x);
+		}
 	}
 	for (int i = 0; i < 64; i++) {
 		wPasserMask[i] = 0;
@@ -416,6 +445,9 @@ int eval(struct position* pos) {
 	//pawn Structure eval
 	unsigned long long wpawn = 0;
 	unsigned long long bpawn = 0;
+	
+	int wAttackersCount = 0;
+	int bAttackersCount = 0;
 
 	unsigned long long p = pos->bitBoard[7];
 	int range = __popcnt64(p);
@@ -439,7 +471,7 @@ int eval(struct position* pos) {
 		}
 
 		if (cord > 7) {
-			if (!(getBit(cord - 8) & (wOcc | bOcc)) && !(bPasserMask[cord]&pos->bitBoard[7]) && __popcnt64(wPawnAttack(cord - 8) & pos->bitBoard[4]) > __popcnt64(bPawnAttack(cord - 8) & pos->bitBoard[7])) {
+			if (!(getBit(cord - 8) & (wOcc | bOcc)) && !(bPasserMask[cord]&pos->bitBoard[7]&~bBlockerMask[i]) && __popcnt64(wPawnAttack(cord - 8) & pos->bitBoard[4]) > __popcnt64(bPawnAttack(cord - 8) & pos->bitBoard[7])) {
 				v.positionalThemes[0] -= tv.MODIF[30];
 
 				if (!(doubledMask[cord] & pos->bitBoard[4])) {
@@ -449,6 +481,9 @@ int eval(struct position* pos) {
 					}
 				}
 			}
+		}
+		if (attack & bKingClose) {
+			wAttackersCount += 1;
 		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
@@ -473,7 +508,7 @@ int eval(struct position* pos) {
 			v.egMob[1] += tv.MODIF[37];
 		}
 		if (cord < 55) {
-			if (!(getBit(cord + 8) & (wOcc | bOcc)) && !(wPasserMask[cord] & pos->bitBoard[4]) && __popcnt64(bPawnAttack(cord + 8) & pos->bitBoard[7]) > __popcnt64(wPawnAttack(cord + 8) & pos->bitBoard[4])) {
+			if (!(getBit(cord + 8) & (wOcc | bOcc)) && !(wPasserMask[cord] & pos->bitBoard[4] & ~wBlockerMask[i]) && __popcnt64(bPawnAttack(cord + 8) & pos->bitBoard[7]) > __popcnt64(wPawnAttack(cord + 8) & pos->bitBoard[4])) {
 				v.positionalThemes[1] -= tv.MODIF[30];
 				if (!(doubledMask[cord] & pos->bitBoard[7])) {
 					v.positionalThemes[1] -= tv.MODIF[31];
@@ -482,6 +517,9 @@ int eval(struct position* pos) {
 					v.positionalThemes[1] -= tv.MODIF[32];
 				}
 			}
+		}
+		if (attack & wKingClose) {
+			bAttackersCount += 1;
 		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
@@ -502,6 +540,9 @@ int eval(struct position* pos) {
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
 		v.positionalThemes[0] -= tv.MODIF[38] * __popcnt64(color[_tzcnt_u64(p)]& pos->bitBoard[7]);
+		if (attack & bKingClose) {
+			wAttackersCount += 1;
+		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[2];
@@ -515,6 +556,9 @@ int eval(struct position* pos) {
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
 		v.positionalThemes[1] -= tv.MODIF[38] * __popcnt64(color[_tzcnt_u64(p)] & pos->bitBoard[4]);
+		if (attack & wKingClose) {
+			bAttackersCount += 1;
+		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	//knight eval psqt * valid squares
@@ -527,6 +571,9 @@ int eval(struct position* pos) {
 		v.egMob[0] += tv.MODIF[8] * wknightPSQT[_tzcnt_u64(p)] / 2;
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
+		if (attack & bKingClose) {
+			wAttackersCount += 1;
+		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[3];
@@ -538,6 +585,9 @@ int eval(struct position* pos) {
 		v.egMob[1] += tv.MODIF[8] * bknightPSQT[_tzcnt_u64(p)] / 2;
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
+		if (attack & wKingClose) {
+			bAttackersCount += 1;
+		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	//rook eval
@@ -570,6 +620,9 @@ int eval(struct position* pos) {
 
 		v.attCnt[0] += 2 * __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
+		if (attack & bKingClose) {
+			wAttackersCount += 1;
+		}
 		p &= ~getBit(cord);
 	}
 	p = pos->bitBoard[1];
@@ -601,6 +654,9 @@ int eval(struct position* pos) {
 		v.egMob[1] += tv.MODIF[10] *  __popcnt64(attack);
 		v.attCnt[1] += 2 * __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
+		if (attack & wKingClose) {
+			bAttackersCount += 1;
+		}
 		p &= ~getBit(cord);
 	}
 	//Queen eval
@@ -613,6 +669,9 @@ int eval(struct position* pos) {
 		v.egMob[0] += tv.MODIF[12] * __popcnt64(attack);
 		v.attCnt[0] += 2 * __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[7]);
+		if (attack & bKingClose) {
+			wAttackersCount += 1;
+		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[0];
@@ -624,6 +683,9 @@ int eval(struct position* pos) {
 		v.egMob[1] += tv.MODIF[12] * __popcnt64(attack);
 		v.attCnt[1] += 2 * __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(_tzcnt_u64(p)) & pos->bitBoard[4]);
+		if (attack & wKingClose) {
+			bAttackersCount += 1;
+		}
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 
@@ -645,8 +707,8 @@ int eval(struct position* pos) {
 	v.kingShield[0] += tv.MODIF[15] * __popcnt64(wKingClose & wOcc);
 	v.kingShield[1] += tv.MODIF[15] * __popcnt64(bKingClose & bOcc);
 
-	v.kingShield[0] -= tv.MODIF[15] * __popcnt64(bishopAttack(pos->bitBoard[7], _tzcnt_u64(pos->bitBoard[6])) | rookAttack(pos->bitBoard[7], _tzcnt_u64(pos->bitBoard[6])));
-	v.kingShield[1] -= tv.MODIF[15] * __popcnt64(bishopAttack(pos->bitBoard[4], _tzcnt_u64(pos->bitBoard[5])) | rookAttack(pos->bitBoard[4], _tzcnt_u64(pos->bitBoard[5])));
+	v.kingShield[0] -= tv.MODIF[16] * __popcnt64(bishopAttack(pos->bitBoard[7], _tzcnt_u64(pos->bitBoard[6])) | rookAttack(pos->bitBoard[7], _tzcnt_u64(pos->bitBoard[6])));
+	v.kingShield[1] -= tv.MODIF[16] * __popcnt64(bishopAttack(pos->bitBoard[4], _tzcnt_u64(pos->bitBoard[5])) | rookAttack(pos->bitBoard[4], _tzcnt_u64(pos->bitBoard[5])));
 
 
 
@@ -655,13 +717,16 @@ int eval(struct position* pos) {
 	v.egMob[0] += tv.MODIF[18] *wkingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
 	v.egMob[1] += tv.MODIF[18] *bkingendgamecenter[_tzcnt_u64(pos->bitBoard[5])];
 
+	//open king
+	//v.kingShield[0] = 
+
 	v.gamePhase = phase;
 	//evalmult = always return eval relative to side
 	int evalmult = 1;
 	if (!pos->side) {
 		evalmult = -1;
 	}
-	int totalSafetyScore = tv.MODIF[19] * v.attCnt[0] - tv.MODIF[19] * v.attCnt[1];
+	int totalSafetyScore = (attackWeights[wAttackersCount]*tv.MODIF[19] * v.attCnt[0]/100) - (attackWeights[bAttackersCount] * tv.MODIF[19] * v.attCnt[1]/100);
 	int mgScore = (wmm - bmm) + v.positionalThemes[0] - v.positionalThemes[1] + v.kingShield[0] - v.kingShield[1] + v.mgMob[0] - v.mgMob[1] + totalSafetyScore + v.materialAdjustment[0] - v.materialAdjustment[1];
 	int egScore = (wme - bme) + v.positionalThemes[0] - v.positionalThemes[1] + v.egMob[0] - v.egMob[1] + v.materialAdjustment[0] - v.materialAdjustment[1];
 
@@ -683,4 +748,10 @@ void showStatic() {
 void testf(int i ) {
 	printBitBoard(isolaniMask[i]);
 	printBitBoard(bPasserMask[i]);
+	printBitBoard(doubledMask[i]);
+	printBitBoard(getBit(i));
+	printBitBoard(rowMask[6]);
+	printBitBoard(kFlankMask[i+4]);
+	printBitBoard(wBlockerMask[i]);
+	printBitBoard(bBlockerMask[i]);
 }

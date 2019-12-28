@@ -32,11 +32,12 @@ extern unsigned long long ttrndc[4];
 extern unsigned long long ttrnde[16];
 extern unsigned long long ttside;
 extern unsigned long long ttSize;
+extern int ttSetting;
 extern struct ttEntryCompressed* tt;
 
 unsigned long long getHash(struct position* pos);
 struct ttEntry ttProbe(unsigned long long);
 void ttSave(int, unsigned long long, int, int, int, bool pvnode);
-void setTTSize(int);
+void setTTSize();
 void fillTables();
 void ageTT();

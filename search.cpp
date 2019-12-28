@@ -704,7 +704,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	bool isdraw = isLegal(pos.side, &pos);
 	bool incheck = !isdraw;
 
-	int staticEval = std::max(alpha,eval(&pos));
+	int staticEval = eval(&pos);
 
 	//razoring
 	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
@@ -766,7 +766,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 			int lmr = 0;
 			if (depth >= 0 && !extension && i > 0 && !incheck) {
-				lmr = lmrReductions[depth][i];
+				lmr =  lmrReductions[depth][i];
 				if (getPiece(&pos, mt->mvl[ply].MOVE[ctr].t)) {
 					lmr = min(lmr, 2);
 				}

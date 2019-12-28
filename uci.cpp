@@ -30,6 +30,7 @@
 #define staticEval_Command	   "staticeval"
 #define tune_Command	   "autotune"
 #define tune_kCommand	   "ktuner"
+#define option_Command "setoption name"
 
 #define CMD_PERFT              "perft"
 #define CMD_TEST               "test"
@@ -340,7 +341,7 @@ void startPos(char* buf) {
 }
 
 void uci() {
-	setTTSize(80000000);
+	setTTSize();
 	/*
 
 0 == PAWNENDGAMESPACE
@@ -408,26 +409,26 @@ void uci() {
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
 	getTuneVector()->active = 30;*/
-	getTuneVector()->MODIF[0] = 125;// PAWNENDGAMESPACE
-	getTuneVector()->MODIF[1] = 48;//PAWNMIDDLEGAMESPACE
-	getTuneVector()->MODIF[2] = 125;//ISOLANIEFFECT
-	getTuneVector()->MODIF[3] = 76;//DOUBLEDEFFECT
-	getTuneVector()->MODIF[4] = 43;//BISHOP MIDDLEGAME MOBILITY
-	getTuneVector()->MODIF[5] = 73;//BISHOP ENDGAME MOBILITY
-	getTuneVector()->MODIF[6] = 110;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[0] = 122;// PAWNENDGAMESPACE
+	getTuneVector()->MODIF[1] = 46;//PAWNMIDDLEGAMESPACE
+	getTuneVector()->MODIF[2] = 128;//ISOLANIEFFECT
+	getTuneVector()->MODIF[3] = 78;//DOUBLEDEFFECT
+	getTuneVector()->MODIF[4] = 41;//BISHOP MIDDLEGAME MOBILITY
+	getTuneVector()->MODIF[5] = 71;//BISHOP ENDGAME MOBILITY
+	getTuneVector()->MODIF[6] = 108;//BISHOP ENDGAME MOBILITY
 	getTuneVector()->MODIF[7] = 16;//KNIGHT MOBILITY MIDDLEGAME
 	getTuneVector()->MODIF[8] = 21;//KNIGHT PSQT ENDGAME
-	getTuneVector()->MODIF[9] = 61;// ROOK MIDDLEGAME MOB
+	getTuneVector()->MODIF[9] = 60;// ROOK MIDDLEGAME MOB
 	getTuneVector()->MODIF[10] = 35;//ROOK ENDGAME MOB
-	getTuneVector()->MODIF[11] = -4;//QUEEN MIDDLEGAME MOB
-	getTuneVector()->MODIF[12] = 121;//QUEEN ENDGAME MOB
-	getTuneVector()->MODIF[13] = 421;//BISHOP PAIR BONUS
-	getTuneVector()->MODIF[14] = -35; //KNIGHT PAIR BONUS
-	getTuneVector()->MODIF[15] = 67;// king defenders count
-	getTuneVector()->MODIF[16] = 0;//kingShield count
+	getTuneVector()->MODIF[11] = 9;//QUEEN MIDDLEGAME MOB
+	getTuneVector()->MODIF[12] = 128;//QUEEN ENDGAME MOB
+	getTuneVector()->MODIF[13] = 425;//BISHOP PAIR BONUS
+	getTuneVector()->MODIF[14] = -43; //KNIGHT PAIR BONUS
+	getTuneVector()->MODIF[15] = 82;// king defenders count
+	getTuneVector()->MODIF[16] = 62;//kingShield count
 	getTuneVector()->MODIF[17] = 11;//kingPSQTMIDDLEGAME
-	getTuneVector()->MODIF[18] = 190;// kingPSQTENDGAME
-	getTuneVector()->MODIF[19] = 86; //atcounter
+	getTuneVector()->MODIF[18] = 181;// kingPSQTENDGAME
+	getTuneVector()->MODIF[19] = 203; //atcounter
 	getTuneVector()->MODIF[20] = pawnMiddleGame;
 	getTuneVector()->MODIF[21] = knightMiddleGame;
 	getTuneVector()->MODIF[22] = bishopMiddleGame;
@@ -438,34 +439,37 @@ void uci() {
 	getTuneVector()->MODIF[27] = bishopEndGame;
 	getTuneVector()->MODIF[28] = rookEndGame;
 	getTuneVector()->MODIF[29] = queenEndGame;
-	getTuneVector()->MODIF[30] = 21; //weakPenalty
-	getTuneVector()->MODIF[31] = 23; //openfileweakPenalty
-	getTuneVector()->MODIF[32] = 47; //openfileweakPenaltyRook
-	getTuneVector()->MODIF[33] = 68; //protectedPawn
-	getTuneVector()->MODIF[34] = 59; //bishopEnemyTerritory
-	getTuneVector()->MODIF[35] = 28; //QueenEnemyTerritory
-	getTuneVector()->MODIF[36] = 20; //bishopOwnTerritory
-	getTuneVector()->MODIF[37] = 361; //PassedPawn
-	getTuneVector()->MODIF[38] = 55; //BishopPawnColor
+	getTuneVector()->MODIF[30] = 19; //weakPenalty
+	getTuneVector()->MODIF[31] = 21; //openfileweakPenalty
+	getTuneVector()->MODIF[32] = 48; //openfileweakPenaltyRook
+	getTuneVector()->MODIF[33] = 70; //protectedPawn
+	getTuneVector()->MODIF[34] = 63; //bishopEnemyTerritory
+	getTuneVector()->MODIF[35] = 21; //QueenEnemyTerritory
+	getTuneVector()->MODIF[36] = 22; //bishopOwnTerritory
+	getTuneVector()->MODIF[37] = 353; //PassedPawn
+	getTuneVector()->MODIF[38] = 56; //BishopPawnColor
 
 	//new Rook terms
-	getTuneVector()->MODIF[39] = 130; //rookOpenFileMiddleGame
+	getTuneVector()->MODIF[39] = 112; //rookOpenFileMiddleGame
 	getTuneVector()->MODIF[40] = 181; //rookOnlyOwnPawnsMiddleGame
-	getTuneVector()->MODIF[41] = 218; //rookOnlyEnemyPawnsMiddleGame
-	getTuneVector()->MODIF[42] = -127; //rookOpenFileEndGame
-	getTuneVector()->MODIF[43] = 57; //rookOnlyOwnPawnsEndGame
-	getTuneVector()->MODIF[44] = 200; //rookOnlyEnemyPawnsEndGame
-	getTuneVector()->MODIF[45] = 846; //RookOposingKingBonus (applied to 39)
-	getTuneVector()->MODIF[46] = 155; //RookOposingKingBonusWithEnemyPawns (applied to 40)
+	getTuneVector()->MODIF[41] = 222; //rookOnlyEnemyPawnsMiddleGame
+	getTuneVector()->MODIF[42] = -172; //rookOpenFileEndGame
+	getTuneVector()->MODIF[43] = 109; //rookOnlyOwnPawnsEndGame
+	getTuneVector()->MODIF[44] = 247; //rookOnlyEnemyPawnsEndGame
+	getTuneVector()->MODIF[45] = 910; //RookOposingKingBonus (applied to 39)
+	getTuneVector()->MODIF[46] = 99; //RookOposingKingBonusWithEnemyPawns (applied to 40)
 
 	//phase tune
-	getTuneVector()->MODIF[47] = 10; //knightPhase
+	getTuneVector()->MODIF[47] = 12; //knightPhase
 	getTuneVector()->MODIF[48] = 13; //bishopPhase
-	getTuneVector()->MODIF[49] = 22; //rookPhase
-	getTuneVector()->MODIF[50] = 59; //QueenPhase
-	getTuneVector()->MODIF[51] = 277; //totalPhase
+	getTuneVector()->MODIF[49] = 24; //rookPhase
+	getTuneVector()->MODIF[50] = 64; //QueenPhase
+	getTuneVector()->MODIF[51] = 292; //totalPhase
 
-	getTuneVector()->active = 52;
+	getTuneVector()->MODIF[52] = 0; //BishopOutPost times Positional factors/10
+	getTuneVector()->MODIF[53] = 0; //knightOutPost times Positional factors/10
+
+	getTuneVector()->active = 54;
 
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);
@@ -489,6 +493,9 @@ void uci() {
 		{
 			printf("id name Altar %s\n", Version);
 			printf("id author %s", Author);
+			printf("\n");
+			printf("\n");
+			printf("option name Hash type spin default 160 min 10 max 131072");
 			printf("\n");
 			printf("uciok\n");
 			fflush(stdout);
@@ -521,7 +528,7 @@ void uci() {
 		if (compareCommand(&buf, newgame_Command))
 		{
 			resetHistory();
-			setTTSize(80000000);
+			setTTSize();
 		}
 
 		if (compareCommand(&buf, go_Command))
@@ -586,7 +593,14 @@ void uci() {
 			//na
 			tuneK();
 		}
-
+		if (compareCommand(&buf, option_Command))
+		{
+			if (compareCommand(&buf, "Hash value"))
+			{
+				ttSetting = atoi(buf) * 1000000 / sizeof(ttEntryCompressed);
+				setTTSize();
+			}
+		}
 	};
 	free(tt);
 };

@@ -63,7 +63,7 @@ void LoadPositions() {
 	else
 	{
 		int index = 0;
-		std::ifstream wfile("C:\\Users\\kim\\Desktop\\quiet-labeled.epd");
+		std::ifstream wfile("C:\\Users\\kimka\\Desktop\\Altar\\quiet-labeled.epd");
 		if (wfile.is_open()) {
 			std::string line;
 			while (std::getline(wfile, line)) {
