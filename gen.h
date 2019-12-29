@@ -8,3 +8,5 @@ unsigned long long knightAttack(int sq);
 unsigned long long kingAttack(int sq);
 unsigned long long wPawnAttack(int sq);
 unsigned long long bPawnAttack(int sq);
+extern unsigned long long arrBishopPinMap[64];
+extern unsigned long long arrRookPinMap[64];

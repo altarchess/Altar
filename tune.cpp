@@ -16,6 +16,7 @@
 #define BWIN "0-1"
 #define DRAW "1/2-1/2"
 
+int dirTable[400];
 char wWin[] = WWIN;
 char bWin[] = BWIN;
 char draw[] = DRAW;
@@ -207,7 +208,7 @@ void randomTuneTable(int index) {
 struct tuneVector randomTune(int index, struct tuneVector tune) {
 	tuneVector tune2 = tune;
 	unsigned long long rnd = std::rand();
-	if (rnd % 2 == 0) {
+	if (dirTable[index] == 1) {
 		tune2.MODIF[index] += lr;
 	}
 	else {
@@ -216,6 +217,9 @@ struct tuneVector randomTune(int index, struct tuneVector tune) {
 	setTuneVector(tune2);
 	if (isBetter()) {
 		best = tune2;
+	}
+	else {
+		dirTable[index] *= -1;
 	}
 	return best;
 };
@@ -247,6 +251,9 @@ void tuneK() {
 	}
 };
 void tuneVal(tuneVector* adress) {
+	for (int i = 0; i < 350; i++) {
+		dirTable[i] = 1;
+	}
 	lr = 1;
 	LoadPositions();
 	nodeCOUNT = 0;
@@ -260,7 +267,7 @@ void tuneVal(tuneVector* adress) {
 	cost = 0;
 	std::cout << "Current Cost " << oldCost << std::endl;
 
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < 1000; i++) {
 		/*if (i % 25 == 0 && i!=0) {
 			lr = lr / 2;
 			std::cout << std::endl;

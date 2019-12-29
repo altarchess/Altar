@@ -11,6 +11,8 @@ unsigned long long arrKnightAttacks[64];
 unsigned long long arrKingAttacks[64];
 unsigned long long arrWPawnAttacks[64];
 unsigned long long arrBPawnAttacks[64];
+unsigned long long arrBishopPinMap[64];
+unsigned long long arrRookPinMap[64];
 
 int arrRookBase[64];
 int arrBishopBase[64];
@@ -380,9 +382,14 @@ unsigned long long bPawnAttack(int sq) {
 	return arrBPawnAttacks[sq];
 }
 
+void genPinMaps() {
+	for (int i = 0; i < 64; i++) {
+		arrBishopPinMap[i] = bishopAttack(0, i);
+		arrRookPinMap[i] = rookAttack(0, i);
+	}
+}
 
 void initArrays() {
-	
 	int rookOffset = 0;
 	int bishopOffset = 0;
 	
@@ -409,7 +416,7 @@ void initArrays() {
 			bishopOffset++;
 		}
 	}
-
+	genPinMaps();
 
 	//std::cout << "......" << rookOffset << "......";
 	//std::cout << "......" << bishopOffset << "......";

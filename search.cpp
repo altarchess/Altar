@@ -765,7 +765,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 
 			int lmr = 0;
-			if (depth >= 0 && !extension && i > 0 && !incheck) {
+			if (depth >= 3 && !extension && i > 0 && i>=interesting && !incheck) {
 				lmr =  lmrReductions[depth][i];
 				if (getPiece(&pos, mt->mvl[ply].MOVE[ctr].t)) {
 					lmr = min(lmr, 2);
@@ -948,7 +948,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 
 
 					int lmr = 0;
-					if (depth >= 0 && !extension&& i > 0) {
+					if (depth >= 0 && i >= interesting && !extension&& i > 0) {
 						lmr = lmrReductions[depth][i];
 						if (getPiece(pos, mt->mvl[ply].MOVE[ctr].t)) {
 							lmr = min(lmr, 2);
