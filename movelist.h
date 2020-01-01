@@ -11,6 +11,10 @@ struct moveList {
 	int gcapt;
 	int mam;
 };
+struct scores {
+	int score[100];
+	bool quiet[100];
+};
 
 struct QList {
 	struct move MOVE[25];
@@ -19,6 +23,7 @@ struct QList {
 
 struct moveTable {
 	struct moveList mvl[100];
+	struct scores score[100];
 };
 
 struct QTable {
