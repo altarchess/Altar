@@ -15,13 +15,14 @@
 #include <thread>
 #include <algorithm>    // std::max
 
-#define RAZOR_DEPTH 3
-#define FUTILITY_DEPTH 5
-#define IID_DEPTH 5
-#define LMP_DEPTH 10
-#define RAZOR_MARGIN 2000
-#define FUTILITY_MARGIN 800
-#define HISTORYDIV 480
+int RAZOR_DEPTH = 3;
+int FUTILITY_DEPTH = 5;
+int IID_DEPTH = 5;
+int LMP_DEPTH = 10;
+int RAZOR_MARGIN = 2974;
+int FUTILITY_MARGIN = 739;
+int HISTORYDIV = 480;
+int reductionDiv = 197;
 
 int max(int a, int b) {
 	return b < a ? a : b;
@@ -57,11 +58,11 @@ int cmh[12][64][12][64];
 int lMove[200][2];
 int lmrReductions[64][64];
 
-int lmp[LMP_DEPTH + 1] = { 0, 5, 6, 9, 14, 21, 30, 41, 55, 69, 84 };
+int lmp[11] = { 0, 5, 6, 9, 14, 21, 30, 41, 55, 69, 84 };
 void initReductionTable() {
 	for (int depth = 1; depth < 64; depth++) {
 		for (int movesSearched = 1; movesSearched < 64; movesSearched++)
-			lmrReductions[depth][movesSearched] = (int)(0.5 + log(depth) * log(movesSearched) / 2.1);
+			lmrReductions[depth][movesSearched] = (int)((0.5 + log(depth) * log(movesSearched))*100 / reductionDiv);
 	}
 }
 
@@ -230,7 +231,6 @@ int see(struct position* pos, int from, int to) {
 void scoreMVL(struct moveList* mvl, struct scores* score, int ply, struct position* pos, int depth) {
 	int interesting = 0;
 
-	int scores[100];
 	int hashmove = -1;
 	struct ttEntry ttEnt = ttProbe(pos->hash);
 	if (ttEnt.zHash == pos->hash) {
@@ -900,7 +900,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 	
 	//IID
-	if (depth >= IID_DEPTH && pvnode&&pos.hash != tt[pos.hash % ttSize].zHash) {
+	if (depth >= IID_DEPTH && pvnode &&pos.hash != tt[pos.hash % ttSize].zHash) {
 		pvs(s, pos, pvnode, alpha, beta, depth-2, ply, mt, ct, hh);
 	}
 

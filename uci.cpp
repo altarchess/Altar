@@ -32,6 +32,8 @@
 #define tune_kCommand	   "ktuner"
 #define option_Command "setoption name"
 
+#define CLOPValue_Command "setvalue"
+
 #define CMD_PERFT              "perft"
 #define CMD_TEST               "test"
 
@@ -622,6 +624,22 @@ void uci() {
 				setTTSize();
 			}
 		}
+		if (compareCommand(&buf, CLOPValue_Command))
+		{
+			if (compareCommand(&buf, "futilityMargin"))
+			{
+				FUTILITY_MARGIN = atoi(buf);
+			}
+			if (compareCommand(&buf, "razorMargin"))
+			{
+				RAZOR_MARGIN = atoi(buf);
+			}
+			if (compareCommand(&buf, "reductionDiv"))
+			{
+				reductionDiv = atoi(buf);
+			}
+		}
+
 	};
 	free(tt);
 };

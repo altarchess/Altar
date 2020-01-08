@@ -1,5 +1,12 @@
 #pragma once
-
+extern int RAZOR_DEPTH;
+extern int FUTILITY_DEPTH;
+extern int IID_DEPTH ;
+extern int LMP_DEPTH ;
+extern int RAZOR_MARGIN;
+extern int FUTILITY_MARGIN ;
+extern int HISTORYDIV ;
+extern int reductionDiv ;
 struct historyhash {
 	unsigned long long hh[600];
 	int index;
