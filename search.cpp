@@ -73,9 +73,14 @@ void resetHistory() {
 			ht[1][i][e] = 0;
 		}
 	}
-	for (int i = 0; i < 200; i++) {
-		lMove[i][0] = -1;
-		lMove[i][1] = -1;
+	for (int i = 0; i < 12; i++) {
+		for (int e = 0; e < 64; e++) {
+			for (int f = 0; f < 12; f++) {
+				for (int g = 0; g < 64; g++) {
+					cmh[i][e][f][g] = 0;
+				}
+			}
+		}
 	}
 }
 

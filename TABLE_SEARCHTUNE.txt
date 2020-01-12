@@ -3,3 +3,4 @@ NAME 				VALUE
 futilityMargin		739
 razorMargin    		2974
 reductionDiv		197
+historyDiv			1354

@@ -16,17 +16,17 @@
 #define rookEndGame 2548
 #define queenEndGame 5613*/
 
-#define pawnMiddleGame 905
-#define knightMiddleGame 3481
-#define bishopMiddleGame 3171
-#define rookMiddleGame 4273
-#define queenMiddleGame 10382
+#define pawnMiddleGame 861
+#define knightMiddleGame 3507
+#define bishopMiddleGame 3099
+#define rookMiddleGame 4304
+#define queenMiddleGame 10461
 
-#define pawnEndGame 1064
-#define knightEndGame 3742
-#define bishopEndGame 3534
-#define rookEndGame 6200
-#define queenEndGame 10598
+#define pawnEndGame 950
+#define knightEndGame 3790
+#define bishopEndGame 3624
+#define rookEndGame 6292
+#define queenEndGame 10734
 
 
 //redundant terms

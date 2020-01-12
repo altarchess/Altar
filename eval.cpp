@@ -163,6 +163,15 @@ int attackWeights[12] = { 0,0,50,75,88,94,97,99,100,100,100,100 };
 
 unsigned long long kFlankMask[64] = {};
 
+int manHattanDistance(int x, int y){
+	int x1 = x % 8;
+	int x2 = y % 8;
+	int y1 = x / 8;
+	int y2 = y / 8;
+
+	return abs(x1-x2)+abs(y1-y2);
+}
+
 //eval Tables;
 unsigned long long isolaniMask[64];
 unsigned long long doubledMask[64];
@@ -508,7 +517,10 @@ int eval(struct position* pos) {
 		v.egMob[0] += tv.MODIF[0] * wpawnendgame[cord];
 		v.mgMob[0] += tv.MODIF[1] * wpawnmiddlegame[cord];
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
-		v.positionalThemes[0] += tv.MODIF[33] * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
+		if (bPawnAttack(cord) & pos->bitBoard[7]) {
+			v.positionalThemes[0] += tv.MODIF[33];
+			v.egMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[68];
+		}
 		if (__popcnt64(isolaniMask[cord] & pos->bitBoard[7]) < 1) {
 			v.positionalThemes[0] -= tv.MODIF[2];
 		}
@@ -518,6 +530,7 @@ int eval(struct position* pos) {
 
 		if (!((wPasserMask[cord] & pos->bitBoard[4]))) {
 			v.egMob[0] += tv.MODIF[37];
+			v.egMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[67];
 		}
 		if (wPinnedB & getBit(cord)) {
 			v.positionalThemes[0] -= tv.MODIF[52];
@@ -544,6 +557,8 @@ int eval(struct position* pos) {
 			v.mgMob[0] += tv.MODIF[60];
 			v.egMob[0] += tv.MODIF[61];
 		}
+		v.mgMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[66];
+		v.egMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[69];
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 	p = pos->bitBoard[4];
@@ -555,7 +570,10 @@ int eval(struct position* pos) {
 		v.egMob[1] += tv.MODIF[0] * bpawnendgame[cord];
 		v.mgMob[1] += tv.MODIF[1] * bpawnmiddlegame[cord];
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
-		v.positionalThemes[1] += tv.MODIF[33] * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
+		if (wPawnAttack(cord) & pos->bitBoard[4]) {
+			v.positionalThemes[1] += tv.MODIF[33];
+			v.egMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[68];
+		}
 		if (__popcnt64(isolaniMask[cord] & pos->bitBoard[4]) < 1) {
 			v.positionalThemes[1] -= tv.MODIF[2];
 		}
@@ -565,6 +583,7 @@ int eval(struct position* pos) {
 
 		if (!((bPasserMask[cord] & pos->bitBoard[7]))) {
 			v.egMob[1] += tv.MODIF[37];
+			v.egMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[67];
 		}
 		if (bPinnedB & getBit(cord)) {
 			v.positionalThemes[1] -= tv.MODIF[52];
@@ -590,6 +609,8 @@ int eval(struct position* pos) {
 			v.mgMob[1] += tv.MODIF[60];
 			v.egMob[1] += tv.MODIF[61];
 		}
+		v.mgMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[66];
+		v.egMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[69];
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 
@@ -620,6 +641,7 @@ int eval(struct position* pos) {
 			v.mgMob[0] += tv.MODIF[60];
 			v.egMob[0] += tv.MODIF[61];
 		}
+		v.mgMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[64];
 		p &= ~getBit(cord);
 	}
 	p = pos->bitBoard[2];
@@ -644,6 +666,7 @@ int eval(struct position* pos) {
 			v.mgMob[1] += tv.MODIF[60];
 			v.egMob[1] += tv.MODIF[61];
 		}
+		v.mgMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[64];
 		p &= ~getBit(cord);
 	}
 	//knight eval psqt * valid squares
@@ -670,6 +693,7 @@ int eval(struct position* pos) {
 			v.mgMob[0] += tv.MODIF[60];
 			v.egMob[0] += tv.MODIF[61];
 		}
+		v.mgMob[0] -= manHattanDistance(bkc, cord)*tv.MODIF[62];
 		p &= ~getBit(cord);
 	}
 	p = pos->bitBoard[3];
@@ -695,6 +719,7 @@ int eval(struct position* pos) {
 			v.mgMob[1] += tv.MODIF[60];
 			v.egMob[1] += tv.MODIF[61];
 		}
+		v.mgMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[62];
 		p &= ~getBit(cord);
 	}
 	//rook eval
@@ -736,6 +761,7 @@ int eval(struct position* pos) {
 			v.mgMob[0] += tv.MODIF[60];
 			v.egMob[0] += tv.MODIF[61];
 		}
+		v.mgMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[65];
 		p &= ~getBit(cord);
 	}
 	p = pos->bitBoard[1];
@@ -776,6 +802,7 @@ int eval(struct position* pos) {
 			v.mgMob[1] += tv.MODIF[60];
 			v.egMob[1] += tv.MODIF[61];
 		}
+		v.mgMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[65];
 		p &= ~getBit(cord);
 	}
 	//Queen eval
@@ -798,6 +825,7 @@ int eval(struct position* pos) {
 		if (wPinnedR & getBit(cord)) {
 			v.positionalThemes[0] -= tv.MODIF[59];
 		}
+		v.mgMob[0] -= manHattanDistance(bkc, cord) * tv.MODIF[63];
 		p &= ~getBit(cord);
 	}
 	p = pos->bitBoard[0];
@@ -819,6 +847,7 @@ int eval(struct position* pos) {
 		if (attack & wKingClose) {
 			bAttackersCount += 1;
 		}
+		v.mgMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[63];
 		p &= ~getBit(cord);
 	}
 
@@ -878,12 +907,5 @@ void showStatic() {
 	std::cout << "phase: " << v.gamePhase << std::endl;
 }
 void testf(int i) {
-	printBitBoard(isolaniMask[i]);
-	printBitBoard(bPasserMask[i]);
-	printBitBoard(doubledMask[i]);
-	printBitBoard(getBit(i));
-	printBitBoard(rowMask[6]);
-	printBitBoard(kFlankMask[i + 4]);
-	printBitBoard(wBlockerMask[i]);
-	printBitBoard(bBlockerMask[i]);
+	std::cout << manHattanDistance(45, 25);
 }
