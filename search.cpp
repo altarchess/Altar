@@ -917,13 +917,15 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	genAllMoves(&mt->mvl[ply], pos.side, &pos);
 	scoreMVL(&mt->mvl[ply], &mt->score[ply], ply, &pos, depth);
 	int ctr = 0;
-
 	struct move nextMove;
 	for (int i = 0; i < mt->mvl[ply].mam; i++) {
 		if (ctr == mt->mvl[ply].gcapt) {
 			ctr = 20;
 		}
 		bool quiet = pickMove(&mt->mvl[ply],&mt->score[ply], &nextMove);
+		if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth]) {
+			continue;
+		}
 		struct position pos2 = makeMove(nextMove, pos);
 		lMove[ply][0] = getPiece(&pos, nextMove.f)-1;
 		lMove[ply][1] = nextMove.t;
@@ -937,7 +939,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 
 			int lmr = 0;
-			if (depth >= 0 && !extension && i > 0 && quiet && !incheck) {
+			if (depth >= 3 && !extension && i > 0 && quiet && !incheck) {
 				lmr =  lmrReductions[depth][i];
 				if (getPiece(&pos, nextMove.t)) {
 					lmr = min(lmr, 2);
