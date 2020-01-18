@@ -791,7 +791,7 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	}
 	return staticEval;
 }
-int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh) {
+int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh, int skipMove) {
 	//if (!isLegal(pos.side, &pos)) { depth += 1; }
 
 
@@ -892,7 +892,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		inNull++;
 
 		int score = alpha;
-		score = -pvs(s, pos, false, -beta, -alpha, depth - 4, ply+1, mt, ct, hh);
+		score = -pvs(s, pos, false, -beta, -alpha, depth - 4, ply+1, mt, ct, hh, 0);
 		
 
 		makeNull(&pos);
@@ -906,7 +906,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	
 	//IID
 	if (depth >= IID_DEPTH && pvnode &&pos.hash != tt[pos.hash % ttSize].zHash) {
-		pvs(s, pos, pvnode, alpha, beta, depth-2, ply, mt, ct, hh);
+		pvs(s, pos, pvnode, alpha, beta, depth-2, ply, mt, ct, hh, 0);
+		ttEnt = ttProbe(pos.hash);
 	}
 
 
@@ -923,6 +924,21 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			ctr = 20;
 		}
 		bool quiet = pickMove(&mt->mvl[ply],&mt->score[ply], &nextMove);
+		int extension = 0;
+		if (i == 0 && extension == 0 && ttEnt.move == nextMove.f + nextMove.t * 100&& depth >= 6 && !skipMove && ttEnt.zHash == pos.hash && ttEnt.type == 1 && ttEnt.depth >= depth - 3) {
+			int betaCut = ttEnt.eval - depth * 10;
+			int score = pvs(s, pos, false, betaCut - 1, betaCut, depth-4, ply, mt, ct, hh, nextMove.f + nextMove.t * 100);
+			if (score < betaCut) {
+				extension = 1;
+			}
+
+			//implement multi-cut?
+
+		}
+
+		if (skipMove == nextMove.f + nextMove.t * 100)continue;
+
+
 		if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth]) {
 			continue;
 		}
@@ -931,12 +947,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		lMove[ply][1] = nextMove.t;
 		int score = alpha;
 		if (isLegal(pos.side, &pos2)) {
-			int extension = 0;
 			if (!quiet && !isLegal(pos2.side, &pos2)) {
 				extension = 1;
 			}
-
-
 
 			int lmr = 0;
 			if (depth >= 3 && !extension && i > 0 && quiet && !incheck) {
@@ -947,19 +960,19 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			}
 			if (pvnode) {
 				if (i == 0) {
-					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh,0);
 				}
 				else {
-					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, false, -alpha - 1, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh,0);
 					if (score > alpha) {
-						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
+						score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh,0);
 					}
 				}
 			}
 			else {
-				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh);
+				score = -pvs(s, pos2, false, -beta, -alpha, depth - 1-lmr + extension, ply + 1, mt, ct, hh,0);
 				if (lmr&&score>alpha){
-					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh);
+					score = -pvs(s, pos2, false, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh,0);
 				}
 			}
 			isdraw = false;
@@ -977,10 +990,12 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			alpha = bs;
 			type = 0;
 			if (alpha >= beta) {
-				updateHistoryPlus( ply, depth, pos.side, nextMove.f, nextMove.t);
-				killers[ply][1] = killers[ply][0];
-				killers[ply][0] = bm;
-				ttSave(depth, pos.hash, mateToTT(ply, bs), 1, bm, pvnode);
+				if (!skipMove) {
+					updateHistoryPlus(ply, depth, pos.side, nextMove.f, nextMove.t);
+					killers[ply][1] = killers[ply][0];
+					killers[ply][0] = bm;
+					ttSave(depth, pos.hash, mateToTT(ply, bs), 1, bm, pvnode);
+				}
 				return alpha;
 			}
 		}
@@ -993,7 +1008,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return 0;
 	}
 	else {
-		ttSave(depth, pos.hash, mateToTT(ply, bs), type, bm, pvnode);
+		if (!skipMove)ttSave(depth, pos.hash, mateToTT(ply, bs), type, bm, pvnode);
 
 		if (incheck) {
 			return -mateScore + ply;
@@ -1015,7 +1030,7 @@ int aspiration(int lastScore , struct search* s, struct position ogpos, struct p
 		while (true)
 		{
 			
-				score = -pvs(s, pos, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh);
+				score = -pvs(s, pos, true, -beta, -alpha, depth - 1, ply + 1, mt, ct, hh,0);
 
 				if (s->searching == false) {
 					return 0;
@@ -1046,7 +1061,7 @@ int aspiration(int lastScore , struct search* s, struct position ogpos, struct p
 					s->bff = bm.f;
 					s->bft = bm.t;
 
-					ttSave(depth, ogpos.hash, mateToTT(ply,score), 2, bm.f + bm.t * 100, true);
+					ttSave(depth, ogpos.hash, mateToTT(ply,score), 1, bm.f + bm.t * 100, true);
 					if (depth >= 12) {
 						infoString(mt->mvl[ply].MOVE[ctr], depth, score, s->nodeCount, &ogpos, s, 1);
 					}
@@ -1100,7 +1115,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 						score = aspiration(lastScore, s,*pos, pos2, true, alpha, beta, depth, ply, mt, ct, &hh, ctr);
 					}
 					else {
-						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+						score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh,0);
 					}
 					//score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
 				}
@@ -1128,13 +1143,13 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 							lmr = min(lmr, 2);
 						}
 					}
-					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh);
+					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh,0);
 					if (score > bs) {
 						if (depth > 4) {
 							score = aspiration(lastScore, s, *pos, pos2, true,lastScore, beta, depth, ply, mt, ct, &hh, ctr);
 						}
 						else {
-							score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh);
+							score = -pvs(s, pos2, true, -beta, -bs, depth - 1, ply + 1, mt, ct, &hh,0);
 						}
 					}
 				}
