@@ -62,7 +62,7 @@ int lmp[11] = { 0, 5, 6, 9, 14, 21, 30, 41, 55, 69, 84 };
 void initReductionTable() {
 	for (int depth = 1; depth < 64; depth++) {
 		for (int movesSearched = 1; movesSearched < 64; movesSearched++)
-			lmrReductions[depth][movesSearched] = (int)((0.5 + log(depth) * log(movesSearched))*100 / reductionDiv);
+			lmrReductions[depth][movesSearched] = sqrt(sqrt(double(depth - 1)) * sqrt(double(movesSearched - 1)));// (int)((0.5 + log(depth) * log(movesSearched)) * 100 / reductionDiv);
 	}
 }
 
@@ -905,7 +905,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 	
 	//IID
-	if (depth >= IID_DEPTH && pvnode &&pos.hash != tt[pos.hash % ttSize].zHash) {
+	if (depth >= IID_DEPTH && pvnode &&pos.hash != tt[pos.hash % ttSize].zHash && !skipMove) {
 		pvs(s, pos, pvnode, alpha, beta, depth-2, ply, mt, ct, hh, 0);
 		ttEnt = ttProbe(pos.hash);
 	}

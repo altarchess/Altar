@@ -45,9 +45,9 @@ void setTT(int depth, unsigned long long hash, int eval, int type, int best) {
 	
 	tt[hash % ttSize].zHash = hash;
 	tt[hash % ttSize].eval = eval;
-	if (tte.move != 0 && best <= 0) {
+	/*if (tte.move != 0 && best <= 0) {
 		best = tte.move;
-	}
+	}*/
 	int bits = typeMask&(type << typeShift);
 	bits |= moveMask & (best << moveShift);
 	bits |= depthMask & (depth << depthShift);
@@ -139,9 +139,6 @@ struct ttEntry ttProbe(unsigned long long hash) {
 	t.move = (bits & moveMask) >> moveShift;
 	t.depth = (bits & depthMask) >> depthShift;
 	t.age = bits & ageMask;
-	if (tt[hash % ttSize].zHash == hash) {
-		tt[hash % ttSize].depthmovetypeage = tt[hash % ttSize].depthmovetypeage & ~ageMask;
-	}
 	return t;
 
 }
@@ -154,7 +151,7 @@ void ttSave(int depth, unsigned long long hash, int eval, int type, int best, bo
 		setTT(depth, hash, eval, type, best);
 		return;
 	}
-	if (tte.depth> depth) { return; };
+	if (tte.depth> depth||tte.type == 0) { return; };
 	//if (type == 0) { std::cout << eval << std::endl; };
 	setTT(depth, hash, eval, type, best);
 
