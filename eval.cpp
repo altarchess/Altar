@@ -380,7 +380,6 @@ int materialEval(struct position* pos) {
 }
 
 int eval(struct position* pos) {
-	getSearchPointer()->nodeCount++;
 	if (!pos->bitBoard[5]) {
 		if (pos->side) {
 			return wMateScore - 100;
