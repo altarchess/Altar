@@ -4,7 +4,6 @@
 #include "search.h"
 #include "engine.h"
 #include "tune.h"
-#include "tt.h"
 
 #include <immintrin.h>
 #include <intrin.h>
@@ -728,7 +727,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = rookAttack((wOcc&~pos->bitBoard[10]) | bOcc, cord);
+		unsigned long long attack = rookAttack(wOcc | bOcc, cord);
 		v.mgMob[0] += tv.MODIF[9] * __popcnt64(attack & ~bpawn);
 		v.egMob[0] += tv.MODIF[10] * __popcnt64(attack);
 
@@ -769,7 +768,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = rookAttack(wOcc | (bOcc&~pos->bitBoard[1]), cord);
+		unsigned long long attack = rookAttack(wOcc | bOcc, cord);
 		v.mgMob[1] += tv.MODIF[9] * __popcnt64(attack & ~wpawn);
 
 		if (!(doubledMask[cord] & (pos->bitBoard[4] | pos->bitBoard[7]))) {
