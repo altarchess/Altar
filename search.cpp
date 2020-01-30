@@ -24,6 +24,8 @@ int FUTILITY_MARGIN = 739;
 int HISTORYDIV = 480;
 int reductionDiv = 197;
 
+int selDepth = 0;
+
 int max(int a, int b) {
 	return b < a ? a : b;
 }
@@ -733,18 +735,18 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 		if (side < 0) {
 			score = -1 * score;
 		}
-		std::cout << "info depth " << depth << " score mate " << score << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+		std::cout << "info depth " << depth << " seldepth " << selDepth << " score mate " << score << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
 	}
 	else {
 		if (scoretype == 0) {
-			std::cout << "info depth " << depth << " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+			std::cout << "info depth " << depth <<" seldepth " << selDepth <<  " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
 		}
 		else {
 			if (scoretype == 1) {
-				std::cout << "info depth " << depth << " score cp " << score / 10 << " lowerbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+				std::cout << "info depth " << depth << " seldepth " << selDepth << " score cp " << score / 10 << " lowerbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
 			}
 			if (scoretype == 2) {
-				std::cout << "info depth " << depth << " score cp " << score / 10 << " upperbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+				std::cout << "info depth " << depth << " seldepth " << selDepth << " score cp " << score / 10 << " upperbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
 			}
 		}
 	}
@@ -792,6 +794,8 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	return staticEval;
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh, int skipMove) {
+	
+	selDepth = max(selDepth, ply);
 	//if (!isLegal(pos.side, &pos)) { depth += 1; }
 
 
@@ -1074,6 +1078,9 @@ int aspiration(int lastScore , struct search* s, struct position ogpos, struct p
 }
 
 void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
+
+	selDepth = 0;
+
 	for (int i = 0; i < 64; i++) {
 		for (int e = 0; e < 64; e++) {
 			ht[0][i][e] = ht[0][i][e] = 0;
