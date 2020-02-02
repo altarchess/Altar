@@ -1,4 +1,114 @@
-﻿  search.cpp
+﻿  Altar.cpp
+  eval.cpp
+C:\Users\kimka\Desktop\Altar\eval.cpp(299,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(300,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(301,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(302,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(304,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(305,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(306,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(307,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(371,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(372,9): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(404,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(405,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(415,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(416,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(418,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(419,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(440,54): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(441,54): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(442,54): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(443,54): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(444,55): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(445,54): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(446,55): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(447,54): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(470,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(472,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(479,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(481,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(488,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(490,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(497,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(499,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(517,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(519,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(526,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(569,26): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(572,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(574,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(581,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(624,26): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(630,64): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(631,64): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(632,81): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(633,81): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(634,81): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(635,81): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(641,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(643,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(646,103): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(647,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(648,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(649,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(650,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(651,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(652,85): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(667,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(669,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(672,103): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(673,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(674,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(675,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(676,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(677,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(678,85): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(694,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(696,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(699,79): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(702,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(703,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(721,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(723,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(726,79): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(729,49): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(730,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(749,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(751,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(754,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(755,50): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(778,53): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(779,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(791,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(793,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(796,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(819,50): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(820,53): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(821,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(834,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(836,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(839,72): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(840,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(841,50): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(842,53): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(843,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(857,20): warning C4244: '=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(859,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(862,72): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(863,58): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(864,50): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(865,53): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(866,80): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(895,65): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(896,65): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(899,119): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(900,119): warning C4244: '-=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(907,95): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(908,95): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(910,87): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\eval.cpp(911,87): warning C4244: '+=': conversion from 'unsigned __int64' to 'int', possible loss of data
+  search.cpp
 C:\Users\kimka\Desktop\Altar\search.cpp(133,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(138,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(143,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
@@ -30,9 +140,14 @@ C:\Users\kimka\Desktop\Altar\search.cpp(438,32): warning C4244: 'argument': conv
 C:\Users\kimka\Desktop\Altar\search.cpp(730,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(1072,57): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(1181,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+  tune.cpp
+C:\Users\kimka\Desktop\Altar\tune.cpp(122,23): warning C4244: '+=': conversion from 'double' to 'unsigned __int64', possible loss of data
+C:\Users\kimka\Desktop\Altar\tune.cpp(233,26): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\kimka\Desktop\Altar\tune.cpp(235,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  uci.cpp
   Generating code
   1 of 367 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    12 functions had inline decision re-evaluated but remain unchanged
+    13 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Altar.vcxproj -> C:\Users\kimka\Desktop\Altar\x64\Release\Altar.exe

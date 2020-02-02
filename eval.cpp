@@ -408,6 +408,8 @@ int eval(struct position* pos) {
 	unsigned long long bOcc = pos->bitBoard[5] | pos->bitBoard[4] | pos->bitBoard[3] | pos->bitBoard[2] | pos->bitBoard[1] | pos->bitBoard[0];
 	unsigned long long wKingClose = kingAttack(wkc) | getBit(wkc);
 	unsigned long long bKingClose = kingAttack(bkc) | getBit(bkc);
+	unsigned long long wctrl = 0;
+	unsigned long long bctrl = 0;
 
 	//material scores
 	int wmm = __popcnt64(pos->bitBoard[6]) * 100000 + __popcnt64(pos->bitBoard[7]) * tv.MODIF[20] + __popcnt64(pos->bitBoard[8]) * tv.MODIF[21] + __popcnt64(pos->bitBoard[9]) * tv.MODIF[22] + __popcnt64(pos->bitBoard[10]) * tv.MODIF[23] + __popcnt64(pos->bitBoard[11]) * tv.MODIF[24];
@@ -505,6 +507,9 @@ int eval(struct position* pos) {
 	unsigned long long wpawn = 0;
 	unsigned long long bpawn = 0;
 
+	unsigned long long wAttackAble = 0;
+	unsigned long long bAttackAble = 0;
+
 	int wAttackersCount = 0;
 	int bAttackersCount = 0;
 
@@ -513,6 +518,8 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = wPawnAttack(cord);
+		wAttackAble |= wPasserMask[cord] & ~doubledMask[cord];
+		wctrl |= attack;
 		wpawn |= attack;
 		v.egMob[0] += tv.MODIF[0] * wpawnendgame[cord];
 		v.mgMob[0] += tv.MODIF[1] * wpawnmiddlegame[cord];
@@ -566,6 +573,8 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bPawnAttack(cord);
+		bAttackAble |= bPasserMask[cord] & ~doubledMask[cord];
+		bctrl |= attack;
 		bpawn |= attack;
 		v.egMob[1] += tv.MODIF[0] * bpawnendgame[cord];
 		v.mgMob[1] += tv.MODIF[1] * bpawnmiddlegame[cord];
@@ -609,12 +618,21 @@ int eval(struct position* pos) {
 			v.mgMob[1] += tv.MODIF[60];
 			v.egMob[1] += tv.MODIF[61];
 		}
+
 		v.mgMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[66];
 		v.egMob[1] -= manHattanDistance(wkc, cord) * tv.MODIF[69];
 		p &= ~getBit(_tzcnt_u64(p));
 	}
 
 
+	unsigned long long wOutpostSq = ~bAttackAble & wpawn;
+	unsigned long long bOutpostSq = ~wAttackAble & bpawn;
+	v.positionalThemes[0] += tv.MODIF[72] * __popcnt64(wOutpostSq);
+	v.positionalThemes[1] += tv.MODIF[72] * __popcnt64(bOutpostSq);
+	v.positionalThemes[0] += tv.MODIF[73] * __popcnt64(wOutpostSq&pos->bitBoard[8]);
+	v.positionalThemes[1] += tv.MODIF[73] * __popcnt64(bOutpostSq&pos->bitBoard[3]);
+	v.positionalThemes[0] += tv.MODIF[74] * __popcnt64(wOutpostSq&pos->bitBoard[9]);
+	v.positionalThemes[1] += tv.MODIF[74] * __popcnt64(bOutpostSq&pos->bitBoard[2]);
 
 	//middle Game mobility & attacks
 
@@ -624,6 +642,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bishopAttack(wOcc | bOcc, cord);
+		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~bpawn) + __popcnt64(attack & ~bpawn));
 		v.mgMob[0] += tv.MODIF[34] * __popcnt64(attack & bSide);
 		v.mgMob[0] += tv.MODIF[36] * __popcnt64(attack & wSide);
@@ -649,6 +668,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bishopAttack(wOcc | bOcc, cord);
+		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~wpawn) + __popcnt64(attack & ~wpawn));
 		v.mgMob[1] += tv.MODIF[34] * __popcnt64(attack & wSide);
 		v.mgMob[1] += tv.MODIF[36] * __popcnt64(attack & bSide);
@@ -675,6 +695,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = knightAttack(cord);
+		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[6] * __popcnt64(attack & centerMask & ~bpawn & ~wOcc);
 		v.mgMob[0] += tv.MODIF[7] * wknightPSQT[cord] / 2;
 		v.egMob[0] += tv.MODIF[8] * wknightPSQT[cord] / 2;
@@ -701,6 +722,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = knightAttack(cord);
+		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[6] * __popcnt64(attack & centerMask & ~wpawn & ~bOcc);
 		v.mgMob[1] += tv.MODIF[7] * bknightPSQT[cord] / 2;
 		v.egMob[1] += tv.MODIF[8] * bknightPSQT[cord] / 2;
@@ -728,6 +750,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = rookAttack(wOcc | bOcc, cord);
+		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[9] * __popcnt64(attack & ~bpawn);
 		v.egMob[0] += tv.MODIF[10] * __popcnt64(attack);
 
@@ -769,6 +792,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = rookAttack(wOcc | bOcc, cord);
+		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[9] * __popcnt64(attack & ~wpawn);
 
 		if (!(doubledMask[cord] & (pos->bitBoard[4] | pos->bitBoard[7]))) {
@@ -811,6 +835,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bishopAttack(wOcc | bOcc,cord) | rookAttack(wOcc | bOcc,cord);
+		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[11] * __popcnt64(attack & centerMask & ~bpawn);
 		v.mgMob[0] += tv.MODIF[35] * __popcnt64(attack & bSide);
 		v.egMob[0] += tv.MODIF[12] * __popcnt64(attack);
@@ -833,6 +858,7 @@ int eval(struct position* pos) {
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
 		unsigned long long attack = bishopAttack(wOcc | bOcc, cord) | rookAttack(wOcc | bOcc, cord);
+		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[11] * __popcnt64(attack & centerMask & ~wpawn);
 		v.mgMob[1] += tv.MODIF[35] * __popcnt64(attack & wSide);
 		v.egMob[1] += tv.MODIF[12] * __popcnt64(attack);
@@ -878,6 +904,11 @@ int eval(struct position* pos) {
 	v.egMob[0] += tv.MODIF[18] * wkingendgamecenter[_tzcnt_u64(pos->bitBoard[6])];
 	v.egMob[1] += tv.MODIF[18] * bkingendgamecenter[_tzcnt_u64(pos->bitBoard[5])];
 
+	v.positionalThemes[0] += tv.MODIF[70] * __popcnt64(wOcc & bctrl & ~pos->bitBoard[7] & ~wpawn);
+	v.positionalThemes[1] += tv.MODIF[70] * __popcnt64(bOcc & wctrl & ~pos->bitBoard[4] & ~bpawn);
+
+	v.positionalThemes[0] += tv.MODIF[71] * __popcnt64(bctrl & pos->bitBoard[7] & ~wpawn);
+	v.positionalThemes[1] += tv.MODIF[71] * __popcnt64(wctrl & pos->bitBoard[4] & ~bpawn);
 	//open king
 	//v.kingShield[0] = 
 
