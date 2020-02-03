@@ -929,7 +929,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		}
 		bool quiet = pickMove(&mt->mvl[ply],&mt->score[ply], &nextMove);
 		int extension = 0;
-		if (i == 0 && extension == 0 && ttEnt.move == nextMove.f + nextMove.t * 100&& depth >= 6 && !skipMove && ttEnt.zHash == pos.hash && (ttEnt.type == 1) && ttEnt.depth >= depth - 3) {
+		if (i == 0 && extension == 0 && ttEnt.move == nextMove.f + nextMove.t * 100&& depth >= 6 && !skipMove && ttEnt.zHash == pos.hash && (ttEnt.type == 1||ttEnt.type==0) && ttEnt.depth >= depth - 3) {
 			int betaCut = ttEnt.eval - depth * 10;
 			int score = pvs(s, pos, false, betaCut - 1, betaCut, depth-4, ply, mt, ct, hh, nextMove.f + nextMove.t * 100);
 			if (score < betaCut) {

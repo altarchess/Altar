@@ -10,6 +10,7 @@
 #include <math.h>
 #include <iostream>
 #include <string>
+#include <mutex>
 #include <thread>
 
 #define WWIN "1-0"
@@ -27,6 +28,7 @@ struct QTable ct;
 double k = 2.5245;
 unsigned long long oldCost;
 unsigned long long cost;
+std::mutex costm;
 bool isPartOf(char* w1, char* w2)
 {
 	int i = 0;
@@ -129,7 +131,9 @@ void LoopWins() {
 		if (!p[i].side) {
 			score *= -1;
 		}
+		costm.lock();
 		costFunction(score, WINSCORE);
+		costm.unlock();
 	}
 }
 void LoopDraws() {
@@ -139,7 +143,9 @@ void LoopDraws() {
 		if (!p[i].side) {
 			score *= -1;
 		}
+		costm.lock();
 		costFunction(score, DRAWSCORE);
+		costm.unlock();
 	}
 }
 void LoopLosses() {
@@ -149,14 +155,19 @@ void LoopLosses() {
 		if (!p[i].side) {
 			score *= -1;
 		}
+		costm.lock();
 		costFunction(score, LOSSSCORE);
+		costm.unlock();
 	}
 }
 
 bool isBetter() {
-		LoopWins();
-		LoopDraws();
-		LoopLosses();
+	std::thread wins(LoopWins);
+	std::thread draws(LoopDraws);
+	std::thread losses(LoopLosses);
+	wins.join();
+	draws.join();
+	losses.join();
 	if (cost < oldCost) {
 		oldCost = cost;
 		cost = 0;
@@ -234,9 +245,12 @@ void tuneK() {
 	for (int i = 0; i < 100; i++) {
 		float oldk = k;
 		k = k + direction;
-		LoopWins();
-		LoopDraws();
-		LoopLosses();
+		std::thread wins(LoopWins);
+		std::thread draws(LoopDraws);
+		std::thread losses(LoopLosses);
+		wins.join();
+		draws.join();
+		losses.join();
 		if (cost < oldCost) {
 			oldCost = cost;
 			cost = 0;

@@ -192,7 +192,7 @@ struct evalVector {
 	int positionalThemes[2];
 };
 
-struct evalVector v;
+
 
 
 
@@ -336,14 +336,6 @@ int materialDraw(struct position* pos) {
 		}
 	}
 
-	for (int i = 0; i < 64; i++) {
-		if (getBit(i) & whiteColor) {
-			color[i] = whiteColor;
-		}
-		else {
-			color[i] = blackColor;
-		}
-	}
 
 	return false;
 }
@@ -397,7 +389,7 @@ int eval(struct position* pos) {
 	}
 
 	//add tt probing here
-
+	struct evalVector v;
 	if (__popcnt64(pos->bitBoard[4]) == 0 && __popcnt64(pos->bitBoard[7]) == 0 && materialDraw(pos)) {
 		return 0;
 	}
@@ -500,6 +492,20 @@ int eval(struct position* pos) {
 		bPinnedB |= bOcc & (bishopAttack((wOcc | bOcc) & ~pos->bitBoard[1], bkc) & bishopAttack((wOcc | bOcc) & ~pos->bitBoard[1], cord));
 		PotPinners &= ~getBit(cord);
 	}
+
+	//drawishness
+	int drawishnesseg = 100;
+	int drawishnessmg = 100;
+	if (pos->bitBoard[2] && pos->bitBoard[9] && ((!(whiteColor & pos->bitBoard[2]) && !(blackColor & pos->bitBoard[9])) || (!(whiteColor & pos->bitBoard[9]) && !(blackColor & pos->bitBoard[2])))) {
+		
+		drawishnesseg = tv.MODIF[75];
+		drawishnessmg = tv.MODIF[76];
+		if (!(pos->bitBoard[0] | pos->bitBoard[1] | pos->bitBoard[3] | pos->bitBoard[8] | pos->bitBoard[10] | pos->bitBoard[11])) {
+			drawishnesseg = tv.MODIF[77];
+			drawishnessmg = tv.MODIF[77];
+		}
+	}
+
 
 	//printBitBoard(wPinnedB | wPinnedR);
 
@@ -641,7 +647,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = bishopAttack(wOcc | bOcc, cord);
+		unsigned long long attack = bishopAttack((wOcc&~pos->bitBoard[11]) | bOcc, cord);
 		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~bpawn) + __popcnt64(attack & ~bpawn));
 		v.mgMob[0] += tv.MODIF[34] * __popcnt64(attack & bSide);
@@ -667,7 +673,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = bishopAttack(wOcc | bOcc, cord);
+		unsigned long long attack = bishopAttack(wOcc | (bOcc&~pos->bitBoard[0]), cord);
 		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[4] * (__popcnt64(attack & centerMask & ~wpawn) + __popcnt64(attack & ~wpawn));
 		v.mgMob[1] += tv.MODIF[34] * __popcnt64(attack & wSide);
@@ -749,7 +755,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = rookAttack(wOcc | bOcc, cord);
+		unsigned long long attack = rookAttack((wOcc & ~pos->bitBoard[10]& ~pos->bitBoard[11]) | bOcc, cord);
 		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[9] * __popcnt64(attack & ~bpawn);
 		v.egMob[0] += tv.MODIF[10] * __popcnt64(attack);
@@ -791,7 +797,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = rookAttack(wOcc | bOcc, cord);
+		unsigned long long attack = rookAttack(wOcc | (bOcc & ~pos->bitBoard[0] & ~pos->bitBoard[1]), cord);
 		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[9] * __popcnt64(attack & ~wpawn);
 
@@ -834,7 +840,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = bishopAttack(wOcc | bOcc,cord) | rookAttack(wOcc | bOcc,cord);
+		unsigned long long attack = bishopAttack((wOcc & ~pos->bitBoard[9]) | bOcc,cord) | rookAttack((wOcc & ~pos->bitBoard[10]) |  bOcc,cord);
 		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[11] * __popcnt64(attack & centerMask & ~bpawn);
 		v.mgMob[0] += tv.MODIF[35] * __popcnt64(attack & bSide);
@@ -857,7 +863,7 @@ int eval(struct position* pos) {
 	range = __popcnt64(p);
 	for (int i = 0; i < range; i++) {
 		int cord = _tzcnt_u64(p);
-		unsigned long long attack = bishopAttack(wOcc | bOcc, cord) | rookAttack(wOcc | bOcc, cord);
+		unsigned long long attack = bishopAttack(wOcc | (bOcc & ~pos->bitBoard[2]), cord) | rookAttack(wOcc | (bOcc & ~pos->bitBoard[1]), cord);
 		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[11] * __popcnt64(attack & centerMask & ~wpawn);
 		v.mgMob[1] += tv.MODIF[35] * __popcnt64(attack & wSide);
@@ -922,20 +928,20 @@ int eval(struct position* pos) {
 	int mgScore = (wmm - bmm) + v.positionalThemes[0] - v.positionalThemes[1] + v.kingShield[0] - v.kingShield[1] + v.mgMob[0] - v.mgMob[1] + totalSafetyScore + v.materialAdjustment[0] - v.materialAdjustment[1];
 	int egScore = (wme - bme) + v.positionalThemes[0] - v.positionalThemes[1] + v.egMob[0] - v.egMob[1] + v.materialAdjustment[0] - v.materialAdjustment[1];
 
-	return 100 + evalmult * ((egScore * phase) + (mgScore * (256 - phase))) / 256;
+	return 100 +   evalmult * (((drawishnesseg*egScore)/100 * phase) + ((drawishnessmg*mgScore)/100 * (256 - phase))) / 256;
 
 }
 
 void showStatic() {
 	int ev = eval(getPositionPointer());
 	std::cout << "STATIC EVAL: " << ev << std::endl;
-	std::cout << "pawn structure & positional themes: " << v.positionalThemes[0] - v.positionalThemes[1] << std::endl;
+	/*std::cout << "pawn structure & positional themes: " << v.positionalThemes[0] - v.positionalThemes[1] << std::endl;
 	std::cout << "middle game mobility: " << v.mgMob[0] - v.mgMob[1] << std::endl;
 	std::cout << "endgame factors: " << v.egMob[0] - v.egMob[1] << std::endl;
 	std::cout << "material imbalances: " << v.materialAdjustment[0] - v.materialAdjustment[1] << std::endl;
 	std::cout << "kingshield: " << v.kingShield[0] - v.kingShield[1] << std::endl;
 	std::cout << "attacker count: " << v.attCnt[0] - v.attCnt[1] << std::endl;
-	std::cout << "phase: " << v.gamePhase << std::endl;
+	std::cout << "phase: " << v.gamePhase << std::endl;*/
 }
 void testf(int i) {
 	std::cout << manHattanDistance(45, 25);
