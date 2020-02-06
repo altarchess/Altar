@@ -11,25 +11,25 @@ C:\Users\kimka\Desktop\Altar\search.cpp(178,31): warning C4244: 'argument': conv
 C:\Users\kimka\Desktop\Altar\search.cpp(184,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(189,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(195,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(257,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(258,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(259,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(260,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(263,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(264,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(265,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(266,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(429,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(430,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(431,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(432,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(435,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(436,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(437,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(438,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(730,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(1072,57): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(1181,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(260,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(261,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(262,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(263,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(266,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(267,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(268,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(269,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(432,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(433,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(434,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(435,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(438,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(439,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(440,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(441,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(733,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(1077,57): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+C:\Users\kimka\Desktop\Altar\search.cpp(1186,54): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
   Generating code
   1 of 401 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

@@ -200,8 +200,8 @@ int getLeastValuableAttacker(struct position* pos,unsigned long long wOcc, unsig
 }
 
 int see(struct position* pos, int from, int to) {
-	
-	unsigned long long cmask = 0; //this mask is used so we can remove pieces from movegen in order to see xrays
+
+	unsigned long long cmask = getBit(from); //this mask is used so we can remove pieces from movegen in order to see xrays
 	unsigned long long wOcc = pos->bitBoard[6] | pos->bitBoard[7] | pos->bitBoard[8] | pos->bitBoard[9] | pos->bitBoard[10] | pos->bitBoard[11];
 	unsigned long long bOcc = pos->bitBoard[0] | pos->bitBoard[1] | pos->bitBoard[2] | pos->bitBoard[3] | pos->bitBoard[4] | pos->bitBoard[5];
 	bool side = pos->side;
@@ -211,7 +211,7 @@ int see(struct position* pos, int from, int to) {
 
 	int fp = getPiece(pos, from);
 	int tp = getPiece(pos, to);
-
+	fp = mvVal[fp];
 	gain[d] = mvVal[tp];
 
 
@@ -220,7 +220,7 @@ int see(struct position* pos, int from, int to) {
 		side = !side;
 		int newP = getLeastValuableAttacker(pos, wOcc, bOcc, side, &cmask, to);
 		if (newP) {
-			gain[d] = mvVal[fp] - gain[d - 1];
+			gain[d] = fp - gain[d - 1];
 			fp = newP;
 		}
 		else {
@@ -228,6 +228,9 @@ int see(struct position* pos, int from, int to) {
 		}
 		if (max(-gain[d - 1], gain[d]) < 0) { break; }
 	}
+	/*for (int i = 0; i < d + 2; i++) {
+		std::cout << " " << gain[i]<< " " ;
+	}*/
 	while (d--) {
 		gain[d - 1] = -max(-gain[d - 1], gain[d]);
 	}
@@ -815,7 +818,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			return wMateScore - ply;
 		}
 	}
-	if (depth <= 0) {
+	if (ply>=90 || depth <= 0) {
 		if (!isLegal(pos.side, &pos)) { depth = 1; }
 		else {
 			s->nodeCount++;
@@ -856,20 +859,22 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 
 	struct ttEntry ttEnt = ttProbe(pos.hash);
-	if (pos.hash == ttEnt.zHash) {
-		if (ttEnt.depth >= depth) {
-			int ttev = ttToMate(ply, tt[pos.hash % ttSize].eval);
-			if (ttEnt.type == 0) {
-				return  ttev;
-			}
-			if (ttEnt.type == 2) {
-				if (ttev  < alpha) {
-					return ttev;
+	if (!skipMove) {
+		if (pos.hash == ttEnt.zHash) {
+			if (ttEnt.depth >= depth) {
+				int ttev = ttToMate(ply, tt[pos.hash % ttSize].eval);
+				if (ttEnt.type == 0) {
+					return  ttev;
 				}
-			}
-			if (ttEnt.type == 1) {
-				if (ttev > beta) {
-					return ttev;
+				if (ttEnt.type == 2) {
+					if (ttev < alpha) {
+						return ttev;
+					}
+				}
+				if (ttEnt.type == 1) {
+					if (ttev > beta) {
+						return ttev;
+					}
 				}
 			}
 		}
@@ -881,7 +886,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	int staticEval = eval(&pos);
 
 	//razoring
-	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta)
+	if (!pvnode && depth <= RAZOR_DEPTH && staticEval + RAZOR_MARGIN < beta && !incheck)
 	{
 		int score = Quis(pos, alpha, beta, 0, ct);
 		if (score < beta) return score;
@@ -891,7 +896,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		return staticEval;
 	}
 	//NULL MOVE STUFF
-	if (depth >= 2 &&  !pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval > beta) {
+	if (!skipMove && depth >= 2 &&  !pvnode && !incheck && !inNull && nullStatus(&pos) && staticEval > beta) {
 		makeNull(&pos);
 		inNull++;
 
@@ -909,7 +914,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 	}
 	
 	//IID
-	if (depth >= IID_DEPTH && pvnode &&pos.hash != tt[pos.hash % ttSize].zHash) {
+	if (!skipMove && depth >= IID_DEPTH && pvnode &&pos.hash != tt[pos.hash % ttSize].zHash) {
 		pvs(s, pos, pvnode, alpha, beta, depth-2, ply, mt, ct, hh, 0);
 		ttEnt = ttProbe(pos.hash);
 	}
@@ -930,7 +935,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		bool quiet = pickMove(&mt->mvl[ply],&mt->score[ply], &nextMove);
 		int extension = 0;
 		if (i == 0 && extension == 0 && ttEnt.move == nextMove.f + nextMove.t * 100&& depth >= 6 && !skipMove && ttEnt.zHash == pos.hash && (ttEnt.type == 1||ttEnt.type==0) && ttEnt.depth >= depth - 3) {
-			int betaCut = ttEnt.eval - depth * 10;
+			int betaCut = ttEnt.eval - depth * 20;
 			int score = pvs(s, pos, false, betaCut - 1, betaCut, depth-4, ply, mt, ct, hh, nextMove.f + nextMove.t * 100);
 			if (score < betaCut) {
 				extension = 1;
@@ -942,7 +947,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 
 		}
 
-		if (skipMove == nextMove.f + nextMove.t * 100)continue;
+		if (skipMove == nextMove.f + nextMove.t * 100) { ctr++; continue; }
 
 
 		if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth]) {
@@ -958,7 +963,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			}
 
 			int lmr = 0;
-			if (depth >= 3 && !extension && i > 0 && quiet && !incheck) {
+			if (depth >= 3 && !extension && isLegal(pos2.side, &pos2)&& i > 0 && quiet && !incheck) {
 				lmr =  lmrReductions[depth][i];
 				if (getPiece(&pos, nextMove.t)) {
 					lmr = min(lmr, 2);

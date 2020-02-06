@@ -944,5 +944,6 @@ void showStatic() {
 	std::cout << "phase: " << v.gamePhase << std::endl;*/
 }
 void testf(int i) {
-	std::cout << manHattanDistance(45, 25);
+	//std::cout << see(getPositionPointer(), 43, 28); // 1k1r3q/1ppn3p/p4b2/4p3/8/P2N2P1/1PP1R1BP/2K1Q3 w - -
+	//std::cout << see(getPositionPointer(), 13, 11);//2k5 / 5Q2 / 1pB1p3 / 1P1ppp2 / 1K1P1P2 / 8 / 3PP2p / NbBn4 w - -3 9
 }
