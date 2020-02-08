@@ -797,8 +797,7 @@ int Quis(struct position pos, int alpha, int beta, int ply, struct QTable* ct) {
 	return staticEval;
 }
 int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta, int depth, int ply, struct moveTable* mt, struct QTable* ct, struct historyhash* hh, int skipMove) {
-	
-	if (pvnode)selDepth = max(selDepth, ply);
+	selDepth = max(selDepth, ply);
 	//if (!isLegal(pos.side, &pos)) { depth += 1; }
 
 
@@ -867,12 +866,12 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 					return  ttev;
 				}
 				if (ttEnt.type == 2) {
-					if (ttev < alpha) {
+					if (ttev <= alpha) {
 						return ttev;
 					}
 				}
 				if (ttEnt.type == 1) {
-					if (ttev > beta) {
+					if (ttev >= beta) {
 						return ttev;
 					}
 				}
