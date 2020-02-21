@@ -734,22 +734,22 @@ void infoString(struct move MOVE, int depth, int score, int nodes, struct positi
 
 	if (abs(score) > mateScore - 1000) {
 		int side = score;
-		score =( mateScore - abs(score) )/ 2;
+		score =( mateScore - abs(score)+1 )/ 2;
 		if (side < 0) {
 			score = -1 * score;
 		}
-		std::cout << "info depth " << depth << " seldepth " << selDepth << " score mate " << score << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+		std::cout << "info depth " << depth << " seldepth " << selDepth << " score mate " << score << " nodes " << nodes << " nps " << nodes / tTime *1000 << " time " << tTime << " pv ";
 	}
 	else {
 		if (scoretype == 0) {
-			std::cout << "info depth " << depth <<" seldepth " << selDepth <<  " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+			std::cout << "info depth " << depth <<" seldepth " << selDepth <<  " score cp " << score / 10 << " nodes " << nodes << " nps " << nodes / tTime * 1000 << " time " << tTime << " pv ";
 		}
 		else {
 			if (scoretype == 1) {
-				std::cout << "info depth " << depth << " seldepth " << selDepth << " score cp " << score / 10 << " lowerbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+				std::cout << "info depth " << depth << " seldepth " << selDepth << " score cp " << score / 10 << " lowerbound nodes " << nodes << " nps " << nodes / tTime *1000 << " time " << tTime << " pv ";
 			}
 			if (scoretype == 2) {
-				std::cout << "info depth " << depth << " seldepth " << selDepth << " score cp " << score / 10 << " upperbound nodes " << nodes << " nps " << nodes / tTime << " time " << tTime << " pv ";
+				std::cout << "info depth " << depth << " seldepth " << selDepth << " score cp " << score / 10 << " upperbound nodes " << nodes << " nps " << nodes / tTime *1000 << " time " << tTime << " pv ";
 			}
 		}
 	}
