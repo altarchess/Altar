@@ -39,8 +39,8 @@
 
 #define READ_BUFFER_SIZE       65536
 
-#define Version				   "191117"
-#define Author                 "Kim Kahre, Markus Kahre"
+#define Version				   "200221 x64"
+#define Author                 "Kim Kahre"
 
 #define test_Command		   "test"
 
