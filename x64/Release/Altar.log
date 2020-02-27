@@ -1,38 +1,7 @@
-﻿  search.cpp
-C:\Users\kimka\Desktop\Altar\search.cpp(133,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(138,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(143,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(149,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(154,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(160,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(168,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(173,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(178,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(184,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(189,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(195,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(260,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(261,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(262,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(263,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(266,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(267,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(268,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(269,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(434,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(435,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(436,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(437,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(440,46): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(441,44): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(442,33): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(443,32): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(735,12): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(1078,43): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\kimka\Desktop\Altar\search.cpp(1189,40): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
+﻿  uci.cpp
   Generating code
-  2 of 400 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+  1 of 400 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    12 functions had inline decision re-evaluated but remain unchanged
+    13 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Altar.vcxproj -> C:\Users\kimka\Desktop\Altar\x64\Release\Altar.exe

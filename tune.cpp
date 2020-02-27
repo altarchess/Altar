@@ -307,7 +307,7 @@ void tuneVal(tuneVector* adress) {
 		}
 		std::cout << std::endl << "ITERATION " << i << " COST " << oldCost << " NODES " << nodeCOUNT<<  std::endl;
 		for (int e = 0; e < adress->active; e++) {
-			std::cout << adress->MODIF[e] << " ";
+			std::cout << adress->MODIF[e] << ", ";
 		}
 	}
 

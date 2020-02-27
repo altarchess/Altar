@@ -200,10 +200,10 @@ void fillEvalTables() {
 	for (int i = 0; i < 64; i++) {
 		isolaniMask[i] = 0;
 		int x = i % 8;
-		if (x > 0) {
+		if (x < 7) {
 			isolaniMask[i] |= rowMask[7 - x - 1];
 		}
-		if (x < 7) {
+		if (x > 0) {
 			isolaniMask[i] |= rowMask[7 - x + 1];
 		}
 	}
@@ -928,7 +928,7 @@ int eval(struct position* pos) {
 	int mgScore = (wmm - bmm) + v.positionalThemes[0] - v.positionalThemes[1] + v.kingShield[0] - v.kingShield[1] + v.mgMob[0] - v.mgMob[1] + totalSafetyScore + v.materialAdjustment[0] - v.materialAdjustment[1];
 	int egScore = (wme - bme) + v.positionalThemes[0] - v.positionalThemes[1] + v.egMob[0] - v.egMob[1] + v.materialAdjustment[0] - v.materialAdjustment[1];
 
-	return 100 +   evalmult * (((drawishnesseg*egScore)/100 * phase) + ((drawishnessmg*mgScore)/100 * (256 - phase))) / 256;
+	return tv.MODIF[78] +   evalmult * (((drawishnesseg*egScore)/100 * phase) + ((drawishnessmg*mgScore)/100 * (256 - phase))) / 256;
 
 }
 

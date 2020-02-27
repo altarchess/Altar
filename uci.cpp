@@ -504,10 +504,15 @@ void uci() {
 	getTuneVector()->MODIF[76] = 91; //Opposite color bishop middleGames
 	getTuneVector()->MODIF[77] = 74; //Opposite color bishop middleGames
 
+	getTuneVector()->MODIF[78] = 306; //side to move bonus
 
 
-	getTuneVector()->active = 78;
+	getTuneVector()->active = 79;
 
+	int params[79] = { 139, 44, 84, 58, 42, 63, 120, 17, 20, 55, 43, 5, 140, 420, -46, 92, 58, 8, 159, 173, 917, 3591, 3100, 4384, 10538, 874, 3836, 3712, 6466, 10924, 26, 40, 54, 96, 76, 19, 13, 239, 57, 115, 171, 197, -240, 90, 266, 640, 136, 12, 16, 25, 62, 281, 100, -6, 412, 227, 258, 2025, 1637, 647, 561, 253, 9, 30, -10, 2, 10, -20, 3, -29, -180, -46, 16, 215, 264, 97, 91, 81, 354};
+
+	for (int i = 0; i < getTuneVector()->active; i++)getTuneVector()->MODIF[i] = params[i];
+	
 	char* buf, input_buf[READ_BUFFER_SIZE];
 	fflush(stdout);
 	printf("Altar %s by Kim Kahre\n", Version);	fflush(stdout);
