@@ -295,7 +295,6 @@ void fillEvalTables() {
 }
 
 int materialDraw(struct position* pos) {
-
 	int bq = __popcnt64(pos->bitBoard[0]);
 	int br = __popcnt64(pos->bitBoard[1]);
 	int bb = __popcnt64(pos->bitBoard[2]);
@@ -946,4 +945,9 @@ void showStatic() {
 void testf(int i) {
 	//std::cout << see(getPositionPointer(), 43, 28); // 1k1r3q/1ppn3p/p4b2/4p3/8/P2N2P1/1PP1R1BP/2K1Q3 w - -
 	//std::cout << see(getPositionPointer(), 13, 11);//2k5 / 5Q2 / 1pB1p3 / 1P1ppp2 / 1K1P1P2 / 8 / 3PP2p / NbBn4 w - -3 9
+
+	std::cout << see(getPositionPointer(), 13, 29);//r2q1r1k / ppp1bppp / 2np4 / 4p3 / 2B1P1b1 / P1NPBN2 / 1PP2P2 / R2Q1RK1 b - -0 12
+
+	printBitBoard(getPositionPointer()->bitBoard[4]);
+	printBitBoard(bPawnAttack(29));
 }

@@ -23,7 +23,6 @@ int RAZOR_MARGIN = 2974;
 int FUTILITY_MARGIN = 739;
 int HISTORYDIV = 480;
 int reductionDiv = 197;
-
 int selDepth = 0;
 
 int max(int a, int b) {
@@ -92,23 +91,33 @@ int mvVal[13] = {
 	0,13,6,4,3,1,1000,1000,1,3,4,6,13
 };
 int inNull = 0;
-
-void updateHistoryPlus(int ply, int depth, bool side, int f, int t) {
+void updateHistoryMinus(int ply, int depth, bool side, int f, int t, int piece, int square) {
 	if (depth >= 20) {
 		return;
+	}
+	ht[side][f][t] -= (depth * depth + 5 * depth - 2) * ht[side][f][t] / HISTORYDIV;
+	cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][piece][square] -= (depth * depth + 5 * depth - 2) * cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][piece][square] / HISTORYDIV;
+}
+void updateHistoryPlus(int ply, int depth, bool side, int f, int t, struct moveList* mvl, struct scores* score, struct position* pos) {
+	if (depth >= 20) {
+		return;
+	}
+	int ctr = 0;
+	for (int i = 0; i < mvl->mam; i++) {
+		if (ctr == mvl->gcapt) {
+			ctr = 20;
+		}
+		if (score->score[ctr] == -mateScore) {
+			updateHistoryMinus(ply, depth, side, mvl->MOVE[ctr].f, mvl->MOVE[ctr].t, getPiece(pos, mvl->MOVE[ctr].f) - 1, mvl->MOVE[ctr].t);
+		}
+		ctr++;
 	}
 	ht[side][f][t] -= (depth*depth+5*depth-2) * ht[side][f][t] / HISTORYDIV;
 	ht[side][f][t] += (depth * depth + 5 * depth - 2);
 	cmh[lMove[ply-1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] -= (depth * depth + 5 * depth - 2) * cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] / HISTORYDIV;
 	cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] += (depth * depth + 5 * depth - 2);
 }
-void updateHistoryMinus(int ply, int depth, bool side, int f, int t) {
-	if (depth >= 20) {
-		return;
-	}
-	ht[side][f][t] -= (depth * depth + 5 * depth - 2) * ht[side][f][t] / HISTORYDIV;
-	cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] -= (depth * depth + 5 * depth - 2) * cmh[lMove[ply - 1][0]][lMove[ply - 1][1]][lMove[ply][0]][lMove[ply][1]] / HISTORYDIV;
-}
+
 bool nullStatus(struct position* pos) {
 
 	if (pos->side) {
@@ -1003,16 +1012,13 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 			type = 0;
 			if (alpha >= beta) {
 				if (!skipMove) {
-					updateHistoryPlus(ply, depth, pos.side, nextMove.f, nextMove.t);
+					updateHistoryPlus(ply, depth, pos.side, nextMove.f, nextMove.t, &mt->mvl[ply], &mt->score[ply], &pos);
 					killers[ply][1] = killers[ply][0];
 					killers[ply][0] = bm;
 					ttSave(depth, pos.hash, mateToTT(ply, bs), 1, bm, pvnode);
 				}
 				return alpha;
 			}
-		}
-		else {
-			updateHistoryMinus(ply, depth, pos.side, nextMove.f, nextMove.t);
 		}
 		ctr++;
 	}
