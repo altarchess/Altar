@@ -53,6 +53,8 @@ extern int wpawnmiddlegame[64];
 extern int bpawnmiddlegame[64];
 extern int wknightPSQT[64];
 extern int bknightPSQT[64];
+extern int wqueenPSQT[64];
+extern int bqueenPSQT[64];
 extern int wKingMiddleGame[64];
 extern int bKingMiddleGame[64];
 extern int wkingendgamecenter[64];

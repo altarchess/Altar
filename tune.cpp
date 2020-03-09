@@ -185,30 +185,22 @@ void randomTuneTable(int index) {
 	int mult = 1;
 	if (rnd % 2 == 0) {
 		//std::cout << "OKASD";
-		wkingendgamecenter[y*8+x] += lr;
-		wkingendgamecenter[y*8 + 7-x] += lr;
-		bkingendgamecenter[63 - (y*8+x)] += lr;
-		bkingendgamecenter[63 - (y * 8 + 7 - x)] += lr;
+		wqueenPSQT[y*8+x] += lr;
+		bqueenPSQT[63 - (y*8+x)] += lr;
 		if (isBetter()) {
 			return;
 		}
-		wkingendgamecenter[y * 8 + x] -= lr;
-		wkingendgamecenter[y * 8 + 7 - x] -= lr;
-		bkingendgamecenter[63 - (y * 8 + x)] -= lr;
-		bkingendgamecenter[63 - (y * 8 + 7 - x)] -= lr;
+		wqueenPSQT[y * 8 + x] -= lr;
+		bqueenPSQT[63 - (y * 8 + x)] -= lr;
 	}
 	else {
-		wkingendgamecenter[y * 8 + x] -= lr;
-		wkingendgamecenter[y * 8 + 7 - x] -= lr;
-		bkingendgamecenter[63 - (y * 8 + x)] -= lr;
-		bkingendgamecenter[63 - (y * 8 + 7 - x)] -= lr;
+		wqueenPSQT[y * 8 + x] -= lr;
+		bqueenPSQT[63 - (y * 8 + x)] -= lr;
 		if (isBetter()) {
 			return;
 		}
-		wkingendgamecenter[y * 8 + x] += lr;
-		wkingendgamecenter[y * 8 + 7 - x] += lr;
-		bkingendgamecenter[63 - (y * 8 + x)] += lr;
-		bkingendgamecenter[63 - (y * 8 + 7 - x)] += lr;
+		wqueenPSQT[y * 8 + x] += lr;
+		bqueenPSQT[63 - (y * 8 + x)] += lr;
 		int mult = -1;
 	}
 	if (isBetter()) {
@@ -299,7 +291,14 @@ void tuneVal(tuneVector* adress) {
 			if (e % 8 == 0) {
 				std::cout << std::endl;
 			}
-			std::cout << wkingendgamecenter[e] << " ";
+			std::cout << wqueenPSQT[e] << ", ";
+		}
+
+		for (int e = 0; e < 64; e++) {
+			if (e % 8 == 0) {
+				std::cout << std::endl;
+			}
+			std::cout << bqueenPSQT[e] << ", ";
 		}*/
 		for (int e = 0; e < adress->active; e++) {
 			*adress = randomTune(e, *adress);

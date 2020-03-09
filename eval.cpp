@@ -106,48 +106,68 @@ int bpawnendgame[64] =
 };
 int wpawnmiddlegame[64] =
 {
-	0,0,0,0,0,0,0,0,
-	1,14,10,15,15,10,14,1,
-	0,2,8,7,7,8,2,0,
-	-2,2,3,5,5,3,2,-2,
-	-3,-1,1,3,3,1,-1,-3,
-	0,2,1,0,0,1,2,0,
-	-1,1,0,-4,-4,0,1,-1,
-	0,0,0,0,0,0,0,0
+0, 0, 0, 0, 0, 0, 0, 0,
+15, 22, 12, 18, 25, 10, 1, 4,
+3, -1, 6, 8, 11, 13, 8, 2,
+-1, 1, 3, 6, 5, 6, 2, -2,
+-4, -3, 1, 4, 4, 4, -1, -3,
+-3, -3, 0, 0, -1, 3, 3, -1,
+-3, -1, -3, -2, -4, 5, 3, -1,
+0, 0, 0, 0, 0, 0, 0, 0
 };
 int bpawnmiddlegame[64] =
 {
-	0,0,0,0,0,0,0,0,
-	-1,1,0,-4,-4,0,1,-1,
-	0,2,1,0,0,1,2,0,
-	-3,-1,1,3,3,1,-1,-3,
-	-2,2,3,5,5,3,2,-2,
-	0,2,8,7,7,8,2,0,
-	1,14,10,15,15,10,14,1,
-	0,0,0,0,0,0,0,0
+0, 0, 0, 0, 0, 0, 0, 0,
+-1, 3, 5, -4, -2, -3, -1, -3,
+-1, 3, 3, -1, 0, 0, -3, -3,
+-3, -1, 4, 4, 4, 1, -3, -4,
+-2, 2, 6, 5, 6, 3, 1, -1,
+2, 8, 13, 11, 8, 6, -1, 3,
+4, 1, 10, 25, 18, 12, 22, 15,
+0, 0, 0, 0, 0, 0, 0, 0
 };
 
 int wknightPSQT[64] = {
-	-115,-59,-37,-28,-28,-37,-59,-115,
-	-53,-20,-7,-3,-3,-7,-20,-53,
-	-31,7,23,20,20,23,7,-31,
-	-12,3,29,25,25,39,3,-12,
-	-30,1,17,20,20,17,1,-30,
-	-38,-3,12,14,14,12,-3,-38,
-	-49,-35,-13,-6,-6,-13,-35,-49,
-	-68,-37,-34,-31,-31,-34,-37,-68
+-80, -69, -39, -39, -23, -49, -72, -105,
+-52, -27, -9, -12, -11, -13, -27, -43,
+-35, 2, 11, 11, 12, 24, 2, -30,
+-16, 3, 9, 22, 7, 26, 2, -1,
+-18, 1, 7, 11, 14, 13, 4, -16,
+-21, -7, 7, 11, 15, 9, 8, -18,
+-26, -22, -8, 0, -1, -1, -21, -25,
+-55, -17, -25, -23, -11, -19, -17, -34
+
 };
 int bknightPSQT[64] = {
-	-68,-37,-34,-31,-31,-34,-37,-68,
-	-49,-35,-13,-6,-6,-13,-35,-49,
-	-38,-3,12,14,14,12,-3,-38,
-	-30,1,17,20,20,17,1,-30,
-	-12,3,29,25,25,39,3,-12,
-	-31,7,23,20,20,23,7,-31,
-	-53,-20,-7,-3,-3,-7,-20,-53,
-	-115,-59,-37,-28,-28,-37,-59,-115,
+-34, -17, -19, -11, -23, -25, -17, -55,
+-25, -21, -1, -1, 0, -8, -22, -26,
+-18, 8, 9, 15, 11, 7, -7, -21,
+-16, 4, 13, 14, 11, 7, 1, -18,
+-1, 2, 26, 7, 22, 9, 3, -16,
+-30, 2, 24, 12, 11, 11, 2, -35,
+-43, -27, -13, -11, -12, -9, -27, -52,
+-105, -72, -49, -23, -39, -39, -69, -80
 };
-
+int wqueenPSQT[64] = {
+-280, 170, 100, 110, 800, 530, 290, 100,
+-320, -410, -100, 320, -180, 710, -10, 630,
+60, -80, -60, -10, 130, 600, 290, 560,
+-20, -140, -200, -220, -80, 90, 40, 20,
+-70, -180, -90, -80, -10, -30, 40, 20,
+-90, 0, -90, -90, -150, -40, 90, 110,
+-160, -30, 60, -30, -50, 30, -190, 10,
+30, -170, -90, 10, -30, -290, -350, -570
+};
+int bqueenPSQT[64] = {
+-570, -350, -290, -30, 10, -90, -170, 30,
+10, -190, 30, -50, -30, 60, -30, -160,
+110, 90, -40, -150, -90, -90, 0, -90,
+20, 40, -30, -10, -80, -90, -180, -70,
+20, 40, 90, -80, -220, -200, -140, -20,
+560, 290, 600, 130, -10, -60, -80, 60,
+630, -10, 710, -180, 320, -100, -410, -320,
+100, 290, 530, 800, 110, 100, 170, -280
+};
 unsigned long long rowMask[8] = {
 	9259542123273814144,
 	4629771061636907072,
@@ -158,7 +178,8 @@ unsigned long long rowMask[8] = {
 	144680345676153346,
 	72340172838076673
 };
-
+unsigned long long kSide = 1085102592571150095; 
+unsigned long long qSide = 17361641481138401520;
 int attackWeights[12] = { 0,0,50,75,88,94,97,99,100,100,100,100 };
 
 unsigned long long kFlankMask[64] = {};
@@ -193,10 +214,18 @@ struct evalVector {
 };
 
 
+int flippedIndex[64];
 
 
 
 void fillEvalTables() {
+	int ctr = 0;
+	for (int i = 0; i < 8; i++) {
+		for (int e = 7; e >-1; e--) {
+			flippedIndex[ctr] = i*8+e;
+			ctr++;
+		}
+	}
 	for (int i = 0; i < 64; i++) {
 		isolaniMask[i] = 0;
 		int x = i % 8;
@@ -402,6 +431,8 @@ int eval(struct position* pos) {
 	unsigned long long wctrl = 0;
 	unsigned long long bctrl = 0;
 
+
+
 	//material scores
 	int wmm = __popcnt64(pos->bitBoard[6]) * 100000 + __popcnt64(pos->bitBoard[7]) * tv.MODIF[20] + __popcnt64(pos->bitBoard[8]) * tv.MODIF[21] + __popcnt64(pos->bitBoard[9]) * tv.MODIF[22] + __popcnt64(pos->bitBoard[10]) * tv.MODIF[23] + __popcnt64(pos->bitBoard[11]) * tv.MODIF[24];
 	int bmm = __popcnt64(pos->bitBoard[5]) * 100000 + __popcnt64(pos->bitBoard[4]) * tv.MODIF[20] + __popcnt64(pos->bitBoard[3]) * tv.MODIF[21] + __popcnt64(pos->bitBoard[2]) * tv.MODIF[22] + __popcnt64(pos->bitBoard[1]) * tv.MODIF[23] + __popcnt64(pos->bitBoard[0]) * tv.MODIF[24];
@@ -527,7 +558,8 @@ int eval(struct position* pos) {
 		wctrl |= attack;
 		wpawn |= attack;
 		v.egMob[0] += tv.MODIF[0] * wpawnendgame[cord];
-		v.mgMob[0] += tv.MODIF[1] * wpawnmiddlegame[cord];
+		v.mgMob[0] += tv.MODIF[1] * __popcnt64(qSide&pos->bitBoard[6])*wpawnmiddlegame[cord];
+		v.mgMob[0] += tv.MODIF[1] * __popcnt64(kSide & pos->bitBoard[6]) * wpawnmiddlegame[flippedIndex[cord]];
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
 		if (bPawnAttack(cord) & pos->bitBoard[7]) {
 			v.positionalThemes[0] += tv.MODIF[33];
@@ -582,7 +614,8 @@ int eval(struct position* pos) {
 		bctrl |= attack;
 		bpawn |= attack;
 		v.egMob[1] += tv.MODIF[0] * bpawnendgame[cord];
-		v.mgMob[1] += tv.MODIF[1] * bpawnmiddlegame[cord];
+		v.mgMob[1] += tv.MODIF[1] * __popcnt64(kSide & pos->bitBoard[5]) * bpawnmiddlegame[cord];
+		v.mgMob[1] += tv.MODIF[1] * __popcnt64(qSide & pos->bitBoard[5]) * bpawnmiddlegame[flippedIndex[cord]];
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
 		if (wPawnAttack(cord) & pos->bitBoard[4]) {
 			v.positionalThemes[1] += tv.MODIF[33];
@@ -702,7 +735,8 @@ int eval(struct position* pos) {
 		unsigned long long attack = knightAttack(cord);
 		wctrl |= attack;
 		v.mgMob[0] += tv.MODIF[6] * __popcnt64(attack & centerMask & ~bpawn & ~wOcc);
-		v.mgMob[0] += tv.MODIF[7] * wknightPSQT[cord] / 2;
+		v.mgMob[0] += tv.MODIF[7] * __popcnt64(qSide & pos->bitBoard[5]) * wknightPSQT[cord];
+		v.mgMob[0] += tv.MODIF[7] * __popcnt64(kSide & pos->bitBoard[5]) * wknightPSQT[flippedIndex[cord]];
 		v.egMob[0] += tv.MODIF[8] * wknightPSQT[cord] / 2;
 		v.attCnt[0] += __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
@@ -729,7 +763,8 @@ int eval(struct position* pos) {
 		unsigned long long attack = knightAttack(cord);
 		bctrl |= attack;
 		v.mgMob[1] += tv.MODIF[6] * __popcnt64(attack & centerMask & ~wpawn & ~bOcc);
-		v.mgMob[1] += tv.MODIF[7] * bknightPSQT[cord] / 2;
+		v.mgMob[1] += tv.MODIF[7] * __popcnt64(kSide & pos->bitBoard[6]) * bknightPSQT[cord];
+		v.mgMob[1] += tv.MODIF[7] * __popcnt64(qSide & pos->bitBoard[6]) * bknightPSQT[flippedIndex[cord]];
 		v.egMob[1] += tv.MODIF[8] * bknightPSQT[cord] / 2;
 		v.attCnt[1] += __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
@@ -844,6 +879,8 @@ int eval(struct position* pos) {
 		v.mgMob[0] += tv.MODIF[11] * __popcnt64(attack & centerMask & ~bpawn);
 		v.mgMob[0] += tv.MODIF[35] * __popcnt64(attack & bSide);
 		v.egMob[0] += tv.MODIF[12] * __popcnt64(attack);
+		v.mgMob[0] +=  __popcnt64(qSide & pos->bitBoard[5]) * wqueenPSQT[cord];
+		v.mgMob[0] +=  __popcnt64(kSide & pos->bitBoard[5]) * wqueenPSQT[flippedIndex[cord]];
 		v.attCnt[0] += 2 * __popcnt64(bKingClose & attack);
 		v.positionalThemes[0] += 1 * __popcnt64(bPawnAttack(cord) & pos->bitBoard[7]);
 		if (attack & bKingClose) {
@@ -867,6 +904,8 @@ int eval(struct position* pos) {
 		v.mgMob[1] += tv.MODIF[11] * __popcnt64(attack & centerMask & ~wpawn);
 		v.mgMob[1] += tv.MODIF[35] * __popcnt64(attack & wSide);
 		v.egMob[1] += tv.MODIF[12] * __popcnt64(attack);
+		v.mgMob[1] +=  __popcnt64(kSide & pos->bitBoard[6]) * bqueenPSQT[cord];
+		v.mgMob[1] +=  __popcnt64(qSide & pos->bitBoard[6]) * bqueenPSQT[flippedIndex[cord]];
 		v.attCnt[1] += 2 * __popcnt64(wKingClose & attack);
 		v.positionalThemes[1] += 1 * __popcnt64(wPawnAttack(cord) & pos->bitBoard[4]);
 		if (bPinnedB & getBit(cord)) {
@@ -946,8 +985,9 @@ void testf(int i) {
 	//std::cout << see(getPositionPointer(), 43, 28); // 1k1r3q/1ppn3p/p4b2/4p3/8/P2N2P1/1PP1R1BP/2K1Q3 w - -
 	//std::cout << see(getPositionPointer(), 13, 11);//2k5 / 5Q2 / 1pB1p3 / 1P1ppp2 / 1K1P1P2 / 8 / 3PP2p / NbBn4 w - -3 9
 
-	std::cout << see(getPositionPointer(), 13, 29);//r2q1r1k / ppp1bppp / 2np4 / 4p3 / 2B1P1b1 / P1NPBN2 / 1PP2P2 / R2Q1RK1 b - -0 12
+	//std::cout << see(getPositionPointer(), 13, 29);//r2q1r1k / ppp1bppp / 2np4 / 4p3 / 2B1P1b1 / P1NPBN2 / 1PP2P2 / R2Q1RK1 b - -0 12
 
-	printBitBoard(getPositionPointer()->bitBoard[4]);
-	printBitBoard(bPawnAttack(29));
+	//printBitBoard(getPositionPointer()->bitBoard[4]);
+	//printBitBoard(bPawnAttack(29));
+	std::cout << flippedIndex[27];
 }
