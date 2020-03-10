@@ -980,7 +980,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				}
 			}
 			if (pvnode) {
-				if (i == 0) {
+				if (i == 0 || incheck) {
 					score = -pvs(s, pos2, true, -beta, -alpha, depth - 1 + extension, ply + 1, mt, ct, hh,0);
 				}
 				else {
