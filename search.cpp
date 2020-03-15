@@ -960,13 +960,13 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		if (skipMove == nextMove.f + nextMove.t * 100) { ctr++; continue; }
 
 
-		if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth] && !incheck) {
+		if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth] && !incheck && bs>-mateScore+100) {
 			continue;
 		}
 		struct position pos2 = makeMove(nextMove, pos);
 		lMove[ply][0] = getPiece(&pos, nextMove.f)-1;
 		lMove[ply][1] = nextMove.t;
-		int score = alpha;
+		int score = -mateScore;
 		if (isLegal(pos.side, &pos2)) {
 			if (!quiet && !isLegal(pos2.side, &pos2)) {
 				extension = 1;
@@ -978,6 +978,8 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				if (getPiece(&pos, nextMove.t)) {
 					lmr = min(lmr, 2);
 				}
+				//lmr -= ht[pos.side][nextMove.f][nextMove.t] / 400;
+				lmr = max(min(lmr, depth - 2), 0); // do not drop into qsearch & do not extend
 			}
 			if (pvnode) {
 				if (i == 0 || incheck) {
