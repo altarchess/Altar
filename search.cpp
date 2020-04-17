@@ -63,7 +63,7 @@ int lmp[11] = { 0, 5, 6, 9, 14, 21, 30, 41, 55, 69, 84 };
 void initReductionTable() {
 	for (int depth = 1; depth < 64; depth++) {
 		for (int movesSearched = 1; movesSearched < 64; movesSearched++)
-			lmrReductions[depth][movesSearched] = (int)((0.5 + log(depth) * log(movesSearched))*100 / reductionDiv);
+			lmrReductions[depth][movesSearched] = 1 + log(depth) * log(movesSearched)*0.5;
 	}
 }
 
@@ -979,6 +979,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 					lmr = min(lmr, 2);
 				}
 				//lmr -= ht[pos.side][nextMove.f][nextMove.t] / 400;
+				lmr -= pvnode;
 				if (ttEnt.type == 1)lmr++;
 				lmr = max(min(lmr, depth - 2), 0); // do not drop into qsearch & do not extend
 			}
@@ -1163,7 +1164,7 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 
 
 					int lmr = 0;
-					if (depth >= 0 && quiet && !extension&& i > 0) {
+					if (depth >= 0 && i > 0) {
 						lmr = lmrReductions[depth][i];
 						if (getPiece(pos, nextMove.t)) {
 							lmr = min(lmr, 2);
