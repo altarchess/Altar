@@ -1169,9 +1169,6 @@ void mainSearch(struct search* s, struct position* pos, struct historyhash hh) {
 						if (getPiece(pos, nextMove.t)) {
 							lmr = min(lmr, 2);
 						}
-						lmr -= 1;
-						lmr = max(min(lmr, depth - 2), 0); // do not drop into qsearch & do not extend
-
 					}
 					score = -pvs(s, pos2, false, -bs - 1, -bs, depth - 1 - lmr, ply + 1, mt, ct, &hh,0);
 					if (score > bs) {
