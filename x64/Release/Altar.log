@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  search.cpp
 C:\Users\kimka\Desktop\Altar\search.cpp(66,44): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
 C:\Users\kimka\Desktop\Altar\search.cpp(142,31): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
@@ -35,9 +36,12 @@ C:\Users\kimka\Desktop\Altar\search.cpp(1202,40): warning C4244: 'argument': con
 =======
 C:\Users\kimka\Desktop\Altar\search.cpp(1199,40): warning C4244: 'argument': conversion from 'unsigned __int64' to 'int', possible loss of data
 >>>>>>> parent of 6e0852c... Less lmr at root
+=======
+﻿  uci.cpp
+>>>>>>> parent of 8a4c993... Reduce less if high history score
   Generating code
   1 of 400 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    12 functions had inline decision re-evaluated but remain unchanged
+    13 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Altar.vcxproj -> C:\Users\kimka\Desktop\Altar\x64\Release\Altar.exe
