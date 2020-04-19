@@ -978,7 +978,7 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 				if (getPiece(&pos, nextMove.t)) {
 					lmr = min(lmr, 2);
 				}
-				//lmr -= ht[pos.side][nextMove.f][nextMove.t] / 400;
+				lmr -= ht[pos.side][nextMove.f][nextMove.t] / 200;
 				lmr -= pvnode;
 				if (ttEnt.type == 1)lmr++;
 				lmr = max(min(lmr, depth - 2), 0); // do not drop into qsearch & do not extend
