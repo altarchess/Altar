@@ -4,7 +4,11 @@
 #include "search.h"
 #include "engine.h"
 #include "tune.h"
-
+#include "Tinn.h"
+#include "cuda_runtime.h"
+#include "fprop.cuh"
+#include <cuda_runtime.h>
+#include <vector_types.h>
 #include <immintrin.h>
 #include <intrin.h>
 #include <stdlib.h>
@@ -18,13 +22,19 @@ struct tuneVector* getTuneVector() {
 	return &tv;
 }
 
+Tinn tn;
+
+void loadTinn() {
+	tn = xtloadgpu("C:\\Users\\kimka\\Desktop\\Altar\\altarNN.file");
+}
+
 unsigned long long wSide = 0xFFFFFFFF;
 unsigned long long bSide = 0xFFFFFFFF00000000;
 unsigned long long whiteColor = 0xAA55AA55AA55AA55;
 unsigned long long blackColor = 0x55AA55AA55AA55AA;
 unsigned long long color[64];
 
-
+float *pawnpos;
 //score grain is 1/256 of a pawn.
 int center[64] =
 {
@@ -219,6 +229,8 @@ int flippedIndex[64];
 
 
 void fillEvalTables() {
+	cudaMallocManaged(&pawnpos, 768 * sizeof(float));
+
 	int ctr = 0;
 	for (int i = 0; i < 8; i++) {
 		for (int e = 7; e >-1; e--) {
@@ -323,6 +335,9 @@ void fillEvalTables() {
 	}
 }
 
+void freeEvalTables() {
+	free(pawnpos);
+}
 int materialDraw(struct position* pos) {
 	int bq = __popcnt64(pos->bitBoard[0]);
 	int br = __popcnt64(pos->bitBoard[1]);
@@ -398,6 +413,26 @@ int materialEval(struct position* pos) {
 	return evalmult * (wm - bm);
 }
 
+
+int eval(struct position* pos) {
+	for (int index = 0; index < 64; index++) {
+		for (int e = 0; e < 12; e++) {
+			if (getBit(index) & pos->bitBoard[e]) {
+				pawnpos[e * 64 + index] = 1;
+			}
+			else {
+				pawnpos[e * 64 + index] = 0;
+			}
+		}
+	}
+	float score = xtpredictgpu(tn, &pawnpos[0])[0];
+	score = 4000 * log10f(score/(1-score));
+	if (pos->side) {
+		return score;
+	}
+	return -1*score;
+}
+/*
 int eval(struct position* pos) {
 	if (!pos->bitBoard[5]) {
 		if (pos->side) {
@@ -969,7 +1004,7 @@ int eval(struct position* pos) {
 	return tv.MODIF[78] +   evalmult * (((drawishnesseg*egScore)/100 * phase) + ((drawishnessmg*mgScore)/100 * (256 - phase))) / 256;
 
 }
-
+*/
 void showStatic() {
 	int ev = eval(getPositionPointer());
 	std::cout << "STATIC EVAL: " << ev << std::endl;
@@ -989,5 +1024,30 @@ void testf(int i) {
 
 	//printBitBoard(getPositionPointer()->bitBoard[4]);
 	//printBitBoard(bPawnAttack(29));
-	std::cout << flippedIndex[27];
+
+	std::cout << "NNEVAL of pos" << std::endl;
+	Tinn testtn = xtloadgpu("C:\\Users\\kimka\\Desktop\\Altar\\altarNN.file");
+	float* inputs;
+	cudaMallocManaged(&inputs, 768 * sizeof(float));
+	for (int index = 0; index < 64; index++) {
+		for (int e = 0; e < 12; e++) {
+			if (getBit(index) & getPositionPointer()->bitBoard[e]) {
+				inputs[e * 64 + index] = 1;
+			}
+			else {
+				inputs[e * 64 + index] = 0;
+			}
+		}
+
+	}
+	for (int i = 0; i < 100000; i++) {
+		xtpredict(testtn, &inputs[0])[0];
+	}
+
+	std::cout << xtpredictgpu(testtn, &inputs[0])[0];
+	//std::cout << xtpredict(testtn, &inputs[0])[0];
+
+	xtfreegpu(testtn);
+
+	//std::cout << flippedIndex[27];
 }

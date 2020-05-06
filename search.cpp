@@ -960,9 +960,9 @@ int pvs(struct search* s, struct position pos, bool pvnode, int alpha, int beta,
 		if (skipMove == nextMove.f + nextMove.t * 100) { ctr++; continue; }
 
 
-		if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth] && !incheck && bs>-mateScore+100) {
+		/*if (!pvnode && quiet&& depth <= LMP_DEPTH && i >= lmp[depth] && !incheck && bs>-mateScore+100) {
 			continue;
-		}
+		}*/
 		struct position pos2 = makeMove(nextMove, pos);
 		lMove[ply][0] = getPiece(&pos, nextMove.f)-1;
 		lMove[ply][1] = nextMove.t;

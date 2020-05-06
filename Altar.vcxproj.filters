@@ -42,13 +42,16 @@
     <ClCompile Include="search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="eval.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="tt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tune.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tinn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="eval.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,5 +92,12 @@
     <ClInclude Include="tune.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Tinn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="fprop.cu" />
+    <CudaCompile Include="fprop.cuh" />
   </ItemGroup>
 </Project>

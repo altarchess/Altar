@@ -10,6 +10,7 @@
 #include "tt.h"
 #include "eval.h"
 #include "tune.h"
+#include "fprop.cuh"
 
 #include <iostream>
 #include <stdio.h>
@@ -579,6 +580,7 @@ void uci() {
 				getSearchPointer()->searching = false;
 				std::this_thread::sleep_for(std::chrono::milliseconds(1));
 			}			
+			loadTinn();
 			getSearchPointer()->sTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 			getSearchPointer()->searching = true;
@@ -674,4 +676,5 @@ void uci() {
 
 	};
 	free(tt);
+	freeEvalTables();
 };

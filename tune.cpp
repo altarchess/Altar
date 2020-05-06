@@ -5,6 +5,7 @@
 #include "uci.h"
 #include "eval.h"
 #include "movelist.h"
+#include "Tinn.h"
 
 #include <fstream>
 #include <math.h>
@@ -16,6 +17,8 @@
 #define WWIN "1-0"
 #define BWIN "0-1"
 #define DRAW "1/2-1/2"
+
+
 
 int dirTable[400];
 char wWin[] = WWIN;
@@ -137,7 +140,7 @@ void LoopWins() {
 	}
 }
 void LoopDraws() {
-	for (int i = 0; i < 70355; i++) {
+	for (int i = 0; i < 703355; i++) {
 		if (p[i].mov50 != 1) { continue; };
 		int score = eval(&p[i]);// Quis(p[i], -mateScore, mateScore, 0, &ct);
 		if (!p[i].side) {
@@ -160,6 +163,62 @@ void LoopLosses() {
 		costm.unlock();
 	}
 }
+
+
+void LoopPosNN(Tinn tn) {
+	for (int i = 0; i < 703755; i++) {
+		if (p[i].mov50 == 0) {
+			float pawnpos[768];
+			for (int index = 0; index < 64; index++) {
+				for (int e = 0; e < 12; e++) {
+					if (getBit(index) & p[i].bitBoard[e]) {
+						pawnpos[e*64+ index] = 1;
+					}
+					else {
+						pawnpos[e * 64 + index] = 0;
+					}
+				}
+			}
+			const float expScore = 1;
+			int score = 100000 * xttrain(tn, &pawnpos[0], &expScore, 0.0001);
+			cost += score;
+		
+		}
+		if (p[i].mov50 == 1) {
+			float pawnpos[768];
+			for (int index = 0; index < 64; index++) {
+				for (int e = 0; e < 12; e++) {
+					if (getBit(index) & p[i].bitBoard[e]) {
+						pawnpos[e * 64 + index] = 1;
+					}
+					else {
+						pawnpos[e * 64 + index] = 0;
+					}
+				}
+			}
+			const float expScore = 0.5;
+			int score = 100000*xttrain(tn, &pawnpos[0], &expScore, 0.0001);
+			cost += score;
+		}
+		if (p[i].mov50 == 2) {
+			float pawnpos[768];
+			for (int index = 0; index < 64; index++) {
+				for (int e = 0; e < 12; e++) {
+					if (getBit(index) & p[i].bitBoard[e]) {
+						pawnpos[e * 64 + index] = 1;
+					}
+					else {
+						pawnpos[e * 64 + index] = 0;
+					}
+				}
+			}
+			const float expScore = 0;
+			int score = 100000*xttrain(tn, &pawnpos[0], &expScore, 0.0001);
+			cost += score;
+		}
+	}
+}
+
 
 bool isBetter() {
 	std::thread wins(LoopWins);
@@ -265,15 +324,17 @@ void tuneVal(tuneVector* adress) {
 	nodeCOUNT = 0;
 	t = adress;
 	best = *t;
-	LoopWins();
-	LoopDraws();
-	LoopLosses();
+	//LoopWins();
+	//LoopDraws();
+	//LoopLosses();
 
 	oldCost = cost;
 	cost = 0;
 	std::cout << "Current Cost " << oldCost << std::endl;
+	//Tinn tn = xtbuild(768, 64, 1);
+	Tinn tn = xtload("C:\\Users\\kimka\\Desktop\\Altar\\altarNN.file");
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 10000; i++) {
 		/*if (i % 25 == 0 && i!=0) {
 			lr = lr / 2;
 			std::cout << std::endl;
@@ -300,14 +361,25 @@ void tuneVal(tuneVector* adress) {
 			}
 			std::cout << bqueenPSQT[e] << ", ";
 		}*/
-		for (int e = 0; e < adress->active; e++) {
+		
+		LoopPosNN(tn);
+		std::cout << "ITERATION " << i;
+		xtsave(tn, "C:\\Users\\kimka\\Desktop\\Altar\\altarNN.file");
+		std::cout << std::endl;
+		std::cout << "Cost: " << cost;		
+		std::cout << std::endl;
+		cost = 0;
+
+		
+
+		/*for (int e = 0; e < adress->active; e++) {
 			*adress = randomTune(e, *adress);
 			std::cout << "#";
 		}
 		std::cout << std::endl << "ITERATION " << i << " COST " << oldCost << " NODES " << nodeCOUNT<<  std::endl;
 		for (int e = 0; e < adress->active; e++) {
 			std::cout << adress->MODIF[e] << ", ";
-		}
+		}*/
 	}
 
 };

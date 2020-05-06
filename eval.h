@@ -1,5 +1,6 @@
 #pragma once
 #include "tune.h"
+#include "Tinn.h"
 #define mateScore 100000
 #define wMateScore 100000
 #define bMateScore -100000
@@ -43,6 +44,8 @@
 
 struct tuneVector* getTuneVector();
 void fillEvalTables();
+void freeEvalTables();
+void loadTinn();
 void showStatic();
 int eval(struct position* pos);
 int evals(struct position* pos);
