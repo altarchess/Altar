@@ -13,7 +13,8 @@ struct historyhash {
 };
 int max(int, int);
 int min(int a, int b);
-void mainSearch(struct search*, struct position*, struct historyhash);
+void launchThreads(struct search* s, struct position* pos, struct historyhash hh);
+void mainSearch(struct search*, struct position*, struct historyhash, int threadID);
 void searchManager(struct search*);
 void resetHistory();
 int see(struct position* pos, int from, int to);

@@ -33,6 +33,7 @@ void initSearch() {
 	getSearchPointer()->reacheddepth = 0;
 	getSearchPointer()->bff = 0;
 	getSearchPointer()->bft = 0;
+	getSearchPointer()->threadCount = 1;
 
 	return;
 }

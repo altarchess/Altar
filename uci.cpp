@@ -539,6 +539,8 @@ void uci() {
 			printf("\n");
 			printf("option name Hash type spin default 160 min 10 max 131072");
 			printf("\n");
+			printf("option name Threads type spin default 1 min 1 max 8");
+			printf("\n");
 			printf("uciok\n");
 			fflush(stdout);
 			/*std::cout << "id name Altar " << Version << "\n";
@@ -585,7 +587,7 @@ void uci() {
 
 			parseGO(buf);
 
-			std::thread mSearch(mainSearch, getSearchPointer(), getPositionPointer(), hh);
+			std::thread mSearch(launchThreads, getSearchPointer(), getPositionPointer(), hh);
 			mSearch.detach();
 		}
 
@@ -641,6 +643,10 @@ void uci() {
 			{
 				ttSetting = atoi(buf) * 1000000 / sizeof(ttEntryCompressed);
 				setTTSize();
+			}
+			if (compareCommand(&buf, "Threads value"))
+			{
+				getSearchPointer()->threadCount = atoi(buf);
 			}
 		}
 		if (compareCommand(&buf, CLOPValue_Command))
